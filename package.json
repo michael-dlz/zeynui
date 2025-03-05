@@ -3,13 +3,14 @@
   "version": "0.2.1",
   "description": "Zeynui | A React-based UI library with free and premium components",
   "main": "dist/index.js",
-  "types": "dist/index.d.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "tsc && tsc-alias",
-    "prepare": "npm run build",
     "start": "next start",
-    "lint": "next lint"
+    "prepare": "npm run build",
+    "lint": "eslint src --ext .ts,.tsx",
+    "test": "jest"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -20,6 +21,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-intersection-observer": "^9.15.1",
+    "ts-jest": "^29.2.6",
     "tsc-alias": "^1.8.11"
   },
   "devDependencies": {
@@ -29,5 +31,20 @@
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "zeynui"
+  ],
+  "author": "ZeyN",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
   }
 }
