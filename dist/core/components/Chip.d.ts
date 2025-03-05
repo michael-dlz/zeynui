@@ -1,0 +1,20 @@
+import { AlignmentVariant, ColorVariant, RadiusVariant, SizeVariant, StyleVariant } from "../types";
+type ChipProps = {
+    color?: ColorVariant;
+    radius?: RadiusVariant;
+    size?: SizeVariant;
+    variant?: StyleVariant;
+    startContent?: React.ReactNode;
+    endContent?: React.ReactNode;
+    isIconOnly?: boolean;
+    className?: string;
+    isRelative?: boolean;
+    bounce?: boolean;
+    fullWidth?: boolean;
+    align?: AlignmentVariant;
+    children: React.ReactNode;
+    onClick?: () => void;
+    onClose?: () => void;
+};
+export declare const Chip: ({ children, className, color, radius, size, variant, startContent, endContent, isIconOnly, isRelative, fullWidth, align, onClick, onClose, ...props }: ChipProps) => import("react/jsx-runtime").JSX.Element;
+export {};

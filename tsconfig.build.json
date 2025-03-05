@@ -1,0 +1,8 @@
+{
+    "extends": "./tsconfig.json", // Hereda la configuración base
+    "compilerOptions": {
+      "noEmit": false, // Asegúrate de que noEmit sea false
+      "jsx": "react-jsx" // Asegúrate de que jsx sea "react-jsx"
+    },
+    "include": ["src/**/*"] // Solo incluye src
+  }

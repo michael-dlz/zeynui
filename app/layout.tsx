@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { defaultFont } from "@/font";
+import { defaultFont } from "../font";
+import React from "react";
 
 export const metadata: Metadata = {
   title: "Create Next App",

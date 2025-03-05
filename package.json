@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "tsc && tsc-alias",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "start": "next start",
     "prepare": "npm run build",
     "lint": "eslint src --ext .ts,.tsx",
