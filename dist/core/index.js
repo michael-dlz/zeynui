@@ -14,6 +14,7 @@ export * from "./components/Skeleton";
 export * from "./components/Tabs";
 export * from "./components/Tooltip";
 export * from "./components/Typography";
+export * from "./components/Navigation";
 /* hooks */
 export * from "./hook/useRipples";
 export * from "./hook/useDisclosure";

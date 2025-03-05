@@ -8,6 +8,8 @@ import React, {
   useEffect,
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ArrowDownIcon } from "@heroicons/react/24/outline";
+import { AlignmentVariant } from "../types";
 
 interface DropdownContextType {
   isOpen: boolean;
@@ -32,7 +34,7 @@ export const Dropdown: React.FC<{
   const [isOpen, setIsOpen] = useState(false);
   return (
     <DropdownContext.Provider value={{ isOpen, setIsOpen }}>
-      <div className="relative inline-block">{children}</div>
+      <div className="relative inline-block w-full">{children}</div>
     </DropdownContext.Provider>
   );
 };
@@ -68,7 +70,7 @@ export const DropdownContent: React.FC<DropdownContentProps> = ({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.2 }}
-          className="absolute z-50 min-w-[200px] mt-2 bg-white rounded-lg shadow-lg border border-gray-100"
+          className="absolute z-50 mt-2 bg-white rounded-lg shadow-lg"
           role="menu"
           aria-label={ariaLabel}
         >
@@ -82,7 +84,9 @@ export const DropdownContent: React.FC<DropdownContentProps> = ({
 export const DropdownTrigger: React.FC<{
   children: React.ReactNode;
   isHover?: boolean;
-}> = ({ children, isHover = false }) => {
+  fullWidth?: boolean;
+  className?: string;
+}> = ({ children, isHover = false, fullWidth = false, className = "" }) => {
   const { isOpen, setIsOpen } = useDropdown();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -114,7 +118,10 @@ export const DropdownTrigger: React.FC<{
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="inline-block"
+      className={`
+        inline-flex 
+        items-center 
+        ${className}`}
     >
       {children}
     </div>

@@ -2,6 +2,7 @@
 import React, { ComponentPropsWithoutRef } from "react";
 import { Ripple } from "./Ripples";
 import {
+  AlignmentVariant,
   ColorVariant,
   RadiusVariant,
   SizeVariant,
@@ -24,15 +25,15 @@ type ButtonVariantsProps = {
   radius?: RadiusVariant;
   size?: SizeVariant;
   variant?: StyleVariant;
-  startContent?: React.ReactNode;
-  endContent?: React.ReactNode;
+  leftContent?: React.ReactNode;
+  rightContent?: React.ReactNode;
   isIconOnly?: boolean;
   className?: string;
   isRelative?: boolean;
-  bounce?: boolean;
+  isBounce?: boolean;
   fullWidth?: boolean;
   isElevation?: boolean;
-  align?: "left" | "center" | "right";
+  align?: AlignmentVariant;
 };
 
 type ButtonProps<C extends React.ElementType> = PolymorphicComponentProp<
@@ -47,11 +48,11 @@ export const Button = <C extends React.ElementType = "button">({
   radius = "md",
   size = "md",
   variant = "solid",
-  startContent,
-  endContent,
+  leftContent,
+  rightContent,
   isIconOnly = false,
   isRelative = true,
-  bounce = true,
+  isBounce = true,
   fullWidth = false,
   isElevation = true,
   align = "center",
@@ -190,7 +191,7 @@ export const Button = <C extends React.ElementType = "button">({
         ${alignmentClasses[align]}
         ${finalIsElevation ? "hover:shadow-xl" : ""}
         ${fullWidth ? "w-full" : ""}
-        ${bounce ? "active:scale-95" : ""}
+        ${isBounce ? "active:scale-95" : ""}
         ${isRelative ? "relative" : ""}
         ${getColorClasses(color, variant)}
         ${getRadiusClasses(radius)}
@@ -203,9 +204,9 @@ export const Button = <C extends React.ElementType = "button">({
     >
       <Ripple variant={variant} ripples={ripples} color={color} />
       <span className="relative z-20 inline-flex items-center gap-2">
-        {startContent}
-        {children}
-        {endContent}
+        {leftContent}
+        <span>{children}</span>
+        {rightContent}
       </span>
     </Component>
   );

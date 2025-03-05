@@ -1,6 +1,7 @@
 "use client";
-import React, { ReactNode, createContext, useContext } from "react";
+import { ReactNode, createContext, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 type DrawerContextType = {
   isOpen: boolean;
   onClose: () => void;
@@ -140,6 +141,11 @@ export const Drawer = ({
               style={getPlacementStyles(placement, size)}
               className="fixed z-50 bg-white shadow-xl"
             >
+              <XMarkIcon
+                className="absolute size-6 top-4 right-4 cursor-pointer p-1 rounded-full hover:bg-gray-100"
+                onClick={onClose}
+                aria-label="Close drawer"
+              />
               {children}
             </motion.div>
           </>
@@ -153,7 +159,7 @@ interface DrawerHeaderProps {
   children: ReactNode;
 }
 export const DrawerHeader = ({ children }: DrawerHeaderProps) => {
-  return <div className="px-6 py-4 border-b">{children}</div>;
+  return <div className="px-6 py-4">{children}</div>;
 };
 
 interface DrawerBodyProps {
@@ -167,5 +173,5 @@ interface DrawerFooterProps {
   children: ReactNode;
 }
 export const DrawerFooter = ({ children }: DrawerFooterProps) => {
-  return <div className="px-6 py-4 border-t">{children}</div>;
+  return <div className="px-6 py-4">{children}</div>;
 };

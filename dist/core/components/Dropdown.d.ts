@@ -15,5 +15,7 @@ export declare const DropdownContent: React.FC<DropdownContentProps>;
 export declare const DropdownTrigger: React.FC<{
     children: React.ReactNode;
     isHover?: boolean;
+    fullWidth?: boolean;
+    className?: string;
 }>;
 export {};

@@ -12,7 +12,7 @@ export const useDropdown = () => {
 };
 export const Dropdown = ({ children }) => {
     const [isOpen, setIsOpen] = useState(false);
-    return (_jsx(DropdownContext.Provider, { value: { isOpen, setIsOpen }, children: _jsx("div", { className: "relative inline-block", children: children }) }));
+    return (_jsx(DropdownContext.Provider, { value: { isOpen, setIsOpen }, children: _jsx("div", { className: "relative inline-block w-full", children: children }) }));
 };
 export const DropdownContent = ({ children, "aria-label": ariaLabel, }) => {
     const { isOpen, setIsOpen } = useDropdown();
@@ -26,9 +26,9 @@ export const DropdownContent = ({ children, "aria-label": ariaLabel, }) => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [setIsOpen]);
-    return (_jsx(AnimatePresence, { children: isOpen && (_jsx(motion.div, { ref: ref, initial: { opacity: 0, y: -5 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -5 }, transition: { duration: 0.2 }, className: "absolute z-50 min-w-[200px] mt-2 bg-white rounded-lg shadow-lg border border-gray-100", role: "menu", "aria-label": ariaLabel, children: children })) }));
+    return (_jsx(AnimatePresence, { children: isOpen && (_jsx(motion.div, { ref: ref, initial: { opacity: 0, y: -5 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -5 }, transition: { duration: 0.2 }, className: "absolute z-50 mt-2 bg-white rounded-lg shadow-lg", role: "menu", "aria-label": ariaLabel, children: children })) }));
 };
-export const DropdownTrigger = ({ children, isHover = false }) => {
+export const DropdownTrigger = ({ children, isHover = false, fullWidth = false, className = "" }) => {
     const { isOpen, setIsOpen } = useDropdown();
     const [isHovered, setIsHovered] = useState(false);
     // Maneja el click para abrir/cerrar el dropdown
@@ -51,5 +51,8 @@ export const DropdownTrigger = ({ children, isHover = false }) => {
             setIsHovered(false);
         }
     };
-    return (_jsx("div", { onClick: handleClick, onMouseEnter: handleMouseEnter, onMouseLeave: handleMouseLeave, className: "inline-block", children: children }));
+    return (_jsx("div", { onClick: handleClick, onMouseEnter: handleMouseEnter, onMouseLeave: handleMouseLeave, className: `
+        inline-flex 
+        items-center 
+        ${className}`, children: children }));
 };

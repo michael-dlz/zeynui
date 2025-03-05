@@ -2,7 +2,6 @@
 
 import React from "react";
 import {
-  AnimateIn,
   Button,
   Card,
   CardContent,
@@ -22,8 +21,14 @@ import {
   DropdownContent,
   DropdownTrigger,
   Input,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarEnd,
+  NavbarItem,
   Select,
   SelectItem,
+  StaggeredAnimation,
   Tab,
   Tabs,
   Tooltip,
@@ -34,16 +39,223 @@ import { colors } from "../utils/colors";
 import { variants } from "../utils/variants";
 import {
   CheckCircleIcon,
+  ChevronDownIcon,
   PhoneArrowDownLeftIcon,
   PlusIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
+import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
 
 const homePage = () => {
   const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
+      <Navbar
+        position="sticky"
+        size="2xl"
+        className="bg-white shadow-sm py-3"
+        responsive={
+          <div className="space-y-3">
+            <NavbarBrand>
+              <a href="#" className="font-bold text-xl text-primary">
+                Brand
+              </a>
+            </NavbarBrand>
+            <NavbarContent className="space-y-3">
+              <NavbarItem>
+                <Button
+                  variant="soft"
+                  align="left"
+                  radius="none"
+                  isElevation={false}
+                  as={Link}
+                  href="#"
+                  fullWidth
+                >
+                  Inicio
+                </Button>
+              </NavbarItem>
+              <NavbarItem>
+                <Dropdown>
+                  <DropdownTrigger isHover className="w-full">
+                    <Button
+                      variant="soft"
+                      isElevation={false}
+                      fullWidth
+                      align="left"
+                      rightContent={<ChevronDownIcon className="size-4" />}
+                    >
+                      Features
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownContent aria-label="Static Actions">
+                    <Button
+                      align="left"
+                      variant="light"
+                      size="md"
+                      radius="md"
+                      isElevation={false}
+                      color="success"
+                      fullWidth
+                      leftContent={<PlusIcon className="size-5" />}
+                      onClick={() => console.log("Validar")}
+                    >
+                      Validar
+                    </Button>
+                    <Button
+                      align="left"
+                      variant="light"
+                      size="md"
+                      radius="md"
+                      isElevation={false}
+                      color="danger"
+                      fullWidth
+                      leftContent={<PlusIcon className="size-5" />}
+                    >
+                      Eliminar
+                    </Button>
+                  </DropdownContent>
+                </Dropdown>
+              </NavbarItem>
+              <NavbarItem>
+                <Button
+                  variant="soft"
+                  align="left"
+                  radius="none"
+                  isElevation={false}
+                  as={Link}
+                  href="#"
+                  fullWidth
+                >
+                  Pricing
+                </Button>
+              </NavbarItem>
+              <NavbarItem>
+                <Button
+                  variant="soft"
+                  align="left"
+                  radius="none"
+                  isElevation={false}
+                  as={Link}
+                  href="#"
+                  fullWidth
+                >
+                  About
+                </Button>
+              </NavbarItem>
+            </NavbarContent>
+            <NavbarEnd>
+              <Button
+                radius="none"
+                color="primary"
+                leftContent={<PhoneArrowDownLeftIcon className="size-4" />}
+                isElevation={false}
+                isBounce={false}
+                fullWidth
+                align="left"
+              >
+                Contact
+              </Button>
+            </NavbarEnd>
+          </div>
+        }
+      >
+        <NavbarBrand>
+          <a href="#" className="font-bold text-xl text-primary">
+            Brand
+          </a>
+        </NavbarBrand>
+        <NavbarContent className="hidden md:flex ">
+          <NavbarItem>
+            <Button
+              variant="light"
+              radius="none"
+              isElevation={false}
+              as={Link}
+              href="#"
+            >
+              Inicio
+            </Button>
+          </NavbarItem>
+          <NavbarItem>
+            <Dropdown>
+              <DropdownTrigger isHover>
+                <Button
+                  variant="light"
+                  isElevation={false}
+                  rightContent={<ChevronDownIcon className="size-4" />}
+                >
+                  Features
+                </Button>
+              </DropdownTrigger>
+              <DropdownContent aria-label="Static Actions">
+                <div className="grid grid-cols-3 w-2xl">
+                  <Button
+                    align="left"
+                    variant="light"
+                    size="md"
+                    radius="md"
+                    isElevation={false}
+                    color="success"
+                    fullWidth
+                    leftContent={<PlusIcon className="size-5" />}
+                    onClick={() => console.log("Validar")}
+                  >
+                    Validar
+                  </Button>
+                  <Button
+                    align="left"
+                    variant="light"
+                    size="md"
+                    radius="md"
+                    isElevation={false}
+                    color="danger"
+                    fullWidth
+                    leftContent={<PlusIcon className="size-5" />}
+                  >
+                    Eliminar
+                  </Button>
+                </div>
+              </DropdownContent>
+            </Dropdown>
+          </NavbarItem>
+          <NavbarItem>
+            <Button
+              variant="light"
+              radius="none"
+              isElevation={false}
+              as={Link}
+              href="#"
+            >
+              Pricing
+            </Button>
+          </NavbarItem>
+          <NavbarItem>
+            <Button
+              variant="light"
+              radius="none"
+              isElevation={false}
+              as={Link}
+              href="#"
+            >
+              About
+            </Button>
+          </NavbarItem>
+        </NavbarContent>
+        <NavbarEnd>
+          <Button
+            radius="none"
+            color="primary"
+            leftContent={<PhoneArrowDownLeftIcon className="size-4" />}
+            isElevation={false}
+            isBounce={false}
+          >
+            Contact
+          </Button>
+        </NavbarEnd>
+      </Navbar>
       <Container className="grid gap-3 py-10">
         <div className="flex flex-wrap gap-2">
           {colors.map((color) => (
@@ -71,7 +283,7 @@ const homePage = () => {
               size="md"
               radius="md"
               color="primary"
-              startContent={<PlusIcon className="size-5" />}
+              leftContent={"+51"}
               isElevation={false}
             >
               {variant}
@@ -88,7 +300,11 @@ const homePage = () => {
         <Dropdown>
           <DropdownTrigger>
             <Tooltip content="Abrir menú" placement="top">
-              <Button variant="outline" isElevation={false}>
+              <Button
+                variant="outline"
+                isElevation={false}
+                rightContent={<ArrowDownTrayIcon className="size-4" />}
+              >
                 Open Menu
               </Button>
             </Tooltip>
@@ -102,7 +318,7 @@ const homePage = () => {
               isElevation={false}
               color="success"
               fullWidth
-              startContent={<PlusIcon className="size-5" />}
+              leftContent={<PlusIcon className="size-5" />}
               onClick={() => console.log("Validar")}
             >
               Validar
@@ -115,7 +331,7 @@ const homePage = () => {
               isElevation={false}
               color="danger"
               fullWidth
-              startContent={<PlusIcon className="size-5" />}
+              leftContent={<PlusIcon className="size-5" />}
             >
               Eliminar
             </Button>
@@ -208,7 +424,10 @@ const homePage = () => {
         </Carousel>
       </Container>
       <Container className="py-10">
-        <AnimateIn className="grid gap-2 grid-cols-2 lg:grid-cols-4">
+        <StaggeredAnimation
+          loop
+          className="grid gap-2 grid-cols-2 lg:grid-cols-4"
+        >
           {[...Array(6)].map((_, index) => (
             <Card key={index} shadow="xl">
               <CardHeader className="space-y-2 ">
@@ -251,7 +470,7 @@ const homePage = () => {
                   color="danger"
                   variant="soft"
                   radius="md"
-                  startContent={<XCircleIcon className="size-4" />}
+                  leftContent={<XCircleIcon className="size-4" />}
                 >
                   Rechazar
                 </Button>
@@ -259,14 +478,14 @@ const homePage = () => {
                   color="success"
                   variant="soft"
                   radius="md"
-                  startContent={<CheckCircleIcon className="size-4" />}
+                  leftContent={<CheckCircleIcon className="size-4" />}
                 >
                   Aceptar
                 </Button>
               </CardFooter>
             </Card>
           ))}
-        </AnimateIn>
+        </StaggeredAnimation>
       </Container>
       <Container className="space-y-10">
         {variants.map((variant) => (

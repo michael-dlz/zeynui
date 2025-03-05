@@ -1,9 +1,9 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 type DrawerContextType = {
     isOpen: boolean;
     onClose: () => void;
 };
-export declare const DrawerContext: React.Context<DrawerContextType>;
+export declare const DrawerContext: import("react").Context<DrawerContextType>;
 export declare const useDrawerContext: () => DrawerContextType;
 export type DrawerPlacement = "top" | "right" | "bottom" | "left";
 export type DrawerSize = "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";

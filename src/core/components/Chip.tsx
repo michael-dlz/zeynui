@@ -12,8 +12,8 @@ type ChipProps = {
   radius?: RadiusVariant;
   size?: SizeVariant;
   variant?: StyleVariant;
-  startContent?: React.ReactNode;
-  endContent?: React.ReactNode;
+  leftContent?: React.ReactNode;
+  rightContent?: React.ReactNode;
   isIconOnly?: boolean;
   className?: string;
   isRelative?: boolean;
@@ -32,8 +32,8 @@ export const Chip = ({
   radius = "md",
   size = "md",
   variant = "solid",
-  startContent,
-  endContent,
+  leftContent,
+  rightContent,
   isIconOnly = false,
   isRelative = true,
   fullWidth = false,
@@ -157,9 +157,9 @@ export const Chip = ({
       {...props}
     >
       <span className="relative z-10 inline-flex items-center gap-2">
-        {startContent}
-        {children}
-        {endContent}
+        {leftContent}
+        <span>{children}</span>
+        {rightContent}
         {onClose && (
           <button
             onClick={(e) => {

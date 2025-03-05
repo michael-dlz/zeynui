@@ -12,6 +12,16 @@ export type StyleVariant = "solid" | "outline" | "soft" | "light" | "underline";
 export type AlignmentVariant = "left" | "center" | "right";
 export type ShadowVariant = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 export type LabelPlacement = "outside" | "outside-left";
+export type PositionNavbar = "static" | "fixed" | "sticky";
+export type JustifyNavbar =
+  | "between"
+  | "around"
+  | "evenly"
+  | "center"
+  | "end"
+  | "start";
+export type PaddingNavbar = "none" | "sm" | "lg";
+export type SizeNavbar = "sm" | "xl" | "2xl" | "full";
 
 export type VarianActiveClasses = {
   [key in StyleVariant]: {

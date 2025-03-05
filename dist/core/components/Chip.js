@@ -12,7 +12,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 export const Chip = (_a) => {
-    var { children, className = "", color = "primary", radius = "md", size = "md", variant = "solid", startContent, endContent, isIconOnly = false, isRelative = true, fullWidth = false, align = "center", onClick, onClose } = _a, props = __rest(_a, ["children", "className", "color", "radius", "size", "variant", "startContent", "endContent", "isIconOnly", "isRelative", "fullWidth", "align", "onClick", "onClose"]);
+    var { children, className = "", color = "primary", radius = "md", size = "md", variant = "solid", leftContent, rightContent, isIconOnly = false, isRelative = true, fullWidth = false, align = "center", onClick, onClose } = _a, props = __rest(_a, ["children", "className", "color", "radius", "size", "variant", "leftContent", "rightContent", "isIconOnly", "isRelative", "fullWidth", "align", "onClick", "onClose"]);
     const chipClasses = {
         solid: {
             primary: "bg-primary text-white",
@@ -114,7 +114,7 @@ export const Chip = (_a) => {
         ${getSizeClasses(size, isIconOnly)}
         ${isIconOnly ? "p-0" : ""}
         ${className}
-      ` }, props, { children: _jsxs("span", { className: "relative z-10 inline-flex items-center gap-2", children: [startContent, children, endContent, onClose && (_jsx("button", { onClick: (e) => {
+      ` }, props, { children: _jsxs("span", { className: "relative z-10 inline-flex items-center gap-2", children: [leftContent, _jsx("span", { children: children }), rightContent, onClose && (_jsx("button", { onClick: (e) => {
                         e.stopPropagation();
                         onClose();
                     }, className: "hover:opacity-70 transition-opacity", children: _jsx("span", { children: "x" }) }))] }) })));

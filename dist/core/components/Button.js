@@ -14,7 +14,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Ripple } from "./Ripples";
 import { useRipples } from "../hook/useRipples";
 export const Button = (_a) => {
-    var { children, className = "", color = "primary", radius = "md", size = "md", variant = "solid", startContent, endContent, isIconOnly = false, isRelative = true, bounce = true, fullWidth = false, isElevation = true, align = "center", as, onClick } = _a, props = __rest(_a, ["children", "className", "color", "radius", "size", "variant", "startContent", "endContent", "isIconOnly", "isRelative", "bounce", "fullWidth", "isElevation", "align", "as", "onClick"]);
+    var { children, className = "", color = "primary", radius = "md", size = "md", variant = "solid", leftContent, rightContent, isIconOnly = false, isRelative = true, isBounce = true, fullWidth = false, isElevation = true, align = "center", as, onClick } = _a, props = __rest(_a, ["children", "className", "color", "radius", "size", "variant", "leftContent", "rightContent", "isIconOnly", "isRelative", "isBounce", "fullWidth", "isElevation", "align", "as", "onClick"]);
     const { ripples, createRipple } = useRipples();
     const Component = as || "button";
     const BUTTON_CLASSES = {
@@ -120,12 +120,12 @@ export const Button = (_a) => {
         ${alignmentClasses[align]}
         ${finalIsElevation ? "hover:shadow-xl" : ""}
         ${fullWidth ? "w-full" : ""}
-        ${bounce ? "active:scale-95" : ""}
+        ${isBounce ? "active:scale-95" : ""}
         ${isRelative ? "relative" : ""}
         ${getColorClasses(color, variant)}
         ${getRadiusClasses(radius)}
         ${getSizeClasses(size, isIconOnly)}
         ${isIconOnly ? "p-0" : ""}
         ${className}
-      `, onClick: handleClick }, props, { children: [_jsx(Ripple, { variant: variant, ripples: ripples, color: color }), _jsxs("span", { className: "relative z-20 inline-flex items-center gap-2", children: [startContent, children, endContent] })] })));
+      `, onClick: handleClick }, props, { children: [_jsx(Ripple, { variant: variant, ripples: ripples, color: color }), _jsxs("span", { className: "relative z-20 inline-flex items-center gap-2", children: [leftContent, _jsx("span", { children: children }), rightContent] })] })));
 };

@@ -4,8 +4,8 @@ type ChipProps = {
     radius?: RadiusVariant;
     size?: SizeVariant;
     variant?: StyleVariant;
-    startContent?: React.ReactNode;
-    endContent?: React.ReactNode;
+    leftContent?: React.ReactNode;
+    rightContent?: React.ReactNode;
     isIconOnly?: boolean;
     className?: string;
     isRelative?: boolean;
@@ -16,5 +16,5 @@ type ChipProps = {
     onClick?: () => void;
     onClose?: () => void;
 };
-export declare const Chip: ({ children, className, color, radius, size, variant, startContent, endContent, isIconOnly, isRelative, fullWidth, align, onClick, onClose, ...props }: ChipProps) => import("react/jsx-runtime").JSX.Element;
+export declare const Chip: ({ children, className, color, radius, size, variant, leftContent, rightContent, isIconOnly, isRelative, fullWidth, align, onClick, onClose, ...props }: ChipProps) => import("react/jsx-runtime").JSX.Element;
 export {};

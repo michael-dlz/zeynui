@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import { motion } from "framer-motion";
@@ -11,6 +11,7 @@ export interface AnimationProps {
   duration?: number;
   className?: string;
   inView?: boolean;
+  loop?: boolean;
 }
 
 export const AnimateIn = ({
@@ -19,9 +20,10 @@ export const AnimateIn = ({
   duration = 0.5,
   className = "",
   inView = true,
+  loop = false,
 }: AnimationProps) => {
   const { ref, inView: isInView } = useInView({
-    triggerOnce: true,
+    triggerOnce: !loop, // Cambiado a false para que se active cada vez que el componente entre en la vista
   });
 
   return (
@@ -31,7 +33,9 @@ export const AnimateIn = ({
         opacity: 0,
         y: 20,
       }}
-      animate={inView && isInView ? { opacity: 1, y: 0 } : {}} // Solo anima si está en la vista
+      animate={
+        inView && isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+      } // Anima cada vez que está en la vista
       transition={{
         duration,
         delay,
@@ -44,15 +48,16 @@ export const AnimateIn = ({
   );
 };
 
-export const FadeScale: React.FC<AnimationProps> = ({
+export const FadeScale = ({
   children,
   delay = 0,
   duration = 0.5,
   className = "",
   inView = true,
-}) => {
+  loop = false,
+}: AnimationProps) => {
   const { ref, inView: isInView } = useInView({
-    triggerOnce: true,
+    triggerOnce: !loop, // Cambiado a false para que se active cada vez que el componente entre en la vista
   });
 
   return (
@@ -62,7 +67,11 @@ export const FadeScale: React.FC<AnimationProps> = ({
         opacity: 0,
         scale: 0.95,
       }}
-      animate={inView && isInView ? { opacity: 1, scale: 1 } : {}} // Solo anima si está en la vista
+      animate={
+        inView && isInView
+          ? { opacity: 1, scale: 1 }
+          : { opacity: 0, scale: 0.95 }
+      } // Anima cada vez que está en la vista
       transition={{
         duration,
         delay,
@@ -75,63 +84,20 @@ export const FadeScale: React.FC<AnimationProps> = ({
   );
 };
 
-export const RevealAnimation: React.FC<AnimationProps> = ({
-  children,
-  delay = 0,
-  duration = 0.7,
-  className = "",
-  inView = true,
-}) => {
-  const { ref, inView: isInView } = useInView({
-    triggerOnce: true,
-  });
-
-  return (
-    <div ref={ref} className={`relative overflow-hidden ${className}`}>
-      <motion.div
-        initial={{
-          opacity: 0,
-        }}
-        animate={inView && isInView ? { opacity: 1 } : {}} // Solo anima si está en la vista
-        transition={{
-          duration: duration * 0.5,
-          delay,
-        }}
-      >
-        {children}
-      </motion.div>
-      <motion.div
-        className="absolute inset-0 bg-white"
-        initial={{
-          scaleX: 1,
-        }}
-        animate={inView && isInView ? { scaleX: 0 } : {}} // Solo anima si está en la vista
-        transition={{
-          duration,
-          delay,
-          ease: [0.645, 0.045, 0.355, 1],
-        }}
-        style={{
-          originX: 0,
-        }}
-      />
-    </div>
-  );
-};
-
 interface SlideInProps extends AnimationProps {
   direction?: "left" | "right" | "up" | "down";
 }
-export const SlideIn: React.FC<SlideInProps> = ({
+export const SlideIn = ({
   children,
   delay = 0,
   duration = 0.5,
   direction = "left",
   className = "",
   inView = true,
-}) => {
+  loop = false,
+}: SlideInProps) => {
   const { ref, inView: isInView } = useInView({
-    triggerOnce: true,
+    triggerOnce: !loop, // Cambiado a false para que se active cada vez que el componente entre en la vista
   });
 
   const getInitialPosition = () => {
@@ -166,7 +132,11 @@ export const SlideIn: React.FC<SlideInProps> = ({
         opacity: 0,
         ...getInitialPosition(),
       }}
-      animate={inView && isInView ? { opacity: 1, x: 0, y: 0 } : {}} // Solo anima si está en la vista
+      animate={
+        inView && isInView
+          ? { opacity: 1, x: 0, y: 0 }
+          : { opacity: 0, ...getInitialPosition() }
+      } // Anima cada vez que está en la vista
       transition={{
         duration,
         delay,
@@ -175,6 +145,59 @@ export const SlideIn: React.FC<SlideInProps> = ({
       className={className}
     >
       {children}
+    </motion.div>
+  );
+};
+
+export const StaggeredAnimation = ({
+  children,
+  delay = 0,
+  duration = 0.5,
+  className = "",
+  inView = true,
+  loop = false,
+}: AnimationProps) => {
+  const { ref, inView: isInView } = useInView({
+    triggerOnce: !loop,
+  });
+
+  // Función para calcular el retraso en función de la posición en el grid
+  const calculateDelay = (index: number, cols: number) => {
+    const row = Math.floor(index / cols); // Fila actual
+    const col = index % cols; // Columna actual
+    const diagonal = row + col; // Diagonal actual
+    return diagonal * 0.15; // Retraso de 0.15 segundos por diagonal
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={inView && isInView ? "visible" : "hidden"} // Anima cada vez que está en la vista
+      className={className}
+    >
+      {React.Children.map(children, (child, index) => {
+        const cols = className.includes("grid-cols-2") ? 2 : 4; // Determina el número de columnas basado en la clase
+        return (
+          <motion.div
+            key={index}
+            variants={{
+              hidden: { opacity: 0, y: 20 }, // Inicia con opacidad 0 y un desplazamiento diagonal
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  delay: calculateDelay(index, cols), // Retraso basado en la posición en el grid
+                  duration,
+                  ease: [0.21, 0.47, 0.32, 0.98],
+                },
+              },
+            }}
+          >
+            {child}
+          </motion.div>
+        );
+      })}
     </motion.div>
   );
 };

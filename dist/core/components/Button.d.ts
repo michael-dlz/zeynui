@@ -1,5 +1,5 @@
 import React, { ComponentPropsWithoutRef } from "react";
-import { ColorVariant, RadiusVariant, SizeVariant, StyleVariant } from "../types";
+import { AlignmentVariant, ColorVariant, RadiusVariant, SizeVariant, StyleVariant } from "../types";
 type AsProp<C extends React.ElementType> = {
     as?: C;
 };
@@ -10,16 +10,16 @@ type ButtonVariantsProps = {
     radius?: RadiusVariant;
     size?: SizeVariant;
     variant?: StyleVariant;
-    startContent?: React.ReactNode;
-    endContent?: React.ReactNode;
+    leftContent?: React.ReactNode;
+    rightContent?: React.ReactNode;
     isIconOnly?: boolean;
     className?: string;
     isRelative?: boolean;
-    bounce?: boolean;
+    isBounce?: boolean;
     fullWidth?: boolean;
     isElevation?: boolean;
-    align?: "left" | "center" | "right";
+    align?: AlignmentVariant;
 };
 type ButtonProps<C extends React.ElementType> = PolymorphicComponentProp<C, ButtonVariantsProps>;
-export declare const Button: <C extends React.ElementType = "button">({ children, className, color, radius, size, variant, startContent, endContent, isIconOnly, isRelative, bounce, fullWidth, isElevation, align, as, onClick, ...props }: ButtonProps<C>) => import("react/jsx-runtime").JSX.Element;
+export declare const Button: <C extends React.ElementType = "button">({ children, className, color, radius, size, variant, leftContent, rightContent, isIconOnly, isRelative, isBounce, fullWidth, isElevation, align, as, onClick, ...props }: ButtonProps<C>) => import("react/jsx-runtime").JSX.Element;
 export {};
