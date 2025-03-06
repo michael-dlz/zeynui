@@ -1,15 +1,9 @@
 "use client";
-import React, {
-  useState,
-  createContext,
-  Children,
-  isValidElement,
-  useContext,
-} from "react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { JustifyNavbar, PositionNavbar, SizeNavbar } from "../types";
+import React, { createContext, useContext } from "react";
+import { Bars3Icon } from "@heroicons/react/24/outline";
+import { JustifyNavbar, PositionNavbar, SizeVariant } from "../types";
 import { Button } from "./Button";
-import { Drawer, DrawerBody, DrawerFooter } from "./Drawer";
+import { Drawer, DrawerBody } from "./Drawer";
 import { useDisclosure } from "../hook/useDisclosure";
 
 export interface NavbarProps {
@@ -17,7 +11,7 @@ export interface NavbarProps {
   className?: string;
   position?: PositionNavbar;
   transparent?: boolean;
-  size?: SizeNavbar;
+  size?: SizeVariant;
   responsive?: React.ReactNode;
   justify?: JustifyNavbar;
 }
@@ -78,15 +72,15 @@ export const Navbar = ({
   const getSizeClass = () => {
     switch (size) {
       case "sm":
-        return "mx-auto w-full max-w-[1024px]";
+        return "max-w-[1024px]";
+      case "md":
+        return "max-w-[1240px]";
+      case "lg":
+        return "max-w-[1920px]";
       case "xl":
-        return "mx-auto w-full max-w-[1240px]";
-      case "2xl":
-        return "mx-auto w-full max-w-[1366px]";
-      case "full":
-        return "mx-auto w-full max-w-full";
+        return "max-w-[1240px]";
       default:
-        return "";
+        return "max-w-[2560px]";
     }
   };
 
@@ -94,7 +88,12 @@ export const Navbar = ({
     <nav className={`${className} ${getPositionClass()}`}>
       <div>
         <div
-          className={`px-4 sm:px-6 md:px-8 lg:px-12 ${getSizeClass()} ${getJustifyClass()} flex items-center`}
+          className={`
+          mx-auto
+          w-full py-3
+          px-6
+          sm:px-10 
+          lg:px-20 ${getSizeClass()} ${getJustifyClass()} flex items-center`}
         >
           {/* Botón para abrir el Drawer en móviles */}
           <div className="flex md:hidden">
@@ -122,12 +121,12 @@ export const Navbar = ({
   );
 };
 
-export interface NavbarBrandProps {
+export interface NavbarStartProps {
   children: React.ReactNode;
   className?: string;
 }
 
-export const NavbarBrand = ({ children, className = "" }: NavbarBrandProps) => {
+export const NavbarStart = ({ children, className = "" }: NavbarStartProps) => {
   return <div className={`flex items-center ${className}`}>{children}</div>;
 };
 
@@ -173,9 +172,7 @@ export const NavbarContent = ({
         fullHeightItems,
       }}
     >
-      <div
-        className={`${getJustifyClass()} items-center ${className}`}
-      >
+      <div className={`${getJustifyClass()} items-center ${className}`}>
         {children}
       </div>
     </NavbarContext.Provider>

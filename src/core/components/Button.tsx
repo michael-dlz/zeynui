@@ -118,6 +118,15 @@ export const Button = <C extends React.ElementType = "button">({
       info: "text-info border-b border-info hover:bg-info/10",
       whatsapp: "text-whatsapp border-b border-whatsapp hover:bg-whatsapp/10",
     },
+    ghost: {
+      primary: "text-black hover:bg-primary hover:text-white",
+      secondary: "text-black hover:bg-secondary hover:text-white",
+      danger: "text-black hover:bg-danger hover:text-white",
+      warning: "text-black hover:bg-warning hover:text-white",
+      success: "text-black hover:bg-success hover:text-white",
+      info: "text-black hover:bg-info",
+      whatsapp: "text-black hover:bg-whatsapp hover:text-white",
+    },
   };
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -149,6 +158,7 @@ export const Button = <C extends React.ElementType = "button">({
         sm: "w-8 h-8 text-lg",
         md: "w-10 h-10 text-xl",
         lg: "w-12 h-12 text-2xl",
+        xl: "w-14 h-14 text-3xl",
       };
       return iconSizeMap[buttonSize];
     }
@@ -156,6 +166,7 @@ export const Button = <C extends React.ElementType = "button">({
       sm: "text-xs px-3 py-1.5",
       md: "text-sm px-6 py-3",
       lg: "text-base px-9 py-4",
+      xl: "text-lg px-12 py-5",
     };
     return sizeMap[buttonSize];
   };

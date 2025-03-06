@@ -7,8 +7,14 @@ export type ColorVariant =
   | "info"
   | "whatsapp";
 export type RadiusVariant = "none" | "sm" | "md" | "lg" | "full";
-export type SizeVariant = "sm" | "md" | "lg";
-export type StyleVariant = "solid" | "outline" | "soft" | "light" | "underline";
+export type SizeVariant = "sm" | "md" | "lg" | "xl";
+export type StyleVariant =
+  | "solid"
+  | "outline"
+  | "soft"
+  | "light"
+  | "underline"
+  | "ghost";
 export type AlignmentVariant = "left" | "center" | "right";
 export type ShadowVariant = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 export type LabelPlacement = "outside" | "outside-left";
@@ -21,7 +27,6 @@ export type JustifyNavbar =
   | "end"
   | "start";
 export type PaddingNavbar = "none" | "sm" | "lg";
-export type SizeNavbar = "sm" | "xl" | "2xl" | "full";
 
 export type VarianActiveClasses = {
   [key in StyleVariant]: {

@@ -1,8 +1,9 @@
-import { RadiusVariant, ShadowVariant } from "../types";
-import React, {
+import { RadiusVariant } from "../types";
+import {
   Children,
   cloneElement,
   isValidElement,
+  ReactElement,
   ReactNode,
 } from "react";
 type GradientDirection = "up" | "down" | "left" | "right";
@@ -11,13 +12,14 @@ interface CardProps {
   imageCover?: string;
   className?: string;
   gradient?: GradientDirection;
-  shadow?: ShadowVariant;
   radius?: RadiusVariant;
+  compact?: boolean;
 }
 interface CardHeaderProps {
   children?: ReactNode;
   className?: string;
   hasImage?: boolean;
+  compact?: boolean;
 }
 interface CardImageProps {
   children?: ReactNode;
@@ -27,11 +29,13 @@ interface CardContentProps {
   children?: ReactNode;
   className?: string;
   hasImage?: boolean;
+  compact?: boolean;
 }
 interface CardFooterProps {
   children?: ReactNode;
   className?: string;
   hasImage?: boolean;
+  compact?: boolean;
 }
 const getGradientStyle = (direction?: GradientDirection) => {
   if (!direction) return "";
@@ -48,22 +52,8 @@ export const Card = ({
   imageCover,
   className = "",
   gradient,
-  shadow = "md",
   radius = "md",
 }: CardProps) => {
-  const getShadowClasses = (shadowVariant: ShadowVariant): string => {
-    const shadowMap = {
-      none: "shadow-none",
-      xs: "shadow-xs",
-      sm: "shadow-sm",
-      md: "shadow-md",
-      lg: "shadow-lg",
-      xl: "shadow-xl",
-      "2xl": "shadow-2xl",
-    };
-    return shadowMap[shadowVariant];
-  };
-
   const getRadiusClasses = (radiusSize: RadiusVariant): string => {
     const radiusMap = {
       none: "rounded-none",
@@ -78,9 +68,7 @@ export const Card = ({
   return (
     <div
       className={`relative 
-        ${getRadiusClasses(radius)} ${getShadowClasses(
-        shadow
-      )} overflow-hidden bg-white ${className}`}
+        ${getRadiusClasses(radius)} overflow-hidden ${className}`}
       style={
         imageCover
           ? {
@@ -104,7 +92,7 @@ export const Card = ({
       <div className={`relative ${imageCover ? "text-white" : ""}`}>
         {Children.map(children, (child) => {
           if (isValidElement(child)) {
-            return cloneElement(child as React.ReactElement<any>, {
+            return cloneElement(child as ReactElement<any>, {
               hasImage: !!imageCover,
             });
           }
@@ -127,23 +115,39 @@ export const CardHeader = ({
   children,
   className = "",
   hasImage,
+  compact = false,
 }: CardHeaderProps) => {
   return (
-    <div className={`p-4 ${!hasImage ? "border-b border-b-gray-200" : ""} ${className}`}>
+    <div
+      className={`${compact ? "py-4" : "p-4"} ${
+        !hasImage ? "border-b border-b-gray-200" : ""
+      } ${className}`}
+    >
       {children}
     </div>
   );
 };
-export const CardContent = ({ children, className = "" }: CardContentProps) => {
-  return <div className={`p-4 ${className}`}>{children}</div>;
+export const CardContent = ({
+  children,
+  className = "",
+  compact = false,
+}: CardContentProps) => {
+  return (
+    <div className={`${compact ? "py-4" : "p-4"} ${className}`}>{children}</div>
+  );
 };
 export const CardFooter = ({
   children,
   className = "",
   hasImage,
+  compact = false,
 }: CardFooterProps) => {
   return (
-    <div className={`p-4 ${!hasImage ? "border-t border-t-gray-200" : ""} ${className}`}>
+    <div
+      className={`${compact ? "py-4" : "p-4"} ${
+        !hasImage ? "border-t border-t-gray-200" : ""
+      } ${className}`}
+    >
       {children}
     </div>
   );

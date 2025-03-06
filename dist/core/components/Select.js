@@ -22,6 +22,7 @@ const ERROR_CLASSES = {
     soft: "bg-danger/10 border-danger/50 text-danger focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/20",
     light: "text-danger focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10",
     underline: "border-b border-danger text-danger",
+    ghost: "text-danger",
 };
 const INPUT_WRAPPER_CLASSES = {
     solid: {
@@ -68,6 +69,15 @@ const INPUT_WRAPPER_CLASSES = {
         success: "bg-gray-50 border-b border-success hover:bg-gray-100 focus-within:border-success/50 focus-within:ring-4 focus-within:ring-success/10",
         info: "bg-gray-50 border-b border-info hover:bg-gray-100 focus-within:border-info/50 focus-within:ring-4 focus-within:ring-info/10",
         whatsapp: "bg-gray-50 border-b border-whatsapp hover:bg-gray-100 focus-within:border-whatsapp/50 focus-within:ring-4 focus-within:ring-whatsapp/10",
+    },
+    ghost: {
+        primary: "border border-gray-300 hover:border-primary",
+        secondary: "border border-gray-300 hover:border-secondary",
+        danger: "border border-gray-300 hover:border-danger",
+        warning: "border border-gray-300 hover:border-warning",
+        success: "border border-gray-300 hover:border-success",
+        info: "border border-gray-300 hover:border-info",
+        whatsapp: "border border-gray-300 hover:border-whatsapp",
     },
 };
 const INPUT_CLASSES = {
@@ -116,6 +126,15 @@ const INPUT_CLASSES = {
         info: "placeholder:text-gray-500 text-black",
         whatsapp: "placeholder:text-gray-500 text-black",
     },
+    ghost: {
+        primary: "placeholder:text-gray-500 text-black",
+        secondary: "placeholder:text-gray-500 text-black",
+        danger: "placeholder:text-gray-500 text-black",
+        warning: "placeholder:text-gray-500 text-black",
+        success: "placeholder:text-gray-500 text-black",
+        info: "placeholder:text-gray-500 text-black",
+        whatsapp: "placeholder:text-gray-500 text-black",
+    },
 };
 const RADIUS_CLASSES = {
     none: "rounded-none",
@@ -128,6 +147,7 @@ const SIZE_CLASSES = {
     sm: "text-xs p-2",
     md: "text-sm p-3",
     lg: "text-base p-4",
+    xl: "text-lg p-5",
 };
 const getWrapperSelectClasses = (radius, variant, color, error, disabled) => `
   flex items-center w-full rounded-lg

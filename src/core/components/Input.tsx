@@ -10,7 +10,7 @@ import {
 } from "../types";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
   error?: string;
   variant?: StyleVariant;
   color?: ColorVariant;
@@ -44,6 +44,7 @@ const ERROR_CLASSES: Record<StyleVariant, string> = {
   light:
     "text-danger focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10",
   underline: "border-b border-danger text-danger",
+  ghost: "text-danger",
 };
 
 const INPUT_WRAPPER_CLASSES: VariantClasses = {
@@ -122,6 +123,15 @@ const INPUT_WRAPPER_CLASSES: VariantClasses = {
     whatsapp:
       "bg-gray-50 border-b border-whatsapp hover:bg-gray-100 focus-within:border-whatsapp/50 focus-within:ring-4 focus-within:ring-whatsapp/10",
   },
+  ghost: {
+    primary: "border border-gray-300 hover:border-primary",
+    secondary: "border border-gray-300 hover:border-secondary",
+    danger: "border border-gray-300 hover:border-danger",
+    warning: "border border-gray-300 hover:border-warning",
+    success: "border border-gray-300 hover:border-success",
+    info: "border border-gray-300 hover:border-info",
+    whatsapp: "border border-gray-300 hover:border-whatsapp",
+  },
 };
 
 const INPUT_CLASSES: VariantClasses = {
@@ -170,6 +180,15 @@ const INPUT_CLASSES: VariantClasses = {
     info: "placeholder:text-gray-500 text-black",
     whatsapp: "placeholder:text-gray-500 text-black",
   },
+  ghost: {
+    primary: "placeholder:text-gray-500 text-black",
+    secondary: "placeholder:text-gray-500 text-black",
+    danger: "placeholder:text-gray-500 text-black",
+    warning: "placeholder:text-gray-500 text-black",
+    success: "placeholder:text-gray-500 text-black",
+    info: "placeholder:text-gray-500 text-black",
+    whatsapp: "placeholder:text-gray-500 text-black",
+  },
 };
 
 const RADIUS_CLASSES: Record<RadiusVariant, string> = {
@@ -184,6 +203,7 @@ const SIZE_CLASSES: Record<SizeVariant, string> = {
   sm: "text-xs p-2",
   md: "text-sm p-3",
   lg: "text-base p-4",
+  xl: "text-lg p-5",
 };
 
 // Función para generar clases dinámicas

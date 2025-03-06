@@ -88,6 +88,15 @@ export const Chip = ({
       info: "text-info border-b border-info",
       whatsapp: "text-whatsapp border-b border-whatsapp",
     },
+    ghost: {
+      primary: "text-black",
+      secondary: "text-black",
+      danger: "text-black",
+      warning: "text-black",
+      success: "text-black",
+      info: "text-black",
+      whatsapp: "text-black",
+    },
   };
 
   const getColorClasses = (
@@ -110,6 +119,7 @@ export const Chip = ({
         sm: "w-6 h-6 text-sm",
         md: "w-8 h-8 text-base",
         lg: "w-10 h-10 text-lg",
+        xl: "w-12 h-12 text-xl",
       };
       return iconSizeMap[chipSize];
     }
@@ -117,6 +127,7 @@ export const Chip = ({
       sm: "text-xs px-2 py-1",
       md: "text-sm px-3 py-1.5",
       lg: "text-base px-4 py-2",
+      xl: "text-lg px-5 py-2.5",
     };
     return sizeMap[chipSize];
   };

@@ -11,19 +11,7 @@ const getGradientStyle = (direction) => {
     };
     return gradients[direction];
 };
-export const Card = ({ children, imageCover, className = "", gradient, shadow = "md", radius = "md", }) => {
-    const getShadowClasses = (shadowVariant) => {
-        const shadowMap = {
-            none: "shadow-none",
-            xs: "shadow-xs",
-            sm: "shadow-sm",
-            md: "shadow-md",
-            lg: "shadow-lg",
-            xl: "shadow-xl",
-            "2xl": "shadow-2xl",
-        };
-        return shadowMap[shadowVariant];
-    };
+export const Card = ({ children, imageCover, className = "", gradient, radius = "md", }) => {
     const getRadiusClasses = (radiusSize) => {
         const radiusMap = {
             none: "rounded-none",
@@ -35,7 +23,7 @@ export const Card = ({ children, imageCover, className = "", gradient, shadow = 
         return radiusMap[radiusSize];
     };
     return (_jsxs("div", { className: `relative 
-        ${getRadiusClasses(radius)} ${getShadowClasses(shadow)} overflow-hidden bg-white ${className}`, style: imageCover
+        ${getRadiusClasses(radius)} overflow-hidden ${className}`, style: imageCover
             ? {
                 backgroundImage: `url(${imageCover})`,
                 backgroundPosition: "center",
@@ -56,12 +44,12 @@ export const Card = ({ children, imageCover, className = "", gradient, shadow = 
 export const CardImage = ({ children, className = "" }) => {
     return (_jsx("div", { className: `relative overflow-hidden ${className}`, children: _jsx("div", { className: "hover:scale-105 transition-transform", children: children }) }));
 };
-export const CardHeader = ({ children, className = "", hasImage, }) => {
-    return (_jsx("div", { className: `p-4 ${!hasImage ? "border-b border-b-gray-200" : ""} ${className}`, children: children }));
+export const CardHeader = ({ children, className = "", hasImage, compact = false, }) => {
+    return (_jsx("div", { className: `${compact ? "py-4" : "p-4"} ${!hasImage ? "border-b border-b-gray-200" : ""} ${className}`, children: children }));
 };
-export const CardContent = ({ children, className = "" }) => {
-    return _jsx("div", { className: `p-4 ${className}`, children: children });
+export const CardContent = ({ children, className = "", compact = false, }) => {
+    return (_jsx("div", { className: `${compact ? "py-4" : "p-4"} ${className}`, children: children }));
 };
-export const CardFooter = ({ children, className = "", hasImage, }) => {
-    return (_jsx("div", { className: `p-4 ${!hasImage ? "border-t border-t-gray-200" : ""} ${className}`, children: children }));
+export const CardFooter = ({ children, className = "", hasImage, compact = false, }) => {
+    return (_jsx("div", { className: `${compact ? "py-4" : "p-4"} ${!hasImage ? "border-t border-t-gray-200" : ""} ${className}`, children: children }));
 };

@@ -81,6 +81,15 @@ export const Tooltip = ({ content, children, placement = "top", color = "primary
             info: "text-info border-b border-info",
             whatsapp: "text-whatsapp border-b border-whatsapp",
         },
+        ghost: {
+            primary: "text-black",
+            secondary: "text-black",
+            danger: "text-black",
+            warning: "text-black",
+            success: "text-black",
+            info: "text-black",
+            whatsapp: "text-black",
+        },
     };
     const getColorClasses = (colorName, variant) => {
         return colorClasses[variant][colorName];
@@ -90,6 +99,7 @@ export const Tooltip = ({ content, children, placement = "top", color = "primary
             sm: "px-2 py-1 text-xs",
             md: "px-3 py-1.5 text-sm",
             lg: "px-4 py-2 text-base",
+            xl: "px-5 py-2.5 text-lg",
         };
         return sizeMap[chipSize];
     };

@@ -1,6 +1,6 @@
 "use client";
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { createContext, useContext, } from "react";
+import { createContext, useContext } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Button } from "./Button";
 import { Drawer, DrawerBody } from "./Drawer";
@@ -42,20 +42,25 @@ export const Navbar = ({ children, className = "", position = "sticky", size = "
     const getSizeClass = () => {
         switch (size) {
             case "sm":
-                return "mx-auto w-full max-w-[1024px]";
+                return "max-w-[1024px]";
+            case "md":
+                return "max-w-[1240px]";
+            case "lg":
+                return "max-w-[1920px]";
             case "xl":
-                return "mx-auto w-full max-w-[1240px]";
-            case "2xl":
-                return "mx-auto w-full max-w-[1366px]";
-            case "full":
-                return "mx-auto w-full max-w-full";
+                return "max-w-[1240px]";
             default:
-                return "";
+                return "max-w-[2560px]";
         }
     };
-    return (_jsx("nav", { className: `${className} ${getPositionClass()}`, children: _jsx("div", { children: _jsxs("div", { className: `px-4 sm:px-6 md:px-8 lg:px-12 ${getSizeClass()} ${getJustifyClass()} flex items-center`, children: [_jsx("div", { className: "flex md:hidden", children: _jsx(Button, { variant: "light", isIconOnly: true, onClick: onOpen, children: _jsx(Bars3Icon, { className: "size-6" }) }) }), children, _jsx(Drawer, { isOpen: isOpen, onClose: onClose, placement: "right", size: "md", backdrop: "blur", children: _jsx(DrawerBody, { children: responsive }) })] }) }) }));
+    return (_jsx("nav", { className: `${className} ${getPositionClass()}`, children: _jsx("div", { children: _jsxs("div", { className: `
+          mx-auto
+          w-full py-3
+          px-6
+          sm:px-10 
+          lg:px-20 ${getSizeClass()} ${getJustifyClass()} flex items-center`, children: [_jsx("div", { className: "flex md:hidden", children: _jsx(Button, { variant: "light", isIconOnly: true, onClick: onOpen, children: _jsx(Bars3Icon, { className: "size-6" }) }) }), children, _jsx(Drawer, { isOpen: isOpen, onClose: onClose, placement: "right", size: "md", backdrop: "blur", children: _jsx(DrawerBody, { children: responsive }) })] }) }) }));
 };
-export const NavbarBrand = ({ children, className = "" }) => {
+export const NavbarStart = ({ children, className = "" }) => {
     return _jsx("div", { className: `flex items-center ${className}`, children: children });
 };
 export const NavbarContent = ({ children, className = "", justify = "center", fullHeightItems = false, }) => {

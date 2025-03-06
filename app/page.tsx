@@ -22,7 +22,7 @@ import {
   DropdownTrigger,
   Input,
   Navbar,
-  NavbarBrand,
+  NavbarStart,
   NavbarContent,
   NavbarEnd,
   NavbarItem,
@@ -54,15 +54,15 @@ const homePage = () => {
     <>
       <Navbar
         position="sticky"
-        size="2xl"
-        className="bg-white shadow-sm py-3"
+        size="xl"
+        className="bg-white shadow-sm"
         responsive={
           <div className="space-y-3">
-            <NavbarBrand>
+            <NavbarStart>
               <a href="#" className="font-bold text-xl text-primary">
                 Brand
               </a>
-            </NavbarBrand>
+            </NavbarStart>
             <NavbarContent className="space-y-3">
               <NavbarItem>
                 <Button
@@ -162,11 +162,11 @@ const homePage = () => {
           </div>
         }
       >
-        <NavbarBrand>
+        <NavbarStart>
           <a href="#" className="font-bold text-xl text-primary">
             Brand
           </a>
-        </NavbarBrand>
+        </NavbarStart>
         <NavbarContent className="hidden md:flex ">
           <NavbarItem>
             <Button
@@ -429,7 +429,7 @@ const homePage = () => {
           className="grid gap-2 grid-cols-2 lg:grid-cols-4"
         >
           {[...Array(6)].map((_, index) => (
-            <Card key={index} shadow="xl">
+            <Card key={index} className="shadow-lg">
               <CardHeader className="space-y-2 ">
                 <Typography size="base" weight="bold">
                   Kia Cerato 2021

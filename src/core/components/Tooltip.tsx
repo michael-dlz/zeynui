@@ -112,6 +112,15 @@ export const Tooltip: React.FC<TooltipProps> = ({
       info: "text-info border-b border-info",
       whatsapp: "text-whatsapp border-b border-whatsapp",
     },
+    ghost: {
+      primary: "text-black",
+      secondary: "text-black",
+      danger: "text-black",
+      warning: "text-black",
+      success: "text-black",
+      info: "text-black",
+      whatsapp: "text-black",
+    },
   };
   const getColorClasses = (
     colorName: ColorVariant,
@@ -124,6 +133,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
       sm: "px-2 py-1 text-xs",
       md: "px-3 py-1.5 text-sm",
       lg: "px-4 py-2 text-base",
+      xl: "px-5 py-2.5 text-lg",
     };
     return sizeMap[chipSize];
   };

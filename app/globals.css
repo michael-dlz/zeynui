@@ -3,12 +3,13 @@
 @theme {
   /* COLORS */
 
-  --color-primary: #714FD3;
+  --color-primary: #714fd3;
   --color-secondary: #71717a;
   --color-danger: #f31260;
   --color-warning: #f5a524;
   --color-success: #17c964;
   --color-info: #7ee7fc;
+  --color-black: #141414;
   --color-whatsapp: #128c7e;
 
   /* KEYFRAMES */

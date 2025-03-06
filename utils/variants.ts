@@ -6,4 +6,5 @@ export const variants: StyleVariant[] = [
   "soft",
   "light",
   "underline",
+  "ghost"
 ];

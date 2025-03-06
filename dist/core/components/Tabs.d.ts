@@ -11,7 +11,7 @@ export interface TabsProps {
     size?: SizeVariant;
     onSelectionChange?: (selectedKey: string) => void;
 }
-export declare const Tabs: React.FC<TabsProps>;
+export declare const Tabs: ({ children, defaultTab, color, variant, radius, className, isIconOnly, size, onSelectionChange, }: TabsProps) => import("react/jsx-runtime").JSX.Element;
 export interface TabProps {
     title: string;
     children?: React.ReactNode;

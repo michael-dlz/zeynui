@@ -22,7 +22,7 @@ export interface TabsProps {
   onSelectionChange?: (selectedKey: string) => void;
 }
 
-export const Tabs: React.FC<TabsProps> = ({
+export const Tabs = ({
   children,
   defaultTab,
   color = "danger",
@@ -32,7 +32,7 @@ export const Tabs: React.FC<TabsProps> = ({
   isIconOnly = false,
   size = "md",
   onSelectionChange,
-}) => {
+}: TabsProps) => {
   const [activeTab, setActiveTab] = useState<string>("");
 
   const tabClasses: VarianActiveClasses = {
@@ -172,6 +172,36 @@ export const Tabs: React.FC<TabsProps> = ({
         inactive: "border-b-2 border-transparent text-whatsapp",
       },
     },
+    ghost: {
+      primary: {
+        active: "text-primary",
+        inactive: "text-primary/50",
+      },
+      secondary: {
+        active: "text-secondary",
+        inactive: "text-secondary/50",
+      },
+      danger: {
+        active: "text-danger",
+        inactive: "text-danger/50",
+      },
+      warning: {
+        active: "text-warning",
+        inactive: "text-warning/50",
+      },
+      success: {
+        active: "text-success",
+        inactive: "text-success/50",
+      },
+      info: {
+        active: "text-info",
+        inactive: "text-info/50",
+      },
+      whatsapp: {
+        active: "text-whatsapp",
+        inactive: "text-whatsapp/50",
+      },
+    },
   };
 
   // Obtener los títulos de las pestañas
@@ -227,6 +257,7 @@ export const Tabs: React.FC<TabsProps> = ({
         sm: "w-8 h-8 text-lg",
         md: "w-10 h-10 text-xl",
         lg: "w-12 h-12 text-2xl",
+        xl: "w-14 h-14 text-3xl",
       };
       return iconSizeMap[buttonSize];
     }
@@ -234,6 +265,7 @@ export const Tabs: React.FC<TabsProps> = ({
       sm: "text-xs px-3 py-1.5",
       md: "text-sm px-6 py-3",
       lg: "text-base px-9 py-4",
+      xl: "text-lg px-12 py-5",
     };
     return sizeMap[buttonSize];
   };
@@ -267,6 +299,7 @@ export const Tabs: React.FC<TabsProps> = ({
                   inline-flex items-center gap-2
                   transition-all duration-200 ease-in-out
                   disabled:opacity-50 disabled:cursor-not-allowed z-20
+                  cursor-pointer
                   ${getRadiusClasses(radius)}
                   ${getSizeClasses(size, isIconOnly)}
                   ${getTabClasses(color, variant, isActive)}

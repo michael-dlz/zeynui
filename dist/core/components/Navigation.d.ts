@@ -1,11 +1,11 @@
 import React from "react";
-import { JustifyNavbar, PositionNavbar, SizeNavbar } from "../types";
+import { JustifyNavbar, PositionNavbar, SizeVariant } from "../types";
 export interface NavbarProps {
     children: React.ReactNode;
     className?: string;
     position?: PositionNavbar;
     transparent?: boolean;
-    size?: SizeNavbar;
+    size?: SizeVariant;
     responsive?: React.ReactNode;
     justify?: JustifyNavbar;
 }
@@ -18,11 +18,11 @@ export interface NavbarContextProps {
 }
 export declare const NavbarContext: React.Context<NavbarContextProps>;
 export declare const Navbar: ({ children, className, position, size, responsive, justify, }: NavbarProps) => import("react/jsx-runtime").JSX.Element;
-export interface NavbarBrandProps {
+export interface NavbarStartProps {
     children: React.ReactNode;
     className?: string;
 }
-export declare const NavbarBrand: ({ children, className }: NavbarBrandProps) => import("react/jsx-runtime").JSX.Element;
+export declare const NavbarStart: ({ children, className }: NavbarStartProps) => import("react/jsx-runtime").JSX.Element;
 export interface NavbarContentProps {
     children: React.ReactNode;
     className?: string;

@@ -1,7 +1,7 @@
 import { InputHTMLAttributes } from "react";
 import { ColorVariant, LabelPlacement, RadiusVariant, SizeVariant, StyleVariant } from "../types";
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    label: string;
+    label?: string;
     error?: string;
     variant?: StyleVariant;
     color?: ColorVariant;
