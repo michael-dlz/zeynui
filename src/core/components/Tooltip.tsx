@@ -134,6 +134,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
       md: "px-3 py-1.5 text-sm",
       lg: "px-4 py-2 text-base",
       xl: "px-5 py-2.5 text-lg",
+      "2xl": "px-6 py-3 text-xl",
     };
     return sizeMap[chipSize];
   };

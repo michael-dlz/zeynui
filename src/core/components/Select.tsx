@@ -210,6 +210,7 @@ const SIZE_CLASSES: Record<SizeVariant, string> = {
   md: "text-sm p-3",
   lg: "text-base p-4",
   xl: "text-lg p-5",
+  "2xl": "text-xl p-6",
 };
 
 const getWrapperSelectClasses = (

@@ -1,6 +1,6 @@
 export type ColorVariant = "primary" | "secondary" | "danger" | "warning" | "success" | "info" | "whatsapp";
 export type RadiusVariant = "none" | "sm" | "md" | "lg" | "full";
-export type SizeVariant = "sm" | "md" | "lg" | "xl";
+export type SizeVariant = "sm" | "md" | "lg" | "xl" | "2xl";
 export type StyleVariant = "solid" | "outline" | "soft" | "light" | "underline" | "ghost";
 export type AlignmentVariant = "left" | "center" | "right";
 export type ShadowVariant = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";

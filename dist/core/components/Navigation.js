@@ -49,8 +49,10 @@ export const Navbar = ({ children, className = "", position = "sticky", size = "
                 return "max-w-[1920px]";
             case "xl":
                 return "max-w-[1240px]";
-            default:
+            case "2xl":
                 return "max-w-[2560px]";
+            default:
+                return "";
         }
     };
     return (_jsx("nav", { className: `${className} ${getPositionClass()}`, children: _jsx("div", { children: _jsxs("div", { className: `
