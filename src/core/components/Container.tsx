@@ -24,8 +24,10 @@ export const Container = ({
         return "max-w-[1920px]";
       case "xl":
         return "max-w-[1240px]";
-      default:
+      case "2xl":
         return "max-w-[2560px]";
+      default:
+        return "";
     }
   };
 
