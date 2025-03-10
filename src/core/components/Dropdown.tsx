@@ -1,5 +1,4 @@
 "use client";
-
 import React, {
   useState,
   createContext,
@@ -8,8 +7,6 @@ import React, {
   useEffect,
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowDownIcon } from "@heroicons/react/24/outline";
-import { AlignmentVariant } from "../types";
 
 interface DropdownContextType {
   isOpen: boolean;

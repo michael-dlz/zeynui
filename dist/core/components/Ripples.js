@@ -7,7 +7,7 @@ export const Ripple = ({ variant, ripples, color }) => {
             soft: `bg-white/40`,
             light: `bg-${color}/10`,
             underline: `bg-${color}/10`,
-            ghost: `bg-${color}/10`,
+            ghost: `bg-white/40`,
         };
         return rippleColorMap[variant];
     };

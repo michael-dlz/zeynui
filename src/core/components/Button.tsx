@@ -27,6 +27,8 @@ type ButtonVariantsProps = {
   variant?: StyleVariant;
   leftContent?: React.ReactNode;
   rightContent?: React.ReactNode;
+  topContent?: React.ReactNode;
+  bottomContent?: React.ReactNode;
   isIconOnly?: boolean;
   className?: string;
   isRelative?: boolean;
@@ -50,6 +52,8 @@ export const Button = <C extends React.ElementType = "button">({
   variant = "solid",
   leftContent,
   rightContent,
+  topContent,
+  bottomContent,
   isIconOnly = false,
   isRelative = true,
   isBounce = true,
@@ -194,8 +198,9 @@ export const Button = <C extends React.ElementType = "button">({
         overflow-hidden 
         font-medium
         inline-flex 
+        flex-col 
         items-center 
-        gap-2
+        gap-1
         transition-all 
         duration-200 
         ease-in-out
@@ -216,11 +221,21 @@ export const Button = <C extends React.ElementType = "button">({
       {...props}
     >
       <Ripple variant={variant} ripples={ripples} color={color} />
+      {topContent && (
+        <div className="relative z-20 inline-flex items-center gap-2">
+          {topContent}
+        </div>
+      )}
       <span className="relative z-20 inline-flex items-center gap-2">
         {leftContent}
         <span>{children}</span>
         {rightContent}
       </span>
+      {bottomContent && (
+        <div className="relative z-20 inline-flex items-center gap-2">
+          {bottomContent}
+        </div>
+      )}
     </Component>
   );
 };

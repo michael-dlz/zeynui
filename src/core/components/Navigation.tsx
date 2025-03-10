@@ -95,19 +95,18 @@ export const Navbar = ({
           w-full py-3
           px-6
           sm:px-10 
-          lg:px-20 ${getSizeClass()} ${getJustifyClass()} flex items-center`}
+          2xl:px-20 ${getSizeClass()} ${getJustifyClass()} flex items-center`}
         >
-          {/* Botón para abrir el Drawer en móviles */}
-          <div className="flex md:hidden">
-            <Button variant="light" isIconOnly onClick={onOpen}>
-              <Bars3Icon className="size-6" />
-            </Button>
-          </div>
+          {responsive && (
+            <div className="flex md:hidden">
+              <Button variant="light" isIconOnly onClick={onOpen}>
+                <Bars3Icon className="size-6" />
+              </Button>
+            </div>
+          )}
 
-          {/* Renderizar el contenido normal en desktop */}
           {children}
 
-          {/* Drawer para móviles */}
           <Drawer
             isOpen={isOpen}
             onClose={onClose}

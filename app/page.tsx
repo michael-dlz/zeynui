@@ -283,7 +283,7 @@ const homePage = () => {
               size="md"
               radius="md"
               color="primary"
-              leftContent={"+51"}
+              topContent={<PhoneArrowDownLeftIcon className="size-4" />}
               isElevation={false}
             >
               {variant}
@@ -496,13 +496,27 @@ const homePage = () => {
             size="md"
             radius="none"
           >
-            <Tab key="musica" title="Música">
+            <Tab
+              key="musica"
+              title="Música"
+              as="button"
+              isDefault
+              topContent={<PhoneArrowDownLeftIcon className="size-4" />}
+            >
               <p>Contenido de Música</p>
             </Tab>
-            <Tab key="television" title="Televisión">
+            <Tab
+              key="television"
+              title="Televisión"
+              topContent={<PhoneArrowDownLeftIcon className="size-4" />}
+            >
               <p>Contenido de Televisión</p>
             </Tab>
-            <Tab key="deportes" title="Deportes">
+            <Tab
+              key="deportes"
+              title="Deportes"
+              topContent={<PhoneArrowDownLeftIcon className="size-4" />}
+            >
               <p>Contenido de Deportes</p>
             </Tab>
           </Tabs>

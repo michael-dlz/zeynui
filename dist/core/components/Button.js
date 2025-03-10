@@ -14,7 +14,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Ripple } from "./Ripples";
 import { useRipples } from "../hook/useRipples";
 export const Button = (_a) => {
-    var { children, className = "", color = "primary", radius = "md", size = "md", variant = "solid", leftContent, rightContent, isIconOnly = false, isRelative = true, isBounce = true, fullWidth = false, isElevation = true, align = "center", as, onClick } = _a, props = __rest(_a, ["children", "className", "color", "radius", "size", "variant", "leftContent", "rightContent", "isIconOnly", "isRelative", "isBounce", "fullWidth", "isElevation", "align", "as", "onClick"]);
+    var { children, className = "", color = "primary", radius = "md", size = "md", variant = "solid", leftContent, rightContent, topContent, bottomContent, isIconOnly = false, isRelative = true, isBounce = true, fullWidth = false, isElevation = true, align = "center", as, onClick } = _a, props = __rest(_a, ["children", "className", "color", "radius", "size", "variant", "leftContent", "rightContent", "topContent", "bottomContent", "isIconOnly", "isRelative", "isBounce", "fullWidth", "isElevation", "align", "as", "onClick"]);
     const { ripples, createRipple } = useRipples();
     const Component = as || "button";
     const BUTTON_CLASSES = {
@@ -94,6 +94,7 @@ export const Button = (_a) => {
                 md: "w-10 h-10 text-xl",
                 lg: "w-12 h-12 text-2xl",
                 xl: "w-14 h-14 text-3xl",
+                "2xl": "w-16 h-16 text-4xl",
             };
             return iconSizeMap[buttonSize];
         }
@@ -102,6 +103,7 @@ export const Button = (_a) => {
             md: "text-sm px-6 py-3",
             lg: "text-base px-9 py-4",
             xl: "text-lg px-12 py-5",
+            "2xl": "text-xl px-14 py-6",
         };
         return sizeMap[buttonSize];
     };
@@ -121,8 +123,9 @@ export const Button = (_a) => {
         overflow-hidden 
         font-medium
         inline-flex 
+        flex-col 
         items-center 
-        gap-2
+        gap-1
         transition-all 
         duration-200 
         ease-in-out
@@ -138,5 +141,5 @@ export const Button = (_a) => {
         ${getSizeClasses(size, isIconOnly)}
         ${isIconOnly ? "p-0" : ""}
         ${className}
-      `, onClick: handleClick }, props, { children: [_jsx(Ripple, { variant: variant, ripples: ripples, color: color }), _jsxs("span", { className: "relative z-20 inline-flex items-center gap-2", children: [leftContent, _jsx("span", { children: children }), rightContent] })] })));
+      `, onClick: handleClick }, props, { children: [_jsx(Ripple, { variant: variant, ripples: ripples, color: color }), topContent && (_jsx("div", { className: "relative z-20 inline-flex items-center gap-2", children: topContent })), _jsxs("span", { className: "relative z-20 inline-flex items-center gap-2", children: [leftContent, _jsx("span", { children: children }), rightContent] }), bottomContent && (_jsx("div", { className: "relative z-20 inline-flex items-center gap-2", children: bottomContent }))] })));
 };

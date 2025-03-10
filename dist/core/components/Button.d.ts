@@ -12,6 +12,8 @@ type ButtonVariantsProps = {
     variant?: StyleVariant;
     leftContent?: React.ReactNode;
     rightContent?: React.ReactNode;
+    topContent?: React.ReactNode;
+    bottomContent?: React.ReactNode;
     isIconOnly?: boolean;
     className?: string;
     isRelative?: boolean;
@@ -21,5 +23,5 @@ type ButtonVariantsProps = {
     align?: AlignmentVariant;
 };
 type ButtonProps<C extends React.ElementType> = PolymorphicComponentProp<C, ButtonVariantsProps>;
-export declare const Button: <C extends React.ElementType = "button">({ children, className, color, radius, size, variant, leftContent, rightContent, isIconOnly, isRelative, isBounce, fullWidth, isElevation, align, as, onClick, ...props }: ButtonProps<C>) => import("react/jsx-runtime").JSX.Element;
+export declare const Button: <C extends React.ElementType = "button">({ children, className, color, radius, size, variant, leftContent, rightContent, topContent, bottomContent, isIconOnly, isRelative, isBounce, fullWidth, isElevation, align, as, onClick, ...props }: ButtonProps<C>) => import("react/jsx-runtime").JSX.Element;
 export {};

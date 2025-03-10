@@ -5,7 +5,6 @@ interface CarouselProps {
     thumbnails?: boolean;
     autoplay?: boolean;
     interval?: number;
-    aspectRatio?: "16/9" | "4/3" | "1/1";
     loop?: boolean;
     draggable?: boolean;
     align?: "start" | "center" | "end";
@@ -15,9 +14,10 @@ interface CarouselProps {
     dragFree?: boolean;
     className?: string;
 }
-export declare const Carousel: React.FC<CarouselProps>;
+export declare const Carousel: ({ children, navigation, pagination, thumbnails, autoplay, interval, loop, draggable, align, slidesToShow, spacing, duration, dragFree, className, }: CarouselProps) => import("react/jsx-runtime").JSX.Element;
 interface CarouselItemProps {
     children: React.ReactNode;
+    className?: string;
 }
-export declare const CarouselItem: React.FC<CarouselItemProps>;
+export declare const CarouselItem: ({ children, className, }: CarouselItemProps) => import("react/jsx-runtime").JSX.Element;
 export {};

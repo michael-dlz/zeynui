@@ -12,7 +12,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 export const Chip = (_a) => {
-    var { children, className = "", color = "primary", radius = "md", size = "md", variant = "solid", leftContent, rightContent, isIconOnly = false, isRelative = true, fullWidth = false, align = "center", onClick, onClose } = _a, props = __rest(_a, ["children", "className", "color", "radius", "size", "variant", "leftContent", "rightContent", "isIconOnly", "isRelative", "fullWidth", "align", "onClick", "onClose"]);
+    var { children, className = "", color = "primary", radius = "md", size = "sm", variant = "solid", leftContent, rightContent, isIconOnly = false, isRelative = true, fullWidth = false, align = "center", onClick, onClose } = _a, props = __rest(_a, ["children", "className", "color", "radius", "size", "variant", "leftContent", "rightContent", "isIconOnly", "isRelative", "fullWidth", "align", "onClick", "onClose"]);
     const chipClasses = {
         solid: {
             primary: "bg-primary text-white",
@@ -84,6 +84,7 @@ export const Chip = (_a) => {
                 md: "w-8 h-8 text-base",
                 lg: "w-10 h-10 text-lg",
                 xl: "w-12 h-12 text-xl",
+                "2xl": "w-14 h-14 text-2xl",
             };
             return iconSizeMap[chipSize];
         }
@@ -92,6 +93,7 @@ export const Chip = (_a) => {
             md: "text-sm px-3 py-1.5",
             lg: "text-base px-4 py-2",
             xl: "text-lg px-5 py-2.5",
+            "2xl": "text-xl px-6 py-3",
         };
         return sizeMap[chipSize];
     };

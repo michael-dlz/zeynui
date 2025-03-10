@@ -30,7 +30,7 @@ export const Chip = ({
   className = "",
   color = "primary",
   radius = "md",
-  size = "md",
+  size = "sm",
   variant = "solid",
   leftContent,
   rightContent,

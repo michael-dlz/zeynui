@@ -1,5 +1,7 @@
-import React, { useState, Children, isValidElement, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+"use client";
+
+import React, { useState, Children, isValidElement, ReactElement } from "react";
+import { motion } from "framer-motion";
 import { Ripple } from "./Ripples";
 import {
   ColorVariant,
@@ -17,7 +19,6 @@ export interface TabsProps {
   variant?: StyleVariant;
   radius?: RadiusVariant;
   className?: string;
-  isIconOnly?: boolean;
   size?: SizeVariant;
   onSelectionChange?: (selectedKey: string) => void;
 }
@@ -25,16 +26,108 @@ export interface TabsProps {
 export const Tabs = ({
   children,
   defaultTab,
-  color = "danger",
-  variant = "soft",
+  color = "primary",
+  variant = "solid",
   radius = "none",
   className = "",
-  isIconOnly = false,
   size = "md",
   onSelectionChange,
 }: TabsProps) => {
-  const [activeTab, setActiveTab] = useState<string>("");
+  const [activeTab, setActiveTab] = useState<string>(() => {
+    // Si no se proporciona un defaultTab, busca la pestaña con isDefault
+    if (!defaultTab) {
+      const defaultTabChild = Children.toArray(children)
+        .filter(isValidElement)
+        .find((child) => (child as ReactElement<TabProps>).props.isDefault);
 
+      return defaultTabChild
+        ? (defaultTabChild as ReactElement<TabProps>).props.title
+        : "";
+    }
+    return defaultTab;
+  });
+
+  const handleTabChange = (title: string) => {
+    setActiveTab(title);
+    if (onSelectionChange) onSelectionChange(title);
+  };
+
+  return (
+    <div className={`w-full flex flex-col gap-4 ${className}`}>
+      <div className="overflow-x-auto">
+        <motion.div
+          className="flex"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          {children &&
+            Children.toArray(children)
+              .filter(isValidElement)
+              .map((child) => {
+                if (!isValidElement(child)) return null;
+                const {
+                  title,
+                  leftContent,
+                  rightContent,
+                  topContent,
+                  bottomContent,
+                  active, // Prop active
+                } = child.props as TabProps;
+                const isActive =
+                  active !== undefined ? active : activeTab === title;
+
+                const { createRipple, ripples } = useRipples();
+
+                return (
+                  <button
+                    onClick={(e) => {
+                      handleTabChange(title);
+                      createRipple(e);
+                    }}
+                    className={`
+                      relative overflow-hidden px-6 py-3 font-medium 
+                      inline-flex flex-col items-center gap-2
+                      transition-all duration-200 ease-in-out
+                      disabled:opacity-50 disabled:cursor-not-allowed z-20
+                      cursor-pointer whitespace-nowrap
+                      ${getRadiusClasses(radius)}
+                      ${getSizeClasses(size)}
+                      ${getTabClasses(color, variant, isActive)}
+                    `}
+                  >
+                    {topContent && <div>{topContent}</div>}
+                    <div className="flex items-center gap-2">
+                      {leftContent && <div>{leftContent}</div>}
+                      {title}
+                      {rightContent && <div>{rightContent}</div>}
+                    </div>
+                    {bottomContent && <div>{bottomContent}</div>}
+                    <Ripple variant={variant} ripples={ripples} color={color} />
+                  </button>
+                );
+              })}
+        </motion.div>
+      </div>
+
+      <div className="relative">
+        {Children.map(children, (child) => {
+          if (!isValidElement(child)) return null;
+          const { title, active } = child.props as TabProps;
+          const isActive = active !== undefined ? active : activeTab === title;
+          if (!isActive) return null;
+          return <div key={title}>{(child.props as TabProps).children}</div>;
+        })}
+      </div>
+    </div>
+  );
+};
+
+// Funciones de utilidad
+const getTabClasses = (
+  color: ColorVariant,
+  variant: StyleVariant,
+  isActive: boolean
+): string => {
   const tabClasses: VarianActiveClasses = {
     solid: {
       primary: { active: "bg-primary text-white", inactive: "text-primary" },
@@ -203,149 +296,66 @@ export const Tabs = ({
       },
     },
   };
+  return isActive
+    ? tabClasses[variant][color].active
+    : tabClasses[variant][color].inactive;
+};
 
-  // Obtener los títulos de las pestañas
-  const tabs = Children.toArray(children)
-    .filter(
-      (child): child is React.ReactElement<{ title: string }> =>
-        isValidElement(child) &&
-        typeof (child as React.ReactElement<{ title: string }>).props.title ===
-          "string"
-    )
-    .map((child) => isValidElement(child) && child.props.title);
-
-  // Establecer la pestaña activa por defecto
-  useEffect(() => {
-    setActiveTab(defaultTab || tabs[0] || "");
-  }, [defaultTab]);
-
-  // Notificar cuando cambia la pestaña seleccionada
-  useEffect(() => {
-    if (onSelectionChange) {
-      onSelectionChange(activeTab);
-    }
-  }, [activeTab, onSelectionChange]);
-
-  // Mapeo de clases de color (con estados activo e inactivo)
-
-  // Funciones de utilidad
-  const getTabClasses = (
-    colorName: ColorVariant,
-    variant: StyleVariant,
-    isActive: boolean
-  ): string => {
-    return tabClasses[variant][colorName][isActive ? "active" : "inactive"];
+const getRadiusClasses = (radius: RadiusVariant): string => {
+  const radiusMap = {
+    none: "rounded-none",
+    sm: "rounded-sm",
+    md: "rounded-md",
+    lg: "rounded-lg",
+    full: "rounded-full",
   };
+  return radiusMap[radius];
+};
 
-  const getRadiusClasses = (radiusSize: RadiusVariant): string => {
-    const radiusMap = {
-      none: "rounded-none",
-      sm: "rounded-sm",
-      md: "rounded-md",
-      lg: "rounded-lg",
-      full: "rounded-full",
-    };
-    return radiusMap[radiusSize];
+const getSizeClasses = (size: SizeVariant): string => {
+  const sizeMap = {
+    sm: "text-xs px-3 py-1.5",
+    md: "text-sm px-6 py-3",
+    lg: "text-base px-9 py-4",
+    xl: "text-lg px-12 py-5",
+    "2xl": "text-xl px-14 py-6",
   };
-
-  const getSizeClasses = (
-    buttonSize: SizeVariant,
-    isIconOnly: boolean
-  ): string => {
-    if (isIconOnly) {
-      const iconSizeMap = {
-        sm: "w-8 h-8 text-lg",
-        md: "w-10 h-10 text-xl",
-        lg: "w-12 h-12 text-2xl",
-        xl: "w-14 h-14 text-3xl",
-        "2xl": "w-16 h-16 text-4xl",
-      };
-      return iconSizeMap[buttonSize];
-    }
-    const sizeMap = {
-      sm: "text-xs px-3 py-1.5",
-      md: "text-sm px-6 py-3",
-      lg: "text-base px-9 py-4",
-      xl: "text-lg px-12 py-5",
-      "2xl": "text-xl px-14 py-6",
-    };
-    return sizeMap[buttonSize];
-  };
-
-  return (
-    <div className={`w-full flex flex-col gap-4 ${className}`}>
-      {/* Botones de las pestañas */}
-      <motion.div
-        className={`flex`}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        {Children.map(children, (child) => {
-          if (!isValidElement(child)) return null;
-          const { title } = (child as React.ReactElement<{ title: string }>)
-            .props;
-          const isActive = activeTab === title;
-
-          // Cada botón tiene su propio estado de ripples
-          const { createRipple, ripples } = useRipples();
-
-          return (
-            <button
-              onClick={(e) => {
-                setActiveTab(title);
-                createRipple(e);
-              }}
-              className={`
-                  relative overflow-hidden px-6 py-3 font-medium 
-                  inline-flex items-center gap-2
-                  transition-all duration-200 ease-in-out
-                  disabled:opacity-50 disabled:cursor-not-allowed z-20
-                  cursor-pointer
-                  ${getRadiusClasses(radius)}
-                  ${getSizeClasses(size, isIconOnly)}
-                  ${getTabClasses(color, variant, isActive)}
-                `}
-            >
-              {title}
-              <Ripple variant={variant} ripples={ripples} color={color} />
-            </button>
-          );
-        })}
-      </motion.div>
-
-      {/* Contenido de las pestañas */}
-      <div className="relative">
-        <AnimatePresence mode="wait">
-          {Children.map(children, (child) => {
-            if (!isValidElement(child)) return null;
-            const { title } = (child as React.ReactElement<{ title: string }>)
-              .props;
-            if (activeTab !== title) return null;
-            return (
-              <motion.div
-                key={title}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-              >
-                {child}
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      </div>
-    </div>
-  );
+  return sizeMap[size];
 };
 
 export interface TabProps {
   title: string;
   children?: React.ReactNode;
-  className?: string;
+  leftContent?: React.ReactNode;
+  rightContent?: React.ReactNode;
+  topContent?: React.ReactNode;
+  bottomContent?: React.ReactNode;
+  as?: React.ElementType;
+  href?: string;
+  isDefault?: boolean;
+  active?: boolean;
 }
 
-export const Tab: React.FC<TabProps> = ({ children, className = "" }) => {
-  return <div className={`${className}`}>{children}</div>;
+export const Tab = ({
+  title,
+  children,
+  leftContent,
+  rightContent,
+  topContent,
+  bottomContent,
+  as: Component = "div",
+  href,
+}: TabProps) => {
+  return (
+    <Component href={href} className="w-full">
+      {topContent && <div>{topContent}</div>}
+      <div className="flex items-center gap-2">
+        {leftContent && <div>{leftContent}</div>}
+        {title}
+        {rightContent && <div>{rightContent}</div>}
+      </div>
+      {bottomContent && <div>{bottomContent}</div>}
+      {children}
+    </Component>
+  );
 };

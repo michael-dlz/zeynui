@@ -60,7 +60,7 @@ export const Navbar = ({ children, className = "", position = "sticky", size = "
           w-full py-3
           px-6
           sm:px-10 
-          lg:px-20 ${getSizeClass()} ${getJustifyClass()} flex items-center`, children: [_jsx("div", { className: "flex md:hidden", children: _jsx(Button, { variant: "light", isIconOnly: true, onClick: onOpen, children: _jsx(Bars3Icon, { className: "size-6" }) }) }), children, _jsx(Drawer, { isOpen: isOpen, onClose: onClose, placement: "right", size: "md", backdrop: "blur", children: _jsx(DrawerBody, { children: responsive }) })] }) }) }));
+          2xl:px-20 ${getSizeClass()} ${getJustifyClass()} flex items-center`, children: [responsive && (_jsx("div", { className: "flex md:hidden", children: _jsx(Button, { variant: "light", isIconOnly: true, onClick: onOpen, children: _jsx(Bars3Icon, { className: "size-6" }) }) })), children, _jsx(Drawer, { isOpen: isOpen, onClose: onClose, placement: "right", size: "md", backdrop: "blur", children: _jsx(DrawerBody, { children: responsive }) })] }) }) }));
 };
 export const NavbarStart = ({ children, className = "" }) => {
     return _jsx("div", { className: `flex items-center ${className}`, children: children });

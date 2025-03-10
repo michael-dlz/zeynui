@@ -1,10 +1,10 @@
 "use client";
 import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
-import { useCallback, useEffect, useState, Children, useMemo } from "react";
+import { useCallback, useEffect, useState, Children } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Button } from "./Button";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-export const Carousel = ({ children, navigation = false, pagination = false, thumbnails = false, autoplay = false, interval = 3000, aspectRatio = "", loop = false, draggable = true, align = "center", slidesToShow = 1, spacing = 10, duration = 25, dragFree = false, className = "", }) => {
+export const Carousel = ({ children, navigation = false, pagination = false, thumbnails = false, autoplay = false, interval = 3000, loop = false, draggable = true, align = "center", slidesToShow = 1, spacing = 10, duration = 25, dragFree = false, className = "", }) => {
     const [emblaRef, emblaApi] = useEmblaCarousel({
         loop,
         dragFree,
@@ -89,14 +89,7 @@ export const Carousel = ({ children, navigation = false, pagination = false, thu
             emblaApi.off("reInit", onSelect);
         };
     }, [emblaApi, onSelect]);
-    const aspectRatioClass = useMemo(() => {
-        return {
-            "16/9": "aspect-video",
-            "4/3": "aspect-[4/3]",
-            "1/1": "aspect-square",
-        }[aspectRatio];
-    }, [aspectRatio]);
-    return (_jsxs("div", { className: `relative w-full`, onMouseEnter: () => setAutoplayPaused(true), onMouseLeave: () => setAutoplayPaused(false), children: [_jsxs("div", { className: `relative overflow-hidden ${className} ${aspectRatioClass}`, children: [_jsx("div", { ref: emblaRef, className: "overflow-hidden", children: _jsx("div", { className: `flex touch-pan-y ${isDragging ? "cursor-grabbing" : "cursor-grab"}`, style: {
+    return (_jsxs("div", { className: `relative w-full`, onMouseEnter: () => setAutoplayPaused(true), onMouseLeave: () => setAutoplayPaused(false), children: [_jsxs("div", { className: `relative overflow-hidden ${className}`, children: [_jsx("div", { ref: emblaRef, className: "overflow-hidden", children: _jsx("div", { className: `flex touch-pan-y ${isDragging ? "cursor-grabbing" : "cursor-grab"}`, style: {
                                 gap: `${spacing}px`,
                                 width: `calc(100% + ${spacing}px)`,
                             }, children: Children.map(children, (child, index) => (_jsx("div", { className: "flex-shrink-0", style: {
@@ -114,6 +107,6 @@ export const Carousel = ({ children, navigation = false, pagination = false, thu
                                 transition: "opacity 0.2s ease", // Transición más rápida para los thumbnails
                             }, children: child }, index))) }) }) }))] }));
 };
-export const CarouselItem = ({ children }) => {
-    return _jsx("div", { className: "flex-shrink-0 w-full", children: children });
+export const CarouselItem = ({ children, className = "", }) => {
+    return _jsx("div", { className: `flex-shrink-0 w-full ${className}`, children: children });
 };

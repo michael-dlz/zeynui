@@ -7,14 +7,20 @@ export interface TabsProps {
     variant?: StyleVariant;
     radius?: RadiusVariant;
     className?: string;
-    isIconOnly?: boolean;
     size?: SizeVariant;
     onSelectionChange?: (selectedKey: string) => void;
 }
-export declare const Tabs: ({ children, defaultTab, color, variant, radius, className, isIconOnly, size, onSelectionChange, }: TabsProps) => import("react/jsx-runtime").JSX.Element;
+export declare const Tabs: ({ children, defaultTab, color, variant, radius, className, size, onSelectionChange, }: TabsProps) => import("react/jsx-runtime").JSX.Element;
 export interface TabProps {
     title: string;
     children?: React.ReactNode;
-    className?: string;
+    leftContent?: React.ReactNode;
+    rightContent?: React.ReactNode;
+    topContent?: React.ReactNode;
+    bottomContent?: React.ReactNode;
+    as?: React.ElementType;
+    href?: string;
+    isDefault?: boolean;
+    active?: boolean;
 }
-export declare const Tab: React.FC<TabProps>;
+export declare const Tab: ({ title, children, leftContent, rightContent, topContent, bottomContent, as: Component, href, }: TabProps) => import("react/jsx-runtime").JSX.Element;

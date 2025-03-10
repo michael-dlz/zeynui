@@ -12,7 +12,6 @@ interface CarouselProps {
   thumbnails?: boolean;
   autoplay?: boolean;
   interval?: number;
-  aspectRatio?: "16/9" | "4/3" | "1/1";
   loop?: boolean;
   draggable?: boolean;
   align?: "start" | "center" | "end";
@@ -23,14 +22,13 @@ interface CarouselProps {
   className?: string;
 }
 
-export const Carousel: React.FC<CarouselProps> = ({
+export const Carousel = ({
   children,
   navigation = false,
   pagination = false,
   thumbnails = false,
   autoplay = false,
   interval = 3000,
-  aspectRatio = "",
   loop = false,
   draggable = true,
   align = "center",
@@ -39,7 +37,7 @@ export const Carousel: React.FC<CarouselProps> = ({
   duration = 25,
   dragFree = false,
   className = "",
-}) => {
+}: CarouselProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop,
     dragFree,
@@ -130,23 +128,13 @@ export const Carousel: React.FC<CarouselProps> = ({
     };
   }, [emblaApi, onSelect]);
 
-  const aspectRatioClass = useMemo(() => {
-    return {
-      "16/9": "aspect-video",
-      "4/3": "aspect-[4/3]",
-      "1/1": "aspect-square",
-    }[aspectRatio];
-  }, [aspectRatio]);
-
   return (
     <div
       className={`relative w-full`}
       onMouseEnter={() => setAutoplayPaused(true)}
       onMouseLeave={() => setAutoplayPaused(false)}
     >
-      <div
-        className={`relative overflow-hidden ${className} ${aspectRatioClass}`}
-      >
+      <div className={`relative overflow-hidden ${className}`}>
         <div ref={emblaRef} className="overflow-hidden">
           <div
             className={`flex touch-pan-y ${
@@ -253,8 +241,12 @@ export const Carousel: React.FC<CarouselProps> = ({
 
 interface CarouselItemProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-export const CarouselItem: React.FC<CarouselItemProps> = ({ children }) => {
-  return <div className="flex-shrink-0 w-full">{children}</div>;
+export const CarouselItem = ({
+  children,
+  className = "",
+}: CarouselItemProps) => {
+  return <div className={`flex-shrink-0 w-full ${className}`}>{children}</div>;
 };

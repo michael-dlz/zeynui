@@ -1,10 +1,62 @@
+"use client";
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState, Children, isValidElement, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, Children, isValidElement } from "react";
+import { motion } from "framer-motion";
 import { Ripple } from "./Ripples";
 import { useRipples } from "../hook/useRipples";
-export const Tabs = ({ children, defaultTab, color = "danger", variant = "soft", radius = "none", className = "", isIconOnly = false, size = "md", onSelectionChange, }) => {
-    const [activeTab, setActiveTab] = useState("");
+export const Tabs = ({ children, defaultTab, color = "primary", variant = "solid", radius = "none", className = "", size = "md", onSelectionChange, }) => {
+    const [activeTab, setActiveTab] = useState(() => {
+        // Si no se proporciona un defaultTab, busca la pestaña con isDefault
+        if (!defaultTab) {
+            const defaultTabChild = Children.toArray(children)
+                .filter(isValidElement)
+                .find((child) => child.props.isDefault);
+            return defaultTabChild
+                ? defaultTabChild.props.title
+                : "";
+        }
+        return defaultTab;
+    });
+    const handleTabChange = (title) => {
+        setActiveTab(title);
+        if (onSelectionChange)
+            onSelectionChange(title);
+    };
+    return (_jsxs("div", { className: `w-full flex flex-col gap-4 ${className}`, children: [_jsx("div", { className: "overflow-x-auto", children: _jsx(motion.div, { className: "flex", initial: { opacity: 0, y: -20 }, animate: { opacity: 1, y: 0 }, children: children &&
+                        Children.toArray(children)
+                            .filter(isValidElement)
+                            .map((child) => {
+                            if (!isValidElement(child))
+                                return null;
+                            const { title, leftContent, rightContent, topContent, bottomContent, active, // Prop active
+                             } = child.props;
+                            const isActive = active !== undefined ? active : activeTab === title;
+                            const { createRipple, ripples } = useRipples();
+                            return (_jsxs("button", { onClick: (e) => {
+                                    handleTabChange(title);
+                                    createRipple(e);
+                                }, className: `
+                      relative overflow-hidden px-6 py-3 font-medium 
+                      inline-flex flex-col items-center gap-2
+                      transition-all duration-200 ease-in-out
+                      disabled:opacity-50 disabled:cursor-not-allowed z-20
+                      cursor-pointer whitespace-nowrap
+                      ${getRadiusClasses(radius)}
+                      ${getSizeClasses(size)}
+                      ${getTabClasses(color, variant, isActive)}
+                    `, children: [topContent && _jsx("div", { children: topContent }), _jsxs("div", { className: "flex items-center gap-2", children: [leftContent && _jsx("div", { children: leftContent }), title, rightContent && _jsx("div", { children: rightContent })] }), bottomContent && _jsx("div", { children: bottomContent }), _jsx(Ripple, { variant: variant, ripples: ripples, color: color })] }));
+                        }) }) }), _jsx("div", { className: "relative", children: Children.map(children, (child) => {
+                    if (!isValidElement(child))
+                        return null;
+                    const { title, active } = child.props;
+                    const isActive = active !== undefined ? active : activeTab === title;
+                    if (!isActive)
+                        return null;
+                    return _jsx("div", { children: child.props.children }, title);
+                }) })] }));
+};
+// Funciones de utilidad
+const getTabClasses = (color, variant, isActive) => {
     const tabClasses = {
         solid: {
             primary: { active: "bg-primary text-white", inactive: "text-primary" },
@@ -166,86 +218,30 @@ export const Tabs = ({ children, defaultTab, color = "danger", variant = "soft",
             },
         },
     };
-    // Obtener los títulos de las pestañas
-    const tabs = Children.toArray(children)
-        .filter((child) => isValidElement(child) &&
-        typeof child.props.title ===
-            "string")
-        .map((child) => isValidElement(child) && child.props.title);
-    // Establecer la pestaña activa por defecto
-    useEffect(() => {
-        setActiveTab(defaultTab || tabs[0] || "");
-    }, [defaultTab]);
-    // Notificar cuando cambia la pestaña seleccionada
-    useEffect(() => {
-        if (onSelectionChange) {
-            onSelectionChange(activeTab);
-        }
-    }, [activeTab, onSelectionChange]);
-    // Mapeo de clases de color (con estados activo e inactivo)
-    // Funciones de utilidad
-    const getTabClasses = (colorName, variant, isActive) => {
-        return tabClasses[variant][colorName][isActive ? "active" : "inactive"];
-    };
-    const getRadiusClasses = (radiusSize) => {
-        const radiusMap = {
-            none: "rounded-none",
-            sm: "rounded-sm",
-            md: "rounded-md",
-            lg: "rounded-lg",
-            full: "rounded-full",
-        };
-        return radiusMap[radiusSize];
-    };
-    const getSizeClasses = (buttonSize, isIconOnly) => {
-        if (isIconOnly) {
-            const iconSizeMap = {
-                sm: "w-8 h-8 text-lg",
-                md: "w-10 h-10 text-xl",
-                lg: "w-12 h-12 text-2xl",
-                xl: "w-14 h-14 text-3xl",
-            };
-            return iconSizeMap[buttonSize];
-        }
-        const sizeMap = {
-            sm: "text-xs px-3 py-1.5",
-            md: "text-sm px-6 py-3",
-            lg: "text-base px-9 py-4",
-            xl: "text-lg px-12 py-5",
-        };
-        return sizeMap[buttonSize];
-    };
-    return (_jsxs("div", { className: `w-full flex flex-col gap-4 ${className}`, children: [_jsx(motion.div, { className: `flex`, initial: { opacity: 0, y: -20 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.3 }, children: Children.map(children, (child) => {
-                    if (!isValidElement(child))
-                        return null;
-                    const { title } = child
-                        .props;
-                    const isActive = activeTab === title;
-                    // Cada botón tiene su propio estado de ripples
-                    const { createRipple, ripples } = useRipples();
-                    return (_jsxs("button", { onClick: (e) => {
-                            setActiveTab(title);
-                            createRipple(e);
-                        }, className: `
-                  relative overflow-hidden px-6 py-3 font-medium 
-                  inline-flex items-center gap-2
-                  transition-all duration-200 ease-in-out
-                  disabled:opacity-50 disabled:cursor-not-allowed z-20
-                  cursor-pointer
-                  ${getRadiusClasses(radius)}
-                  ${getSizeClasses(size, isIconOnly)}
-                  ${getTabClasses(color, variant, isActive)}
-                `, children: [title, _jsx(Ripple, { variant: variant, ripples: ripples, color: color })] }));
-                }) }), _jsx("div", { className: "relative", children: _jsx(AnimatePresence, { mode: "wait", children: Children.map(children, (child) => {
-                        if (!isValidElement(child))
-                            return null;
-                        const { title } = child
-                            .props;
-                        if (activeTab !== title)
-                            return null;
-                        return (_jsx(motion.div, { initial: { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -10 }, transition: { duration: 0.2 }, children: child }, title));
-                    }) }) })] }));
+    return isActive
+        ? tabClasses[variant][color].active
+        : tabClasses[variant][color].inactive;
 };
-export const Tab = ({ children, className = "" }) => {
-    return _jsx("div", { className: `${className}`, children: children });
+const getRadiusClasses = (radius) => {
+    const radiusMap = {
+        none: "rounded-none",
+        sm: "rounded-sm",
+        md: "rounded-md",
+        lg: "rounded-lg",
+        full: "rounded-full",
+    };
+    return radiusMap[radius];
+};
+const getSizeClasses = (size) => {
+    const sizeMap = {
+        sm: "text-xs px-3 py-1.5",
+        md: "text-sm px-6 py-3",
+        lg: "text-base px-9 py-4",
+        xl: "text-lg px-12 py-5",
+        "2xl": "text-xl px-14 py-6",
+    };
+    return sizeMap[size];
+};
+export const Tab = ({ title, children, leftContent, rightContent, topContent, bottomContent, as: Component = "div", href, }) => {
+    return (_jsxs(Component, { href: href, className: "w-full", children: [topContent && _jsx("div", { children: topContent }), _jsxs("div", { className: "flex items-center gap-2", children: [leftContent && _jsx("div", { children: leftContent }), title, rightContent && _jsx("div", { children: rightContent })] }), bottomContent && _jsx("div", { children: bottomContent }), children] }));
 };

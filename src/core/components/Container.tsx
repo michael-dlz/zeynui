@@ -38,7 +38,7 @@ export const Container = ({
         w-full
         px-6
         sm:px-10 
-        lg:px-20
+        2xl:px-20
         ${getSizeClass()}
         ${className}
       `}
