@@ -317,8 +317,6 @@ const getSizeClasses = (size: SizeVariant): string => {
     sm: "text-xs px-3 py-1.5",
     md: "text-sm px-6 py-3",
     lg: "text-base px-9 py-4",
-    xl: "text-lg px-12 py-5",
-    "2xl": "text-xl px-14 py-6",
   };
   return sizeMap[size];
 };

@@ -6,11 +6,11 @@ export const Container = ({ children, className = "", as: Component = "div", siz
             case "sm":
                 return "max-w-[1024px]";
             case "md":
-                return "max-w-[1240px]";
+                return "max-w-[1290px]";
             case "lg":
-                return "max-w-[1920px]";
+                return "max-w-[1440px]";
             case "xl":
-                return "max-w-[1240px]";
+                return "max-w-[1920px]";
             case "2xl":
                 return "max-w-[2560px]";
             default:

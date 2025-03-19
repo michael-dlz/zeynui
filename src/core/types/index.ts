@@ -7,7 +7,8 @@ export type ColorVariant =
   | "info"
   | "whatsapp";
 export type RadiusVariant = "none" | "sm" | "md" | "lg" | "full";
-export type SizeVariant = "sm" | "md" | "lg" | "xl" | "2xl";
+export type SizeVariant = "sm" | "md" | "lg";
+export type ContainerSizeVariant = "sm" | "md" | "lg" | "xl" | "2xl" | "full";
 export type StyleVariant =
   | "solid"
   | "outline"

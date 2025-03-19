@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useContext } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import { JustifyNavbar, PositionNavbar, SizeVariant } from "../types";
+import { ContainerSizeVariant, JustifyNavbar, PositionNavbar } from "../types";
 import { Button } from "./Button";
 import { Drawer, DrawerBody } from "./Drawer";
 import { useDisclosure } from "../hook/useDisclosure";
@@ -11,7 +11,7 @@ export interface NavbarProps {
   className?: string;
   position?: PositionNavbar;
   transparent?: boolean;
-  size?: SizeVariant;
+  size?: ContainerSizeVariant;
   responsive?: React.ReactNode;
   justify?: JustifyNavbar;
 }

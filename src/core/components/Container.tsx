@@ -1,12 +1,12 @@
 "use client";
 
 import React, { JSX } from "react";
-import { SizeVariant } from "../types";
+import { ContainerSizeVariant, SizeVariant } from "../types";
 interface ContainerProps {
   children: React.ReactNode;
   className?: string;
   as?: keyof JSX.IntrinsicElements;
-  size?: SizeVariant;
+  size?: ContainerSizeVariant;
 }
 export const Container = ({
   children,
