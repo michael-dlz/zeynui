@@ -81,6 +81,8 @@ export const Navbar = ({
         return "max-w-[1920px]";
       case "2xl":
         return "max-w-[2560px]";
+      case "full":
+        return "w-full";
       default:
         return "";
     }
@@ -93,9 +95,9 @@ export const Navbar = ({
           className={`
           mx-auto
           w-full py-3
-          px-6
-          sm:px-10 
-          2xl:px-20 ${getSizeClass()} ${getJustifyClass()} flex items-center`}
+        ${
+          size === "full" ? "px-0" : "px-6 sm:px-10 2xl:px-20"
+        } ${getSizeClass()} ${getJustifyClass()} flex items-center`}
         >
           {responsive && (
             <div className="flex md:hidden">
