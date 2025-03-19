@@ -13,6 +13,8 @@ export const Container = ({ children, className = "", as: Component = "div", siz
                 return "max-w-[1920px]";
             case "2xl":
                 return "max-w-[2560px]";
+            case "full":
+                return "w-full";
             default:
                 return "";
         }
@@ -20,9 +22,7 @@ export const Container = ({ children, className = "", as: Component = "div", siz
     return (_jsx(Component, { className: `
         mx-auto
         w-full
-        px-6
-        sm:px-10 
-        2xl:px-20
+        ${size === "full" ? "px-0" : "px-6 sm:px-10 2xl:px-20"}
         ${getSizeClass()}
         ${className}
       `, children: children }));

@@ -51,6 +51,8 @@ export const Navbar = ({ children, className = "", position = "sticky", size = "
                 return "max-w-[1920px]";
             case "2xl":
                 return "max-w-[2560px]";
+            case "full":
+                return "w-full";
             default:
                 return "";
         }
@@ -58,9 +60,7 @@ export const Navbar = ({ children, className = "", position = "sticky", size = "
     return (_jsx("nav", { className: `${className} ${getPositionClass()}`, children: _jsx("div", { children: _jsxs("div", { className: `
           mx-auto
           w-full py-3
-          px-6
-          sm:px-10 
-          2xl:px-20 ${getSizeClass()} ${getJustifyClass()} flex items-center`, children: [responsive && (_jsx("div", { className: "flex md:hidden", children: _jsx(Button, { variant: "light", isIconOnly: true, onClick: onOpen, children: _jsx(Bars3Icon, { className: "size-6" }) }) })), children, _jsx(Drawer, { isOpen: isOpen, onClose: onClose, placement: "right", size: "md", backdrop: "blur", children: _jsx(DrawerBody, { children: responsive }) })] }) }) }));
+        ${size === "full" ? "px-0" : "px-6 sm:px-10 2xl:px-20"} ${getSizeClass()} ${getJustifyClass()} flex items-center`, children: [responsive && (_jsx("div", { className: "flex md:hidden", children: _jsx(Button, { variant: "light", isIconOnly: true, onClick: onOpen, children: _jsx(Bars3Icon, { className: "size-6" }) }) })), children, _jsx(Drawer, { isOpen: isOpen, onClose: onClose, placement: "right", size: "md", backdrop: "blur", children: _jsx(DrawerBody, { children: responsive }) })] }) }) }));
 };
 export const NavbarStart = ({ children, className = "" }) => {
     return _jsx("div", { className: `flex items-center ${className}`, children: children });

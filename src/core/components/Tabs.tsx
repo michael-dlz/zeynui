@@ -80,6 +80,7 @@ export const Tabs = ({
 
                 return (
                   <button
+                    key={title}
                     onClick={(e) => {
                       handleTabChange(title);
                       createRipple(e);
