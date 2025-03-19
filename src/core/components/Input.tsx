@@ -203,8 +203,6 @@ const SIZE_CLASSES: Record<SizeVariant, string> = {
   sm: "text-xs p-2",
   md: "text-sm p-3",
   lg: "text-base p-4",
-  xl: "text-lg p-5",
-  "2xl": "text-xl p-6",
 };
 
 // Función para generar clases dinámicas

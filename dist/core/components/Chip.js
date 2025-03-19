@@ -83,8 +83,6 @@ export const Chip = (_a) => {
                 sm: "w-6 h-6 text-sm",
                 md: "w-8 h-8 text-base",
                 lg: "w-10 h-10 text-lg",
-                xl: "w-12 h-12 text-xl",
-                "2xl": "w-14 h-14 text-2xl",
             };
             return iconSizeMap[chipSize];
         }
@@ -92,8 +90,6 @@ export const Chip = (_a) => {
             sm: "text-xs px-2 py-1",
             md: "text-sm px-3 py-1.5",
             lg: "text-base px-4 py-2",
-            xl: "text-lg px-5 py-2.5",
-            "2xl": "text-xl px-6 py-3",
         };
         return sizeMap[chipSize];
     };

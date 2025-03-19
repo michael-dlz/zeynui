@@ -1,11 +1,11 @@
 import React from "react";
-import { JustifyNavbar, PositionNavbar, SizeVariant } from "../types";
+import { ContainerSizeVariant, JustifyNavbar, PositionNavbar } from "../types";
 export interface NavbarProps {
     children: React.ReactNode;
     className?: string;
     position?: PositionNavbar;
     transparent?: boolean;
-    size?: SizeVariant;
+    size?: ContainerSizeVariant;
     responsive?: React.ReactNode;
     justify?: JustifyNavbar;
 }
