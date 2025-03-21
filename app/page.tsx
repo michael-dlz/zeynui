@@ -406,6 +406,7 @@ const homePage = () => {
           slidesToShow={1}
           navigation
           spacing={0}
+          thumbnails
         >
           <CarouselItem>
             <img

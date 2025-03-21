@@ -218,7 +218,7 @@ export const Carousel = ({
                 <button
                   key={index}
                   onClick={() => scrollTo(index)}
-                  className={`flex-[0_0_100px] min-w-0 transition-opacity rounded-lg overflow-hidden
+                  className={`flex-[0_0_100px] min-w-0 transition-opacity rounded-lg overflow-hidden aspect-square h-20 object-cover bg-neutral-50
                     ${
                       selectedIndex === index
                         ? ""
