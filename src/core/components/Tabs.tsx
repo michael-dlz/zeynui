@@ -47,8 +47,11 @@ export const Tabs = ({
     return defaultTab;
   });
 
-  const handleTabChange = (title: string) => {
+  const { createRipple, ripples } = useRipples();
+
+  const handleTabChange = (title: string, event: React.MouseEvent) => {
     setActiveTab(title);
+    createRipple(event as React.MouseEvent<HTMLElement, MouseEvent>);
     if (onSelectionChange) onSelectionChange(title);
   };
 
@@ -71,30 +74,23 @@ export const Tabs = ({
                   rightContent,
                   topContent,
                   bottomContent,
-                  active, // Prop active
+                  active,
                 } = child.props as TabProps;
                 const isActive =
                   active !== undefined ? active : activeTab === title;
 
-                const { createRipple, ripples } = useRipples();
-
                 return (
                   <button
                     key={title}
-                    onClick={(e) => {
-                      handleTabChange(title);
-                      createRipple(e);
-                    }}
-                    className={`
-                      relative overflow-hidden px-6 py-3 font-medium 
+                    onClick={(e) => handleTabChange(title, e)}
+                    className={`relative overflow-hidden px-6 py-3 font-medium 
                       inline-flex flex-col items-center gap-2
                       transition-all duration-200 ease-in-out
                       disabled:opacity-50 disabled:cursor-not-allowed z-20
                       cursor-pointer whitespace-nowrap
                       ${getRadiusClasses(radius)}
                       ${getSizeClasses(size)}
-                      ${getTabClasses(color, variant, isActive)}
-                    `}
+                      ${getTabClasses(color, variant, isActive)}`}
                   >
                     {topContent && <div>{topContent}</div>}
                     <div className="flex items-center gap-2">
