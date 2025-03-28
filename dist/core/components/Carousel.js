@@ -89,7 +89,7 @@ export const Carousel = ({ children, navigation = false, pagination = false, thu
             emblaApi.off("reInit", onSelect);
         };
     }, [emblaApi, onSelect]);
-    return (_jsxs("div", { className: `relative w-full`, onMouseEnter: () => setAutoplayPaused(true), onMouseLeave: () => setAutoplayPaused(false), children: [_jsxs("div", { className: `relative overflow-hidden ${className}`, children: [_jsx("div", { ref: emblaRef, className: "overflow-hidden", children: _jsx("div", { className: `flex touch-pan-y ${isDragging ? "cursor-grabbing" : "cursor-grab"}`, style: {
+    return (_jsxs("div", { className: `relative w-full h-full`, onMouseEnter: () => setAutoplayPaused(true), onMouseLeave: () => setAutoplayPaused(false), children: [_jsxs("div", { className: `relative overflow-hidden ${className}`, children: [_jsx("div", { ref: emblaRef, className: "overflow-hidden", children: _jsx("div", { className: `flex touch-pan-y ${isDragging ? "cursor-grabbing" : "cursor-grab"}`, style: {
                                 gap: `${spacing}px`,
                                 width: `calc(100% + ${spacing}px)`,
                             }, children: Children.map(children, (child, index) => (_jsx("div", { className: "flex-shrink-0", style: {

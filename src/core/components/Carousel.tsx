@@ -135,9 +135,9 @@ export const Carousel = ({
       onMouseLeave={() => setAutoplayPaused(false)}
     >
       <div className={`relative overflow-hidden ${className}`}>
-        <div ref={emblaRef} className="overflow-hidden">
+        <div ref={emblaRef} className="overflow-hidden h-full">
           <div
-            className={`flex touch-pan-y ${
+            className={`flex touch-pan-y h-full ${
               isDragging ? "cursor-grabbing" : "cursor-grab"
             }`}
             style={{
