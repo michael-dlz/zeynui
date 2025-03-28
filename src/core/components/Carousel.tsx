@@ -130,7 +130,7 @@ export const Carousel = ({
 
   return (
     <div
-      className={`relative w-full`}
+      className={`relative w-full h-full`}
       onMouseEnter={() => setAutoplayPaused(true)}
       onMouseLeave={() => setAutoplayPaused(false)}
     >

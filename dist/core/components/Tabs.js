@@ -17,8 +17,10 @@ export const Tabs = ({ children, defaultTab, color = "primary", variant = "solid
         }
         return defaultTab;
     });
-    const handleTabChange = (title) => {
+    const { createRipple, ripples } = useRipples();
+    const handleTabChange = (title, event) => {
         setActiveTab(title);
+        createRipple(event);
         if (onSelectionChange)
             onSelectionChange(title);
     };
@@ -28,23 +30,16 @@ export const Tabs = ({ children, defaultTab, color = "primary", variant = "solid
                             .map((child) => {
                             if (!isValidElement(child))
                                 return null;
-                            const { title, leftContent, rightContent, topContent, bottomContent, active, // Prop active
-                             } = child.props;
+                            const { title, leftContent, rightContent, topContent, bottomContent, active, } = child.props;
                             const isActive = active !== undefined ? active : activeTab === title;
-                            const { createRipple, ripples } = useRipples();
-                            return (_jsxs("button", { onClick: (e) => {
-                                    handleTabChange(title);
-                                    createRipple(e);
-                                }, className: `
-                      relative overflow-hidden px-6 py-3 font-medium 
+                            return (_jsxs("button", { onClick: (e) => handleTabChange(title, e), className: `relative overflow-hidden px-6 py-3 font-medium 
                       inline-flex flex-col items-center gap-2
                       transition-all duration-200 ease-in-out
                       disabled:opacity-50 disabled:cursor-not-allowed z-20
                       cursor-pointer whitespace-nowrap
                       ${getRadiusClasses(radius)}
                       ${getSizeClasses(size)}
-                      ${getTabClasses(color, variant, isActive)}
-                    `, children: [topContent && _jsx("div", { children: topContent }), _jsxs("div", { className: "flex items-center gap-2", children: [leftContent && _jsx("div", { children: leftContent }), title, rightContent && _jsx("div", { children: rightContent })] }), bottomContent && _jsx("div", { children: bottomContent }), _jsx(Ripple, { variant: variant, ripples: ripples, color: color })] }, title));
+                      ${getTabClasses(color, variant, isActive)}`, children: [topContent && _jsx("div", { children: topContent }), _jsxs("div", { className: "flex items-center gap-2", children: [leftContent && _jsx("div", { children: leftContent }), title, rightContent && _jsx("div", { children: rightContent })] }), bottomContent && _jsx("div", { children: bottomContent }), _jsx(Ripple, { variant: variant, ripples: ripples, color: color })] }, title));
                         }) }) }), _jsx("div", { className: "relative", children: Children.map(children, (child) => {
                     if (!isValidElement(child))
                         return null;
