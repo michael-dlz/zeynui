@@ -139,7 +139,7 @@ export const Drawer = ({
                 mass: 0.2,
               }}
               style={getPlacementStyles(placement, size)}
-              className="fixed z-50 bg-white shadow-xl"
+              className="fixed z-50 bg-white shadow-xl overflow-auto"
             >
               <XMarkIcon
                 className="absolute size-6 top-4 right-4 cursor-pointer p-1 rounded-full hover:bg-gray-100"

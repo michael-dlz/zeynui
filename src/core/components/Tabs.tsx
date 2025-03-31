@@ -91,6 +91,7 @@ export const Tabs = ({
                       ${getRadiusClasses(radius)}
                       ${getSizeClasses(size)}
                       ${getTabClasses(color, variant, isActive)}`}
+                    type="button"
                   >
                     {topContent && <div>{topContent}</div>}
                     <div className="flex items-center gap-2">

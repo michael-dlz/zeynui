@@ -381,10 +381,64 @@ const homePage = () => {
             <h2 className="text-xl font-semibold">Drawer Header</h2>
           </DrawerHeader>
           <DrawerBody>
-            <p>
-              Este es el contenido del drawer. Puedes poner cualquier contenido
-              aquí.
-            </p>
+            {[...Array(6)].map((_, index) => (
+              <Card key={index} className="shadow-lg">
+                <CardHeader className="space-y-2 ">
+                  <Typography size="base" weight="bold">
+                    Kia Cerato 2021
+                  </Typography>
+                </CardHeader>
+                <CardImage>
+                  <Carousel
+                    loop
+                    pagination
+                    slidesToShow={1}
+                    navigation
+                    spacing={0}
+                  >
+                    <CarouselItem>
+                      <img
+                        src="https://plp-statics.s3.amazonaws.com/auction/image/d55e47fa-ee56-4e10-865e-76950f70da5d.jpg"
+                        alt="carousel"
+                        className="w-full h-full object-cover"
+                      />
+                    </CarouselItem>
+                    <CarouselItem>
+                      <img
+                        src="https://plp-statics.s3.amazonaws.com/auction/image/d55e47fa-ee56-4e10-865e-76950f70da5d.jpg"
+                        alt="carousel"
+                        className="w-full h-full object-cover"
+                      />
+                    </CarouselItem>
+                  </Carousel>
+                </CardImage>
+                <CardContent>
+                  <Typography size="sm" as="p">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                  </Typography>
+                </CardContent>
+                <CardFooter className="flex justify-between gap-2">
+                  <Button
+                    color="danger"
+                    variant="soft"
+                    radius="md"
+                    leftContent={<XCircleIcon className="size-4" />}
+                  >
+                    Rechazar
+                  </Button>
+                  <Button
+                    color="success"
+                    variant="soft"
+                    radius="md"
+                    leftContent={<CheckCircleIcon className="size-4" />}
+                  >
+                    Aceptar
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
           </DrawerBody>
           <DrawerFooter>
             <div className="flex justify-end gap-2">
