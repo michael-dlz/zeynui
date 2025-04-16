@@ -1,13 +1,13 @@
 {
   "name": "@zeynui/react",
-  "version": "0.6.3",
+  "version": "0.5.10",
   "description": "Zeynui | A React-based UI library with free and premium components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "style": "dist/styles/global.css",
+  "style": "dist/styles/globals.css",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && mkdirp dist/styles && copyfiles -u 1 src/styles/global.css dist/styles/",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && node -e \"require('fs').mkdirSync('dist/styles', { recursive: true }); require('fs').copyFileSync('src/styles/globals.css', 'dist/styles/globals.css')\"",
     "start": "next start",
     "prepare": "npm run build",
     "lint": "eslint src --ext .ts,.tsx",
@@ -18,7 +18,6 @@
     "embla-carousel": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
     "framer-motion": "^12.4.10",
-    "mkdirp": "^3.0.1",
     "next": "15.2.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -31,13 +30,17 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "copyfiles": "^2.4.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
   "files": [
     "dist"
   ],
+  "tailwind": {
+    "content": [
+      "./dist/**/*.js"
+    ]
+  },
   "keywords": [
     "react",
     "ui",
@@ -49,11 +52,5 @@
   "repository": {
     "type": "git",
     "url": ""
-  },
-  "tailwind": {
-    "content": [
-      "./dist/**/*.{js,ts,jsx,tsx}",
-      "./src/**/*.{js,ts,jsx,tsx}"
-    ]
   }
 }

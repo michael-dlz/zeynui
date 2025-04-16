@@ -2,11 +2,7 @@
   "compilerOptions": {
     "target": "ES2017",
     "outDir": "dist",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -27,17 +23,11 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["src/*"]
     },
     "noEmit": true
   },
-  "include": [
-    "font/**/*",
-    "src/**/*",
-    ".next/types/**/*.ts"
-  ],
+  "include": ["font/**/*", "src/**/*", "src/**/*.css", ".next/types/**/*.ts"],
   "exclude": [
     "node_modules",
     "dist",
