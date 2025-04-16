@@ -4,17 +4,11 @@
   "description": "Zeynui | A React-based UI library with free and premium components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "style": "dist/styles/globals.css",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && node -e \"require('fs').mkdirSync('dist/styles', { recursive: true }); require('fs').copyFileSync('src/styles/globals.css', 'dist/styles/globals.css')\"",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "prepare": "npm run build",
     "lint": "eslint src --ext .ts,.tsx"
-  },
-  "peerDependencies": {
-    "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0",
-    "tailwindcss": ">=4.1.0"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -40,11 +34,6 @@
   "files": [
     "dist"
   ],
-  "tailwind": {
-    "content": [
-      "./dist/**/*.js"
-    ]
-  },
   "keywords": [
     "react",
     "ui",
