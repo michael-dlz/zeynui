@@ -1,6 +1,6 @@
 {
   "name": "@zeynui/react",
-  "version": "0.6.11",
+  "version": "0.6.12",
   "description": "Zeynui | A React-based UI library with free and premium components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
