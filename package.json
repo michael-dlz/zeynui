@@ -13,9 +13,6 @@
     "lint": "eslint src --ext .ts,.tsx",
     "test": "jest"
   },
-  "peerDependencies": {
-    "tailwindcss": "^4.1.0"
-  },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "embla-carousel": "^8.5.2",
