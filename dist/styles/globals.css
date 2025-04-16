@@ -1,13 +1,14 @@
 :root {
-  /* Cambia a formato RGB (sin #) */
-  --color-primary: 113 79 211;
-  --color-secondary: 113 113 122;
-  --color-danger: 243 18 96;
-  --color-warning: 245 165 36;
-  --color-success: 23 201 100;
-  --color-info: 126 231 252;
-  --color-black: 20 20 20;
-  --color-whatsapp: 18 140 126;
+  /* COLORS */
+
+  --color-primary: #714fd3;
+  --color-secondary: #71717a;
+  --color-danger: #f31260;
+  --color-warning: #f5a524;
+  --color-success: #17c964;
+  --color-info: #7ee7fc;
+  --color-black: #141414;
+  --color-whatsapp: #128c7e;
 
   /* KEYFRAMES */
 
@@ -44,32 +45,4 @@
   --rounded-lg: 0.75rem;
   --rounded-xl: 1.5rem;
   --rounded-full: 9999px;
-
-  @layer utilities {
-    /* Colores */
-    .bg-primary {
-      background-color: rgb(var(--color-primary));
-    }
-    .text-primary {
-      color: rgb(var(--color-primary));
-    }
-
-    /* Animaciones */
-    .animate-ripple {
-      animation: ripple 0.5s ease-out forwards;
-    }
-
-    /* Sombras */
-    .shadow-sm {
-      box-shadow: var(--shadow-sm);
-    }
-    .shadow-md {
-      box-shadow: var(--shadow-md);
-    }
-
-    /* Bordes */
-    .rounded-md {
-      border-radius: var(--rounded-md);
-    }
-  }
 }
