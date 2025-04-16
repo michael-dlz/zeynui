@@ -35,8 +35,7 @@
     "typescript": "^5"
   },
   "files": [
-    "dist",
-    "src/styles"
+    "dist"
   ],
   "keywords": [
     "react",
