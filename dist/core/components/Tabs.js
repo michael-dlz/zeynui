@@ -39,7 +39,7 @@ export const Tabs = ({ children, defaultTab, color = "primary", variant = "solid
                       cursor-pointer whitespace-nowrap
                       ${getRadiusClasses(radius)}
                       ${getSizeClasses(size)}
-                      ${getTabClasses(color, variant, isActive)}`, children: [topContent && _jsx("div", { children: topContent }), _jsxs("div", { className: "flex items-center gap-2", children: [leftContent && _jsx("div", { children: leftContent }), title, rightContent && _jsx("div", { children: rightContent })] }), bottomContent && _jsx("div", { children: bottomContent }), _jsx(Ripple, { variant: variant, ripples: ripples, color: color })] }, title));
+                      ${getTabClasses(color, variant, isActive)}`, type: "button", children: [topContent && _jsx("div", { children: topContent }), _jsxs("div", { className: "flex items-center gap-2", children: [leftContent && _jsx("div", { children: leftContent }), title, rightContent && _jsx("div", { children: rightContent })] }), bottomContent && _jsx("div", { children: bottomContent }), _jsx(Ripple, { variant: variant, ripples: ripples, color: color })] }, title));
                         }) }) }), _jsx("div", { className: "relative", children: Children.map(children, (child) => {
                     if (!isValidElement(child))
                         return null;

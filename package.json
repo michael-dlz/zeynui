@@ -4,9 +4,10 @@
   "description": "Zeynui | A React-based UI library with free and premium components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "style": "dist/styles/global.css",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && copyfiles src/styles/*.css dist/styles",
     "start": "next start",
     "prepare": "npm run build",
     "lint": "eslint src --ext .ts,.tsx",
@@ -29,11 +30,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "copyfiles": "^3.0.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
   "files": [
-    "dist"
+    "dist",
+    "src/styles"
   ],
   "keywords": [
     "react",
@@ -46,5 +49,11 @@
   "repository": {
     "type": "git",
     "url": ""
+  },
+  "tailwind": {
+    "content": [
+      "./dist/**/*.{js,ts,jsx,tsx}",
+      "./src/**/*.{js,ts,jsx,tsx}"
+    ]
   }
 }

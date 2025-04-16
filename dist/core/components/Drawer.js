@@ -96,7 +96,7 @@ export const Drawer = ({ children, isOpen, onClose, placement = "right", size = 
                             damping: 15,
                             stiffness: 300,
                             mass: 0.2,
-                        }, style: getPlacementStyles(placement, size), className: "fixed z-50 bg-white shadow-xl", children: [_jsx(XMarkIcon, { className: "absolute size-6 top-4 right-4 cursor-pointer p-1 rounded-full hover:bg-gray-100", onClick: onClose, "aria-label": "Close drawer" }), children] })] })) }) }));
+                        }, style: getPlacementStyles(placement, size), className: "fixed z-50 bg-white shadow-xl overflow-auto", children: [_jsx(XMarkIcon, { className: "absolute size-6 top-4 right-4 cursor-pointer p-1 rounded-full hover:bg-gray-100", onClick: onClose, "aria-label": "Close drawer" }), children] })] })) }) }));
 };
 export const DrawerHeader = ({ children }) => {
     return _jsx("div", { className: "px-6 py-4", children: children });
