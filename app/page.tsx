@@ -303,7 +303,7 @@ const homePage = () => {
               <Button
                 variant="outline"
                 isElevation={false}
-                rightContent={<ArrowDownTrayIcon className="size-4" />}
+                topContent={<ArrowDownTrayIcon className="size-4" />}
               >
                 Open Menu
               </Button>

@@ -193,8 +193,8 @@ export const Button = <C extends React.ElementType = "button">({
         cursor-pointer
         overflow-hidden 
         font-medium
-        inline-flex 
-        flex-col 
+        flex
+        ${leftContent || rightContent ? "" : "flex-col inline-flex"}
         items-center 
         gap-1
         transition-all 
