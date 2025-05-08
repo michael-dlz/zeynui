@@ -11,21 +11,23 @@ type PolymorphicComponentProp<
   Props = {}
 > = React.PropsWithChildren<Props & AsProp<C>> &
   Omit<ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
-type TypographyProps = {
+type TextProps = {
   size?: SizeVariant;
   className?: string;
   weight?: "normal" | "medium" | "semibold" | "bold";
 };
-type TypographyComponentProps<C extends React.ElementType> =
-  PolymorphicComponentProp<C, TypographyProps>;
-export const Typography = <C extends React.ElementType = "p">({
+type TextComponentProps<C extends React.ElementType> = PolymorphicComponentProp<
+  C,
+  TextProps
+>;
+export const Text = <C extends React.ElementType = "p">({
   size = "base",
   className = "",
   weight = "normal",
   children,
   as,
   ...props
-}: TypographyComponentProps<C>) => {
+}: TextComponentProps<C>) => {
   const getSizeClasses = (size: SizeVariant) => {
     const sizeMap = {
       xs: `
@@ -85,7 +87,6 @@ export const Typography = <C extends React.ElementType = "p">({
   return (
     <Component
       className={`
-        m-0 p-0
         ${getSizeClasses(size)}
         ${getWeightClasses(weight)}
         ${as === "p" ? "text-[#545c75]" : ""}

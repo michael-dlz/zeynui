@@ -1,5 +1,5 @@
 import { forwardRef, InputHTMLAttributes } from "react";
-import { Typography } from "./Typography";
+import { Text } from "./Text";
 import {
   ColorVariant,
   LabelPlacement,
@@ -281,14 +281,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full grid gap-1">
         {labelPlacement === "outside" && (
-          <Typography as="label" htmlFor={id} weight="semibold" size="sm">
+          <Text as="label" htmlFor={id} weight="semibold" size="sm">
             {label} {required && <span className="text-danger">*</span>}
-          </Typography>
+          </Text>
         )}
         {description && !(labelPlacement === "outside-left") && (
-          <Typography size="sm" weight="normal" as="p">
+          <Text size="sm" weight="normal" as="p">
             {description}
-          </Typography>
+          </Text>
         )}
         <div
           className={
@@ -299,14 +299,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         >
           <div className="">
             {labelPlacement === "outside-left" && (
-              <Typography as="label" htmlFor={id} weight="semibold" size="sm">
+              <Text as="label" htmlFor={id} weight="semibold" size="sm">
                 {label} {required && <span className="text-danger">*</span>}
-              </Typography>
+              </Text>
             )}
             {description && labelPlacement === "outside-left" && (
-              <Typography size="xs" weight="normal" as="p">
+              <Text size="xs" weight="normal" as="p">
                 {description}
-              </Typography>
+              </Text>
             )}
           </div>
           <div className={wrapperClasses}>
@@ -338,9 +338,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {error && typeof error === "string" && (
           <div className="flex items-center gap-1 mt-1.5 text-danger text-sm">
             <span>{"x"}</span>
-            <Typography as="span" size="xs" className="!text-danger">
+            <Text as="span" size="xs" className="!text-danger">
               {error}
-            </Typography>
+            </Text>
           </div>
         )}
       </div>

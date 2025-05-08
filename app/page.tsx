@@ -32,7 +32,7 @@ import {
   Tab,
   Tabs,
   Tooltip,
-  Typography,
+  Text,
   useDisclosure,
 } from "../src/core";
 import { colors } from "../utils/colors";
@@ -292,9 +292,9 @@ const homePage = () => {
         </div>
       </Container>
       <Container className="py-10">
-        <Typography size="2xl" weight="semibold" as="h3">
+        <Text size="2xl" weight="semibold" as="h3">
           Hola, soy un título
-        </Typography>
+        </Text>
       </Container>
       <Container className="py-10">
         <Dropdown>
@@ -384,9 +384,9 @@ const homePage = () => {
             {[...Array(6)].map((_, index) => (
               <Card key={index} className="shadow-lg">
                 <CardHeader className="space-y-2 ">
-                  <Typography size="base" weight="bold">
+                  <Text size="base" weight="bold">
                     Kia Cerato 2021
-                  </Typography>
+                  </Text>
                 </CardHeader>
                 <CardImage>
                   <Carousel
@@ -413,11 +413,11 @@ const homePage = () => {
                   </Carousel>
                 </CardImage>
                 <CardContent>
-                  <Typography size="sm" as="p">
+                  <Text size="sm" as="p">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
                     do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua.
-                  </Typography>
+                  </Text>
                 </CardContent>
                 <CardFooter className="flex justify-between gap-2">
                   <Button
@@ -486,9 +486,9 @@ const homePage = () => {
           {[...Array(6)].map((_, index) => (
             <Card key={index} className="shadow-lg">
               <CardHeader className="space-y-2 ">
-                <Typography size="base" weight="bold">
+                <Text size="base" weight="bold">
                   Kia Cerato 2021
-                </Typography>
+                </Text>
               </CardHeader>
               <CardImage>
                 <Carousel
@@ -515,10 +515,10 @@ const homePage = () => {
                 </Carousel>
               </CardImage>
               <CardContent>
-                <Typography size="sm" as="p">
+                <Text size="sm" as="p">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </Typography>
+                </Text>
               </CardContent>
               <CardFooter className="flex justify-between gap-2">
                 <Button
