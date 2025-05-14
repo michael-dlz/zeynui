@@ -11,7 +11,7 @@ const getGradientStyle = (direction) => {
     };
     return gradients[direction];
 };
-export const Card = ({ children, imageCover, className = "", gradient, radius = "md", }) => {
+export const Card = ({ children, imageCover, className = "", gradient, radius = "md", horizontal = false, }) => {
     const getRadiusClasses = (radiusSize) => {
         const radiusMap = {
             none: "rounded-none",
@@ -22,7 +22,7 @@ export const Card = ({ children, imageCover, className = "", gradient, radius = 
         };
         return radiusMap[radiusSize];
     };
-    return (_jsxs("div", { className: `relative 
+    return (_jsxs("div", { className: `relative ${horizontal ? "flex" : ""} 
         ${getRadiusClasses(radius)} overflow-hidden ${className}`, style: imageCover
             ? {
                 backgroundImage: `url(${imageCover})`,

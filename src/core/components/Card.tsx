@@ -69,7 +69,7 @@ export const Card = ({
 
   return (
     <div
-      className={`relative ${horizontal ? "flex" : ""} 
+      className={`relative
         ${getRadiusClasses(radius)} overflow-hidden ${className}`}
       style={
         imageCover
@@ -91,7 +91,11 @@ export const Card = ({
           }`}
         />
       )}
-      <div className={`relative ${imageCover ? "text-white" : ""}`}>
+      <div
+        className={`relative ${horizontal ? "flex" : ""}  ${
+          imageCover ? "text-white" : ""
+        }`}
+      >
         {Children.map(children, (child) => {
           if (isValidElement(child)) {
             return cloneElement(child as ReactElement<any>, {

@@ -8,6 +8,7 @@ interface CardProps {
     gradient?: GradientDirection;
     radius?: RadiusVariant;
     compact?: boolean;
+    horizontal?: boolean;
 }
 interface CardHeaderProps {
     children?: ReactNode;
@@ -31,7 +32,7 @@ interface CardFooterProps {
     hasImage?: boolean;
     compact?: boolean;
 }
-export declare const Card: ({ children, imageCover, className, gradient, radius, }: CardProps) => import("react/jsx-runtime").JSX.Element;
+export declare const Card: ({ children, imageCover, className, gradient, radius, horizontal, }: CardProps) => import("react/jsx-runtime").JSX.Element;
 export declare const CardImage: ({ children, className }: CardImageProps) => import("react/jsx-runtime").JSX.Element;
 export declare const CardHeader: ({ children, className, hasImage, compact, }: CardHeaderProps) => import("react/jsx-runtime").JSX.Element;
 export declare const CardContent: ({ children, className, compact, }: CardContentProps) => import("react/jsx-runtime").JSX.Element;
