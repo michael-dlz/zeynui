@@ -14,6 +14,7 @@ interface CardProps {
   gradient?: GradientDirection;
   radius?: RadiusVariant;
   compact?: boolean;
+  horizontal?: boolean;
 }
 interface CardHeaderProps {
   children?: ReactNode;
@@ -53,6 +54,7 @@ export const Card = ({
   className = "",
   gradient,
   radius = "md",
+  horizontal = false,
 }: CardProps) => {
   const getRadiusClasses = (radiusSize: RadiusVariant): string => {
     const radiusMap = {
@@ -67,7 +69,7 @@ export const Card = ({
 
   return (
     <div
-      className={`relative 
+      className={`relative ${horizontal ? "flex" : ""} 
         ${getRadiusClasses(radius)} overflow-hidden ${className}`}
       style={
         imageCover

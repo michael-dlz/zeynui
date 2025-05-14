@@ -11,7 +11,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { forwardRef } from "react";
-import { Typography } from "./Typography";
+import { Text } from "./Text";
 const BASE_CLASSES = {
     input: "w-full bg-transparent outline-none -internal-autofill-selected:bg-none",
     disabled: "bg-gray-50 opacity-60 cursor-not-allowed placeholder:text-black/80",
@@ -169,11 +169,11 @@ export const Select = forwardRef((_a, ref) => {
     var { label, error, className = "", variant = "outline", color = "primary", required = false, radius = "md", selectSize = "md", description, leftContent, rightContent, id = "", disabled = false, labelPlacement = "outside", children } = _a, props = __rest(_a, ["label", "error", "className", "variant", "color", "required", "radius", "selectSize", "description", "leftContent", "rightContent", "id", "disabled", "labelPlacement", "children"]);
     const wrapperSelectClasses = getWrapperSelectClasses(radius, variant, color, error, disabled);
     const SelectClasses = getSelectClasses(selectSize, variant, color, error, disabled, className);
-    return (_jsxs("div", { className: "w-full space-y-1", children: [labelPlacement === "outside" && (_jsxs(Typography, { as: "label", htmlFor: id, weight: "semibold", size: "sm", children: [label, " ", required && _jsx("span", { className: "text-danger", children: "*" })] })), description && !(labelPlacement === "outside-left") && (_jsx(Typography, { size: "sm", weight: "normal", as: "p", children: description })), _jsxs("div", { className: labelPlacement === "outside-left"
+    return (_jsxs("div", { className: "w-full space-y-1", children: [labelPlacement === "outside" && (_jsxs(Text, { as: "label", htmlFor: id, weight: "semibold", size: "sm", children: [label, " ", required && _jsx("span", { className: "text-danger", children: "*" })] })), description && !(labelPlacement === "outside-left") && (_jsx(Text, { size: "sm", weight: "normal", as: "p", children: description })), _jsxs("div", { className: labelPlacement === "outside-left"
                     ? "flex items-center gap-5 justify-start"
-                    : "", children: [_jsxs("div", { className: "", children: [labelPlacement === "outside-left" && (_jsxs(Typography, { as: "label", htmlFor: id, weight: "semibold", size: "sm", children: [label, " ", required && _jsx("span", { className: "text-danger", children: "*" })] })), description && labelPlacement === "outside-left" && (_jsx(Typography, { size: "xs", weight: "normal", as: "p", children: description }))] }), _jsxs("div", { className: wrapperSelectClasses, children: [leftContent && (_jsx("div", { className: `flex items-center text-sm 
+                    : "", children: [_jsxs("div", { className: "", children: [labelPlacement === "outside-left" && (_jsxs(Text, { as: "label", htmlFor: id, weight: "semibold", size: "sm", children: [label, " ", required && _jsx("span", { className: "text-danger", children: "*" })] })), description && labelPlacement === "outside-left" && (_jsx(Text, { size: "xs", weight: "normal", as: "p", children: description }))] }), _jsxs("div", { className: wrapperSelectClasses, children: [leftContent && (_jsx("div", { className: `flex items-center text-sm 
                   ${SIZE_CLASSES[selectSize]}`, children: leftContent })), _jsx("select", Object.assign({ id: id, ref: ref, disabled: disabled, className: SelectClasses }, props, { children: children })), rightContent && (_jsx("div", { className: `flex items-center text-sm 
-                ${SIZE_CLASSES[selectSize]}`, children: rightContent }))] })] }), error && typeof error === "string" && (_jsxs("div", { className: "flex items-center gap-1 mt-1.5 text-danger text-sm", children: [_jsx("span", { children: "x" }), _jsx(Typography, { as: "span", size: "xs", className: "!text-danger", children: error })] }))] }));
+                ${SIZE_CLASSES[selectSize]}`, children: rightContent }))] })] }), error && typeof error === "string" && (_jsxs("div", { className: "flex items-center gap-1 mt-1.5 text-danger text-sm", children: [_jsx("span", { children: "x" }), _jsx(Text, { as: "span", size: "xs", className: "!text-danger", children: error })] }))] }));
 });
 export const SelectItem = ({ value, children, disabled, }) => {
     return (_jsx("option", { value: value, disabled: disabled, children: children }));

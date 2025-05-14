@@ -12,7 +12,7 @@ export * from "./components/Select";
 export * from "./components/Skeleton";
 export * from "./components/Tabs";
 export * from "./components/Tooltip";
-export * from "./components/Typography";
+export * from "./components/Text";
 export * from "./components/Navigation";
 export type * from "./types/index";
 export * from "./hook/useRipples";
