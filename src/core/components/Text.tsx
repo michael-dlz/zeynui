@@ -91,7 +91,6 @@ export const Text = <C extends React.ElementType = "p">({
         ${getWeightClasses(weight)}
         ${as === "p" ? "text-[#545c75]" : ""}
         ${className}
-        dark:text-white
       `}
       {...props}
     >
