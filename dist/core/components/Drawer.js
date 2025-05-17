@@ -75,7 +75,7 @@ const getPlacementAnimation = (placement) => {
             };
     }
 };
-export const Drawer = ({ children, isOpen, onClose, placement = "right", size = "md", backdrop = "transparent", }) => {
+export const Drawer = ({ children, isOpen, onClose, placement = "right", size = "md", backdrop = "transparent", className = "", }) => {
     return (_jsx(DrawerContext.Provider, { value: {
             isOpen,
             onClose,
@@ -88,7 +88,7 @@ export const Drawer = ({ children, isOpen, onClose, placement = "right", size = 
                         }, transition: {
                             duration: 0.15,
                             ease: "easeInOut",
-                        }, onClick: onClose, className: `fixed inset-0 z-40 ${backdropStyles[backdrop]}` }), _jsxs(motion.div, { initial: getPlacementAnimation(placement), animate: {
+                        }, onClick: onClose, className: `fixed inset-0 z-40 ${backdropStyles[backdrop]} ${className}` }), _jsxs(motion.div, { initial: getPlacementAnimation(placement), animate: {
                             x: 0,
                             y: 0,
                         }, exit: getPlacementAnimation(placement), transition: {

@@ -98,7 +98,7 @@ export const Drawer = ({
   placement = "right",
   size = "md",
   backdrop = "transparent",
-  className = "",
+  className = "bg-white",
 }: DrawerProps) => {
   return (
     <DrawerContext.Provider
@@ -125,7 +125,7 @@ export const Drawer = ({
                 ease: "easeInOut",
               }}
               onClick={onClose}
-              className={`fixed inset-0 z-40 ${backdropStyles[backdrop]} ${className}`}
+              className={`fixed inset-0 z-40 ${backdropStyles[backdrop]}`}
             />
             <motion.div
               initial={getPlacementAnimation(placement)}
@@ -141,7 +141,7 @@ export const Drawer = ({
                 mass: 0.2,
               }}
               style={getPlacementStyles(placement, size)}
-              className="fixed z-50 bg-white shadow-xl overflow-auto"
+              className={`fixed z-50 ${className} shadow-xl overflow-auto`}
             >
               <XMarkIcon
                 className="absolute size-6 top-4 right-4 cursor-pointer p-1 rounded-full hover:bg-gray-100"

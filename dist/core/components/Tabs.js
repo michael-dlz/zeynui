@@ -17,10 +17,8 @@ export const Tabs = ({ children, defaultTab, color = "primary", variant = "solid
         }
         return defaultTab;
     });
-    const { createRipple, ripples } = useRipples();
     const handleTabChange = (title, event) => {
         setActiveTab(title);
-        createRipple(event);
         if (onSelectionChange)
             onSelectionChange(title);
     };
@@ -32,7 +30,11 @@ export const Tabs = ({ children, defaultTab, color = "primary", variant = "solid
                                 return null;
                             const { title, leftContent, rightContent, topContent, bottomContent, active, } = child.props;
                             const isActive = active !== undefined ? active : activeTab === title;
-                            return (_jsxs("button", { onClick: (e) => handleTabChange(title, e), className: `relative overflow-hidden px-6 py-3 font-medium 
+                            const { createRipple, ripples } = useRipples();
+                            return (_jsxs("button", { onClick: (e) => {
+                                    handleTabChange(title, e);
+                                    createRipple(e);
+                                }, className: `relative overflow-hidden px-6 py-3 font-medium 
                       inline-flex flex-col items-center gap-2
                       transition-all duration-200 ease-in-out
                       disabled:opacity-50 disabled:cursor-not-allowed z-20

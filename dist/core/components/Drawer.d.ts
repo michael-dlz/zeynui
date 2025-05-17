@@ -15,8 +15,9 @@ interface DrawerProps {
     placement?: DrawerPlacement;
     size?: DrawerSize;
     backdrop?: BackdropType;
+    className?: string;
 }
-export declare const Drawer: ({ children, isOpen, onClose, placement, size, backdrop, }: DrawerProps) => import("react/jsx-runtime").JSX.Element;
+export declare const Drawer: ({ children, isOpen, onClose, placement, size, backdrop, className, }: DrawerProps) => import("react/jsx-runtime").JSX.Element;
 interface DrawerHeaderProps {
     children: ReactNode;
 }
