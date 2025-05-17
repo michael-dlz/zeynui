@@ -47,11 +47,8 @@ export const Tabs = ({
     return defaultTab;
   });
 
-  const { createRipple, ripples } = useRipples();
-
   const handleTabChange = (title: string, event: React.MouseEvent) => {
     setActiveTab(title);
-    createRipple(event as React.MouseEvent<HTMLElement, MouseEvent>);
     if (onSelectionChange) onSelectionChange(title);
   };
 
@@ -79,10 +76,15 @@ export const Tabs = ({
                 const isActive =
                   active !== undefined ? active : activeTab === title;
 
+                const { createRipple, ripples } = useRipples();
+
                 return (
                   <button
                     key={title}
-                    onClick={(e) => handleTabChange(title, e)}
+                    onClick={(e) => {
+                      handleTabChange(title, e);
+                      createRipple(e);
+                    }}
                     className={`relative overflow-hidden px-6 py-3 font-medium 
                       inline-flex flex-col items-center gap-2
                       transition-all duration-200 ease-in-out

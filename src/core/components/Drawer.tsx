@@ -22,6 +22,7 @@ interface DrawerProps {
   placement?: DrawerPlacement;
   size?: DrawerSize;
   backdrop?: BackdropType;
+  className?: string;
 }
 const sizeMap = {
   sm: "15rem",
@@ -97,6 +98,7 @@ export const Drawer = ({
   placement = "right",
   size = "md",
   backdrop = "transparent",
+  className = "",
 }: DrawerProps) => {
   return (
     <DrawerContext.Provider
@@ -123,7 +125,7 @@ export const Drawer = ({
                 ease: "easeInOut",
               }}
               onClick={onClose}
-              className={`fixed inset-0 z-40 ${backdropStyles[backdrop]}`}
+              className={`fixed inset-0 z-40 ${backdropStyles[backdrop]} ${className}`}
             />
             <motion.div
               initial={getPlacementAnimation(placement)}

@@ -22,7 +22,7 @@ export const Card = ({ children, imageCover, className = "", gradient, radius = 
         };
         return radiusMap[radiusSize];
     };
-    return (_jsxs("div", { className: `relative ${horizontal ? "flex" : ""} 
+    return (_jsxs("div", { className: `relative
         ${getRadiusClasses(radius)} overflow-hidden ${className}`, style: imageCover
             ? {
                 backgroundImage: `url(${imageCover})`,
@@ -32,7 +32,7 @@ export const Card = ({ children, imageCover, className = "", gradient, radius = 
             }
             : undefined, children: [imageCover && (_jsx("div", { className: `absolute inset-0 ${gradient
                     ? `${getGradientStyle(gradient)} from-black/60 to-transparent`
-                    : "bg-black/20"}` })), _jsx("div", { className: `relative ${imageCover ? "text-white" : ""}`, children: Children.map(children, (child) => {
+                    : "bg-black/20"}` })), _jsx("div", { className: `relative ${horizontal ? "flex" : ""}  ${imageCover ? "text-white" : ""}`, children: Children.map(children, (child) => {
                     if (isValidElement(child)) {
                         return cloneElement(child, {
                             hasImage: !!imageCover,
