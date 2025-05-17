@@ -223,11 +223,11 @@ export const Button = <C extends React.ElementType = "button">({
           {topContent}
         </div>
       )}
-      <Text as="span" className="relative z-20 inline-flex items-center gap-2">
+      <span className="relative z-20 inline-flex items-center gap-2">
         {leftContent}
-        <Text as="span">{children}</Text>
+        <span>{children}</span>
         {rightContent}
-      </Text>
+      </span>
       {bottomContent && (
         <div className="relative z-20 inline-flex items-center gap-2">
           {bottomContent}

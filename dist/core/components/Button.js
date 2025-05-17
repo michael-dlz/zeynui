@@ -13,6 +13,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Ripple } from "./Ripples";
 import { useRipples } from "../hook/useRipples";
+import { Text } from "./Text";
 export const Button = (_a) => {
     var { children, className = "", color = "primary", radius = "md", size = "md", variant = "solid", leftContent, rightContent, topContent, bottomContent, isIconOnly = false, isRelative = true, isBounce = true, fullWidth = false, isElevation = true, align = "center", as, onClick } = _a, props = __rest(_a, ["children", "className", "color", "radius", "size", "variant", "leftContent", "rightContent", "topContent", "bottomContent", "isIconOnly", "isRelative", "isBounce", "fullWidth", "isElevation", "align", "as", "onClick"]);
     const { ripples, createRipple } = useRipples();
@@ -137,5 +138,5 @@ export const Button = (_a) => {
         ${getSizeClasses(size, isIconOnly)}
         ${isIconOnly ? "p-0" : ""}
         ${className}
-      `, onClick: handleClick }, props, { children: [_jsx(Ripple, { variant: variant, ripples: ripples, color: color }), topContent && (_jsx("div", { className: "relative z-20 inline-flex items-center gap-2", children: topContent })), _jsxs("span", { className: "relative z-20 inline-flex items-center gap-2", children: [leftContent, _jsx("span", { children: children }), rightContent] }), bottomContent && (_jsx("div", { className: "relative z-20 inline-flex items-center gap-2", children: bottomContent }))] })));
+      `, onClick: handleClick }, props, { children: [_jsx(Ripple, { variant: variant, ripples: ripples, color: color }), topContent && (_jsx("div", { className: "relative z-20 inline-flex items-center gap-2", children: topContent })), _jsxs(Text, { as: "span", className: "relative z-20 inline-flex items-center gap-2", children: [leftContent, _jsx(Text, { as: "span", children: children }), rightContent] }), bottomContent && (_jsx("div", { className: "relative z-20 inline-flex items-center gap-2", children: bottomContent }))] })));
 };

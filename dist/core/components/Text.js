@@ -77,5 +77,6 @@ export const Text = (_a) => {
         ${getWeightClasses(weight)}
         ${as === "p" ? "text-[#545c75]" : ""}
         ${className}
+        dark:text-white
       ` }, props, { children: children })));
 };
