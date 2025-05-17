@@ -75,7 +75,7 @@ const getPlacementAnimation = (placement) => {
             };
     }
 };
-export const Drawer = ({ children, isOpen, onClose, placement = "right", size = "md", backdrop = "transparent", className = "", }) => {
+export const Drawer = ({ children, isOpen, onClose, placement = "right", size = "md", backdrop = "transparent", className = "bg-white", }) => {
     return (_jsx(DrawerContext.Provider, { value: {
             isOpen,
             onClose,
@@ -88,7 +88,7 @@ export const Drawer = ({ children, isOpen, onClose, placement = "right", size = 
                         }, transition: {
                             duration: 0.15,
                             ease: "easeInOut",
-                        }, onClick: onClose, className: `fixed inset-0 z-40 ${backdropStyles[backdrop]} ${className}` }), _jsxs(motion.div, { initial: getPlacementAnimation(placement), animate: {
+                        }, onClick: onClose, className: `fixed inset-0 z-40 ${backdropStyles[backdrop]}` }), _jsxs(motion.div, { initial: getPlacementAnimation(placement), animate: {
                             x: 0,
                             y: 0,
                         }, exit: getPlacementAnimation(placement), transition: {
@@ -96,7 +96,7 @@ export const Drawer = ({ children, isOpen, onClose, placement = "right", size = 
                             damping: 15,
                             stiffness: 300,
                             mass: 0.2,
-                        }, style: getPlacementStyles(placement, size), className: "fixed z-50 bg-white shadow-xl overflow-auto", children: [_jsx(XMarkIcon, { className: "absolute size-6 top-4 right-4 cursor-pointer p-1 rounded-full hover:bg-gray-100", onClick: onClose, "aria-label": "Close drawer" }), children] })] })) }) }));
+                        }, style: getPlacementStyles(placement, size), className: `fixed z-50 ${className} shadow-xl overflow-auto`, children: [_jsx(XMarkIcon, { className: "absolute size-6 top-4 right-4 cursor-pointer p-1 rounded-full hover:bg-gray-100", onClick: onClose, "aria-label": "Close drawer" }), children] })] })) }) }));
 };
 export const DrawerHeader = ({ children }) => {
     return _jsx("div", { className: "px-6 py-4", children: children });

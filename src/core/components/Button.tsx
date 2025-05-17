@@ -10,6 +10,7 @@ import {
   VariantClasses,
 } from "../types";
 import { useRipples } from "../hook/useRipples";
+import { Text } from "./Text";
 type AsProp<C extends React.ElementType> = {
   as?: C;
 };
@@ -222,11 +223,11 @@ export const Button = <C extends React.ElementType = "button">({
           {topContent}
         </div>
       )}
-      <span className="relative z-20 inline-flex items-center gap-2">
+      <Text as="span" className="relative z-20 inline-flex items-center gap-2">
         {leftContent}
-        <span>{children}</span>
+        <Text as="span">{children}</Text>
         {rightContent}
-      </span>
+      </Text>
       {bottomContent && (
         <div className="relative z-20 inline-flex items-center gap-2">
           {bottomContent}
