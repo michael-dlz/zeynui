@@ -15,6 +15,10 @@ export * from "./components/Tabs";
 export * from "./components/Tooltip";
 export * from "./components/Text";
 export * from "./components/Navigation";
+export * from "./components/Checkbox";
+export * from "./components/Modal";
+export * from "./components/SideBar";
+export * from "./components/Table";
 /* hooks */
 export * from "./hook/useRipples";
 export * from "./hook/useDisclosure";
