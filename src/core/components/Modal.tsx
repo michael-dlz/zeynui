@@ -1,8 +1,10 @@
-import { Button, useDisclosure } from "@zeynui/react";
+"use client";
+
+import { Button } from "@zeynui/react";
 import React, { ReactNode, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { XIcon } from "lucide-react";
-import { ICON_BUTTON } from "@/constants/sizeIcons";
+import { useDisclosure } from "../hook/useDisclosure";
 
 type BackdropType = "blur" | "opaque" | "transparent";
 type ModalSize = "sm" | "md" | "lg" | "xl" | "full";
@@ -110,7 +112,7 @@ export const ModalHeader = ({
       <div>{children}</div>
       {onClose && (
         <Button variant="ghost" color="info" onClick={onClose} isIconOnly>
-          <XIcon size={ICON_BUTTON} />
+          <XIcon size={16} />
         </Button>
       )}
     </header>

@@ -3,7 +3,6 @@ import { Button, useDisclosure } from "@zeynui/react";
 import React, { useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { XIcon } from "lucide-react";
-import { ICON_BUTTON } from "@/constants/sizeIcons";
 export const Modal = ({ children, backdrop = "blur", size = "md", isOpen: isOpenProp, onOpenChange, onClose, closeOnClickOutside = true, }) => {
     const { isOpen, onOpen, onClose: internalOnClose } = useDisclosure();
     const modalRef = useRef(null);
@@ -46,7 +45,7 @@ export const Modal = ({ children, backdrop = "blur", size = "md", isOpen: isOpen
                 }) }) })) }));
 };
 export const ModalHeader = ({ children, className = "", onClose, }) => {
-    return (_jsxs("header", { className: `p-4 flex justify-between items-center ${className}`, children: [_jsx("div", { children: children }), onClose && (_jsx(Button, { variant: "ghost", color: "info", onClick: onClose, isIconOnly: true, children: _jsx(XIcon, { size: ICON_BUTTON }) }))] }));
+    return (_jsxs("header", { className: `p-4 flex justify-between items-center ${className}`, children: [_jsx("div", { children: children }), onClose && (_jsx(Button, { variant: "ghost", color: "info", onClick: onClose, isIconOnly: true, children: _jsx(XIcon, { size: 16 }) }))] }));
 };
 export const ModalBody = ({ children, className = "", }) => {
     return (_jsx("main", { className: `p-4 flex-1 overflow-y-auto ${className}`, children: children }));
