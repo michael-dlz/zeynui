@@ -124,13 +124,13 @@ export const Button = <C extends React.ElementType = "button">({
       whatsapp: "text-whatsapp border-b border-whatsapp hover:bg-whatsapp/10",
     },
     ghost: {
-      primary: "text-black hover:bg-primary hover:text-white",
-      secondary: "text-black hover:bg-secondary hover:text-white",
-      danger: "text-black hover:bg-danger hover:text-white",
-      warning: "text-black hover:bg-warning hover:text-white",
-      success: "text-black hover:bg-success hover:text-white",
-      info: "text-black hover:bg-info",
-      whatsapp: "text-black hover:bg-whatsapp hover:text-white",
+      primary: "text-black hover:bg-primary/10 hover:text-black",
+      secondary: "text-black hover:bg-secondary/10 hover:text-black",
+      danger: "text-black hover:bg-danger/10 hover:text-black",
+      warning: "text-black hover:bg-warning/10 hover:text-black",
+      success: "text-black hover:bg-success/10 hover:text-black",
+      info: "text-black hover:bg-info/10 hover:text-black",
+      whatsapp: "text-black hover:bg-whatsapp/10 hover:text-black",
     },
   };
 

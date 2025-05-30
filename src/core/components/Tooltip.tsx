@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ColorVariant,
@@ -20,6 +20,7 @@ export interface TooltipProps {
   radius?: RadiusVariant;
   delay?: number;
   className?: string;
+  maxWidth?: string | number;
 }
 
 export const Tooltip: React.FC<TooltipProps> = ({
@@ -32,40 +33,68 @@ export const Tooltip: React.FC<TooltipProps> = ({
   radius = "md",
   delay = 0,
   className = "",
+  maxWidth = "none",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [tooltipDimensions, setTooltipDimensions] = useState({
+    width: 0,
+    height: 0,
+  });
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
   let timeoutId: NodeJS.Timeout;
+
+  // Medir el tooltip cuando se monta y cuando cambia el contenido
+  useEffect(() => {
+    if (tooltipRef.current && isVisible) {
+      const { width, height } = tooltipRef.current.getBoundingClientRect();
+      setTooltipDimensions({ width, height });
+    }
+  }, [isVisible, content]);
+
   const handleMouseEnter = () => {
     timeoutId = setTimeout(() => setIsVisible(true), delay);
   };
+
   const handleMouseLeave = () => {
     clearTimeout(timeoutId);
     setIsVisible(false);
   };
-  const getPosition = () => {
+
+  const getPositionStyles = () => {
+    if (!triggerRef.current) return {};
+
+    const triggerRect = triggerRef.current.getBoundingClientRect();
+    const offset = 8; // Espacio entre el trigger y el tooltip
+
     switch (placement) {
       case "top":
         return {
-          bottom: "100%",
-          marginBottom: "0.5rem",
+          bottom: `calc(100% + ${offset}px)`,
+          left: "50%",
+          transform: "translateX(-50%)",
         };
       case "bottom":
         return {
-          top: "100%",
-          marginTop: "0.5rem",
+          top: `calc(100% + ${offset}px)`,
+          left: "50%",
+          transform: "translateX(-50%)",
         };
       case "left":
         return {
-          right: "100%",
-          marginRight: "0.5rem",
+          right: `calc(100% + ${offset}px)`,
+          top: "50%",
+          transform: "translateY(-50%)",
         };
       case "right":
         return {
-          left: "100%",
-          marginLeft: "0.5rem",
+          left: `calc(100% + ${offset}px)`,
+          top: "50%",
+          transform: "translateY(-50%)",
         };
     }
   };
+
   const colorClasses: VariantClasses = {
     solid: {
       primary: "bg-primary text-white",
@@ -122,12 +151,14 @@ export const Tooltip: React.FC<TooltipProps> = ({
       whatsapp: "text-black",
     },
   };
+
   const getColorClasses = (
     colorName: ColorVariant,
     variant: StyleVariant
   ): string => {
     return colorClasses[variant][colorName];
   };
+
   const getSizeClasses = (chipSize: SizeVariant): string => {
     const sizeMap = {
       sm: "px-2 py-1 text-xs",
@@ -138,6 +169,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
     };
     return sizeMap[chipSize];
   };
+
   const getRadiusClasses = (radiusSize: RadiusVariant): string => {
     const radiusMap = {
       none: "rounded-none",
@@ -148,6 +180,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
     };
     return radiusMap[radiusSize];
   };
+
   return (
     <div
       className="relative inline-block"
@@ -156,30 +189,35 @@ export const Tooltip: React.FC<TooltipProps> = ({
       onFocus={handleMouseEnter}
       onBlur={handleMouseLeave}
     >
-      <div className="inline-block" aria-describedby="tooltip">
+      <div ref={triggerRef} className="inline-block" aria-describedby="tooltip">
         {children}
       </div>
+
       <AnimatePresence>
         {isVisible && (
           <motion.div
+            ref={tooltipRef}
             initial={{
               opacity: 0,
               scale: 0.95,
+              y: placement === "top" ? 5 : placement === "bottom" ? -5 : 0,
             }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-            }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{
               opacity: 0,
               scale: 0.95,
+              y: placement === "top" ? 5 : placement === "bottom" ? -5 : 0,
             }}
-            transition={{
-              duration: 0.15,
+            transition={{ duration: 0.15 }}
+            style={{
+              position: "absolute",
+              maxWidth:
+                typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth,
+              ...getPositionStyles(),
             }}
-            style={getPosition()}
             className={`
-              absolute z-50 whitespace-nowrap w-full text-center
+              z-50 whitespace-normal text-center
+              shadow-md
               ${getColorClasses(color, variant)}
               ${getRadiusClasses(radius)}
               ${getSizeClasses(size)}

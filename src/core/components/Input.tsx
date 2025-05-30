@@ -8,6 +8,7 @@ import {
   StyleVariant,
   VariantClasses,
 } from "../types";
+import { AlertTriangleIcon } from "lucide-react";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -42,9 +43,9 @@ const ERROR_CLASSES: Record<StyleVariant, string> = {
     "border border-danger/50 text-danger focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10",
   soft: "bg-danger/10 border-danger/50 text-danger focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/20",
   light:
-    "text-danger focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10",
+    "text-danger focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10 border-1 border-danger",
   underline: "border-b border-danger text-danger",
-  ghost: "text-danger",
+  ghost: "text-danger border-1 border-danger",
 };
 
 const INPUT_WRAPPER_CLASSES: VariantClasses = {
@@ -200,9 +201,9 @@ const RADIUS_CLASSES: Record<RadiusVariant, string> = {
 };
 
 const SIZE_CLASSES: Record<SizeVariant, string> = {
-  sm: "text-xs p-2",
-  md: "text-sm p-3",
-  lg: "text-base p-4",
+  sm: "text-xs px-2 py-1.5",
+  md: "text-sm px-3 py-3",
+  lg: "text-base px-4 py-4",
 };
 
 // Función para generar clases dinámicas
@@ -279,7 +280,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     );
 
     return (
-      <div className="w-full grid gap-1">
+      <div className="w-full grid gap-1.5">
         {labelPlacement === "outside" && (
           <Text as="label" htmlFor={id} weight="semibold" size="sm">
             {label} {required && <span className="text-danger">*</span>}
@@ -337,7 +338,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         </div>
         {error && typeof error === "string" && (
           <div className="flex items-center gap-1 mt-1.5 text-danger text-sm">
-            <span>{"x"}</span>
+            <AlertTriangleIcon className="size-3" />
             <Text as="span" size="xs" className="!text-danger">
               {error}
             </Text>

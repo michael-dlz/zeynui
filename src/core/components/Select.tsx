@@ -101,18 +101,18 @@ const INPUT_WRAPPER_CLASSES: VariantClasses = {
   },
   light: {
     primary:
-      "border hover:border-primary focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-primary/10",
+      "border border-gray-300 hover:border-primary focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-primary/10",
     secondary:
-      "border hover:border-secondary focus-within:border-secondary/50 focus-within:ring-4 focus-within:ring-secondary/10",
+      "border border-gray-300 hover:border-secondary focus-within:border-secondary/50 focus-within:ring-4 focus-within:ring-secondary/10",
     danger:
-      "border hover:border-danger focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10",
+      "border border-gray-300 hover:border-danger focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10",
     warning:
-      "border hover:border-warning focus-within:border-warning/50 focus-within:ring-4 focus-within:ring-warning/10",
+      "border border-gray-300 hover:border-warning focus-within:border-warning/50 focus-within:ring-4 focus-within:ring-warning/10",
     success:
-      "border hover:border-success focus-within:border-success/50 focus-within:ring-4 focus-within:ring-success/10",
-    info: "border hover:border-info focus-within:border-info/50 focus-within:ring-4 focus-within:ring-info/10",
+      "border border-gray-300 hover:border-success focus-within:border-success/50 focus-within:ring-4 focus-within:ring-success/10",
+    info: "border border-gray-300 hover:border-info focus-within:border-info/50 focus-within:ring-4 focus-within:ring-info/10",
     whatsapp:
-      "border hover:border-whatsapp focus-within:border-whatsapp/50 focus-within:ring-4 focus-within:ring-whatsapp/10",
+      "border border-gray-300 hover:border-whatsapp focus-within:border-whatsapp/50 focus-within:ring-4 focus-within:ring-whatsapp/10",
   },
   underline: {
     primary:
@@ -356,11 +356,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   }
 );
 
-export const SelectItem: FC<SelectItemProps> = ({
-  value,
-  children,
-  disabled,
-}) => {
+export const SelectItem = ({ value, children, disabled }: SelectItemProps) => {
   return (
     <option value={value} disabled={disabled}>
       {children}

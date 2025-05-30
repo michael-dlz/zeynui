@@ -1,8 +1,10 @@
+"use client";
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { Button, useDisclosure } from "@zeynui/react";
+import { Button } from "@zeynui/react";
 import React, { useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { XIcon } from "lucide-react";
+import { useDisclosure } from "../hook/useDisclosure";
 export const Modal = ({ children, backdrop = "blur", size = "md", isOpen: isOpenProp, onOpenChange, onClose, closeOnClickOutside = true, }) => {
     const { isOpen, onOpen, onClose: internalOnClose } = useDisclosure();
     const modalRef = useRef(null);

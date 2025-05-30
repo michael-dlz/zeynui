@@ -1,3 +1,4 @@
+"use client";
 import { jsx as _jsx } from "react/jsx-runtime";
 // Sidebar Principal (siempre visible)
 export function Sidebar({ children, width = "250px", className = "", }) {

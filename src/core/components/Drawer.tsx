@@ -24,13 +24,13 @@ interface DrawerProps {
   backdrop?: BackdropType;
   className?: string;
 }
-const sizeMap = {
-  sm: "15rem",
-  md: "20rem",
-  lg: "25rem",
-  xl: "30rem",
-  "2xl": "35rem",
-  "3xl": "40rem",
+const sizeMap: Record<DrawerSize, string> = {
+  sm: "20vw",
+  md: "35vw",
+  lg: "50vw",
+  xl: "60vw",
+  "2xl": "70vw",
+  "3xl": "80vw",
   full: "100%",
 };
 const backdropStyles: Record<BackdropType, string> = {
@@ -166,9 +166,12 @@ export const DrawerHeader = ({ children }: DrawerHeaderProps) => {
 
 interface DrawerBodyProps {
   children: ReactNode;
+  className?: string;
 }
-export const DrawerBody = ({ children }: DrawerBodyProps) => {
-  return <div className="flex-1 overflow-y-auto p-6">{children}</div>;
+export const DrawerBody = ({ children, className }: DrawerBodyProps) => {
+  return (
+    <div className={`flex-1 overflow-y-auto p-6 ${className}`}>{children}</div>
+  );
 };
 
 interface DrawerFooterProps {

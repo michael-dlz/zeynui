@@ -7,7 +7,7 @@ import { XIcon } from "lucide-react";
 import { useDisclosure } from "../hook/useDisclosure";
 
 type BackdropType = "blur" | "opaque" | "transparent";
-type ModalSize = "sm" | "md" | "lg" | "xl" | "full";
+type ModalSize = "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
 
 interface ModalProps {
   children: ReactNode;
@@ -17,6 +17,7 @@ interface ModalProps {
   onOpenChange?: (isOpen: boolean) => void;
   onClose?: () => void;
   closeOnClickOutside?: boolean;
+  className?: string;
 }
 
 interface ModalSubcomponentProps {
@@ -33,6 +34,7 @@ export const Modal = ({
   onOpenChange,
   onClose,
   closeOnClickOutside = true,
+  className,
 }: ModalProps) => {
   const { isOpen, onOpen, onClose: internalOnClose } = useDisclosure();
   const modalRef = useRef<HTMLDivElement>(null);
@@ -51,11 +53,13 @@ export const Modal = ({
     transparent: "bg-transparent",
   };
 
-  const sizeClasses = {
-    sm: "max-w-sm",
-    md: "max-w-md",
-    lg: "max-w-lg",
-    xl: "max-w-xl",
+  const sizeMap: Record<ModalSize, string> = {
+    sm: "max-w-[400px]",
+    md: "max-w-[600px]",
+    lg: "max-w-[800px]",
+    xl: "max-w-[1000px]",
+    "2xl": "max-w-[1200px]",
+    "3xl": "max-w-[1400px]",
     full: "max-w-full",
   };
 
@@ -85,7 +89,7 @@ export const Modal = ({
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 500 }}
-            className={`relative w-full ${sizeClasses[size]} max-h-[calc(100vh-2rem)] bg-card rounded-lg shadow-xl overflow-hidden flex flex-col`}
+            className={`relative w-full ${sizeMap[size]} max-h-[calc(100vh-2rem)] bg-card rounded-lg shadow-xl overflow-hidden flex flex-col bg-white ${className}`}
           >
             {React.Children.map(children, (child) => {
               if (React.isValidElement(child)) {
@@ -124,7 +128,7 @@ export const ModalBody = ({
   className = "",
 }: ModalSubcomponentProps) => {
   return (
-    <main className={`p-4 flex-1 overflow-y-auto ${className}`}>
+    <main className={`p-4 flex-1 overflow-y-auto min-h-0 ${className}`}>
       {children}
     </main>
   );

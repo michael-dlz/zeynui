@@ -34,6 +34,16 @@ import {
   Tooltip,
   Text,
   useDisclosure,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Modal,
+  Table,
+  TableColumn,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableCell,
 } from "../src/core";
 import { colors } from "../utils/colors";
 import { variants } from "../utils/variants";
@@ -46,9 +56,22 @@ import {
 } from "@heroicons/react/24/outline";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import Checkbox from "../src/core/components/Checkbox";
+import { DoorClosed } from "lucide-react";
 
 const homePage = () => {
-  const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isOpenDrawer,
+    onOpen: onOpenDrawer,
+    onClose: onCloseDrawer,
+    toggle: toggleDrawer,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenModal,
+    onOpen: onOpenModal,
+    onClose: onCloseModal,
+    toggle: toggleModal,
+  } = useDisclosure();
 
   return (
     <>
@@ -148,7 +171,6 @@ const homePage = () => {
             </NavbarContent>
             <NavbarEnd>
               <Button
-                radius="none"
                 color="primary"
                 leftContent={<PhoneArrowDownLeftIcon className="size-4" />}
                 isElevation={false}
@@ -299,13 +321,9 @@ const homePage = () => {
       <Container className="py-10">
         <Dropdown>
           <DropdownTrigger>
-            <Tooltip content="Abrir menú" placement="top">
-              <Button
-                variant="outline"
-                isElevation={false}
-                topContent={<ArrowDownTrayIcon className="size-4" />}
-              >
-                Open Menu
+            <Tooltip content="Abrir menú" placement="top" variant="solid">
+              <Button variant="outline" isElevation={false}>
+                Hola
               </Button>
             </Tooltip>
           </DropdownTrigger>
@@ -367,20 +385,20 @@ const homePage = () => {
         </div>
       </Container>
       <Container className="py-10">
-        <Button variant="outline" onClick={onOpen}>
+        <Button variant="outline" onClick={onOpenDrawer}>
           Abrir Drawer
         </Button>
         <Drawer
-          isOpen={isOpen}
-          onClose={onClose}
-          placement="bottom"
+          isOpen={isOpenDrawer}
+          onClose={onCloseDrawer}
+          placement="right"
           size="3xl"
           backdrop="opaque"
         >
           <DrawerHeader>
             <h2 className="text-xl font-semibold">Drawer Header</h2>
           </DrawerHeader>
-          <DrawerBody>
+          <DrawerBody className="grid grid-cols-4 gap-3">
             {[...Array(6)].map((_, index) => (
               <Card key={index} className="shadow-lg">
                 <CardHeader className="space-y-2 ">
@@ -442,15 +460,131 @@ const homePage = () => {
           </DrawerBody>
           <DrawerFooter>
             <div className="flex justify-end gap-2">
-              <Button onClick={onClose} variant="light" color="danger">
+              <Button onClick={onCloseDrawer} variant="light" color="danger">
                 Cancelar
               </Button>
-              <Button onClick={onClose} variant="solid" color="success">
+              <Button onClick={onCloseDrawer} variant="solid" color="success">
                 Aceptar
               </Button>
             </div>
           </DrawerFooter>
         </Drawer>
+      </Container>
+      <Container className="py-10">
+        <Button variant="outline" onClick={onOpenModal}>
+          Abrir Modal
+        </Button>
+        <Modal
+          isOpen={isOpenModal}
+          onClose={onCloseModal}
+          backdrop="blur"
+          size="sm"
+          className="bg-white"
+        >
+          <ModalHeader>
+            <h2 className="text-xl font-semibold">Modal Header</h2>
+          </ModalHeader>
+          <ModalBody className="grid grid-cols-4 gap-3">
+            {[...Array(6)].map((_, index) => (
+              <Card key={index} className="shadow-lg">
+                <CardHeader className="space-y-2 ">
+                  <Text size="base" weight="bold">
+                    Kia Cerato 2021
+                  </Text>
+                </CardHeader>
+                <CardImage>
+                  <Carousel
+                    loop
+                    pagination
+                    slidesToShow={1}
+                    navigation
+                    spacing={0}
+                  >
+                    <CarouselItem>
+                      <img
+                        src="https://plp-statics.s3.amazonaws.com/auction/image/d55e47fa-ee56-4e10-865e-76950f70da5d.jpg"
+                        alt="carousel"
+                        className="w-full h-full object-cover"
+                      />
+                    </CarouselItem>
+                    <CarouselItem>
+                      <img
+                        src="https://plp-statics.s3.amazonaws.com/auction/image/d55e47fa-ee56-4e10-865e-76950f70da5d.jpg"
+                        alt="carousel"
+                        className="w-full h-full object-cover"
+                      />
+                    </CarouselItem>
+                  </Carousel>
+                </CardImage>
+                <CardContent>
+                  <Text size="sm" as="p">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                  </Text>
+                </CardContent>
+                <CardFooter className="flex justify-between gap-2">
+                  <Button
+                    color="danger"
+                    variant="soft"
+                    radius="md"
+                    leftContent={<XCircleIcon className="size-4" />}
+                  >
+                    Rechazar
+                  </Button>
+                  <Button
+                    color="success"
+                    variant="soft"
+                    radius="md"
+                    leftContent={<CheckCircleIcon className="size-4" />}
+                  >
+                    Aceptar
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </ModalBody>
+          <ModalFooter>
+            <div className="flex justify-end gap-2">
+              <Button onClick={onCloseModal} variant="light" color="danger">
+                Cancelar
+              </Button>
+              <Button onClick={onCloseModal} variant="solid" color="success">
+                Aceptar
+              </Button>
+            </div>
+          </ModalFooter>
+        </Modal>
+      </Container>
+      <Container>
+        <Table selectable striped={false}>
+          <TableHeader>
+            <TableColumn>Nombre</TableColumn>
+            <TableColumn>Apellido</TableColumn>
+            <TableColumn>Email</TableColumn>
+            <TableColumn>Teléfono</TableColumn>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>Juan</TableCell>
+              <TableCell>Perez</TableCell>
+              <TableCell>juan.perez@gmail.com</TableCell>
+              <TableCell>1234567890</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Juan</TableCell>
+              <TableCell>Perez</TableCell>
+              <TableCell>juan.perez@gmail.com</TableCell>
+              <TableCell>1234567890</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Juan</TableCell>
+              <TableCell>Perez</TableCell>
+              <TableCell>juan.perez@gmail.com</TableCell>
+              <TableCell>1234567890</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </Container>
       <Container className="py-10">
         <Carousel
@@ -581,23 +715,27 @@ const homePage = () => {
         {variants.map((variant) => (
           <div key={variant} className="grid grid-cols-2 gap-3">
             {colors.map((color: ColorVariant) => (
-              <Input
-                key={color}
-                id={color + variant}
-                label="Número de Teléfono"
-                name="phone"
-                labelPlacement="outside"
-                inputSize="md"
-                color={color}
-                radius="full"
-                variant={variant}
-                description="Ingresa tu número de teléfono"
-                disabled={color === "whatsapp"}
-                leftContent={<PhoneArrowDownLeftIcon className="size-4" />}
-              />
+              <div className="flex gap-2 items-end" key={color}>
+                <Input
+                  id={color + variant}
+                  label="Número de Teléfono"
+                  name="phone"
+                  color={color}
+                  variant={variant}
+                  disabled={color === "whatsapp"}
+                  leftContent={<PhoneArrowDownLeftIcon className="size-4" />}
+                  error="Error"
+                />
+                <Button color={color} variant={variant}>
+                  Buscar
+                </Button>
+              </div>
             ))}
           </div>
         ))}
+      </Container>
+      <Container>
+        <Checkbox label="Checkbox" />
       </Container>
       <Container>
         <Select
@@ -607,7 +745,7 @@ const homePage = () => {
           selectSize="md"
           color="primary"
           radius="full"
-          variant="soft"
+          variant="light"
           description="Ingresa tu número de teléfono"
           leftContent={<PhoneArrowDownLeftIcon className="size-4" />}
         >
