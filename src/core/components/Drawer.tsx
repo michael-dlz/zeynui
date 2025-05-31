@@ -98,7 +98,7 @@ export const Drawer = ({
   placement = "right",
   size = "md",
   backdrop = "transparent",
-  className = "bg-white",
+  className = "bg-card",
 }: DrawerProps) => {
   return (
     <DrawerContext.Provider

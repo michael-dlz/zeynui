@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-export declare const Table: import("react").ForwardRefExoticComponent<import("react").TableHTMLAttributes<HTMLTableElement> & {
+interface TableProps extends React.TableHTMLAttributes<HTMLTableElement> {
     striped?: boolean;
     hoverable?: boolean;
     compact?: boolean;
@@ -10,22 +10,32 @@ export declare const Table: import("react").ForwardRefExoticComponent<import("re
     totalPages?: number;
     onPageChange?: (page: number) => void;
     scrollable?: boolean;
-} & import("react").RefAttributes<HTMLTableElement>>;
-export declare const TableHeader: import("react").ForwardRefExoticComponent<import("react").HTMLAttributes<HTMLTableSectionElement> & import("react").RefAttributes<HTMLTableSectionElement>>;
-export declare const TableColumn: import("react").ForwardRefExoticComponent<{
+}
+export declare const Table: import("react").ForwardRefExoticComponent<TableProps & import("react").RefAttributes<HTMLTableElement>>;
+interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionElement> {
+}
+export declare const TableHeader: import("react").ForwardRefExoticComponent<TableHeaderProps & import("react").RefAttributes<HTMLTableSectionElement>>;
+interface TableColumnProps {
     children: ReactNode;
     align?: "left" | "center" | "right";
     width?: string | number;
     className?: string;
-} & import("react").RefAttributes<HTMLTableCellElement>>;
-export declare const TableBody: import("react").ForwardRefExoticComponent<import("react").HTMLAttributes<HTMLTableSectionElement> & import("react").RefAttributes<HTMLTableSectionElement>>;
-export declare const TableRow: import("react").ForwardRefExoticComponent<import("react").HTMLAttributes<HTMLTableRowElement> & {
+}
+export declare const TableColumn: import("react").ForwardRefExoticComponent<TableColumnProps & import("react").RefAttributes<HTMLTableCellElement>>;
+interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionElement> {
+}
+export declare const TableBody: import("react").ForwardRefExoticComponent<TableBodyProps & import("react").RefAttributes<HTMLTableSectionElement>>;
+interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
     rowId?: string;
     isDisabled?: boolean;
-} & import("react").RefAttributes<HTMLTableRowElement>>;
-export declare const TableCell: import("react").ForwardRefExoticComponent<{
+    hoverable?: boolean;
+}
+export declare const TableRow: import("react").ForwardRefExoticComponent<TableRowProps & import("react").RefAttributes<HTMLTableRowElement>>;
+interface TableCellProps {
     children: ReactNode;
     align?: "left" | "center" | "right";
     colSpan?: number;
     className?: string;
-} & import("react").RefAttributes<HTMLTableCellElement>>;
+}
+export declare const TableCell: import("react").ForwardRefExoticComponent<TableCellProps & import("react").RefAttributes<HTMLTableCellElement>>;
+export {};

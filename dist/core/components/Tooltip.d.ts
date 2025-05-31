@@ -11,6 +11,7 @@ export interface TooltipProps {
     radius?: RadiusVariant;
     delay?: number;
     className?: string;
+    maxWidth?: string | number;
 }
 export declare const Tooltip: React.FC<TooltipProps>;
 export {};

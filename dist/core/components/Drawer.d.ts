@@ -24,8 +24,9 @@ interface DrawerHeaderProps {
 export declare const DrawerHeader: ({ children }: DrawerHeaderProps) => import("react/jsx-runtime").JSX.Element;
 interface DrawerBodyProps {
     children: ReactNode;
+    className?: string;
 }
-export declare const DrawerBody: ({ children }: DrawerBodyProps) => import("react/jsx-runtime").JSX.Element;
+export declare const DrawerBody: ({ children, className }: DrawerBodyProps) => import("react/jsx-runtime").JSX.Element;
 interface DrawerFooterProps {
     children: ReactNode;
 }

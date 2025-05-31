@@ -9,12 +9,12 @@ export const DrawerContext = createContext({
 });
 export const useDrawerContext = () => useContext(DrawerContext);
 const sizeMap = {
-    sm: "15rem",
-    md: "20rem",
-    lg: "25rem",
-    xl: "30rem",
-    "2xl": "35rem",
-    "3xl": "40rem",
+    sm: "20vw",
+    md: "35vw",
+    lg: "50vw",
+    xl: "60vw",
+    "2xl": "70vw",
+    "3xl": "80vw",
     full: "100%",
 };
 const backdropStyles = {
@@ -101,8 +101,8 @@ export const Drawer = ({ children, isOpen, onClose, placement = "right", size = 
 export const DrawerHeader = ({ children }) => {
     return _jsx("div", { className: "px-6 py-4", children: children });
 };
-export const DrawerBody = ({ children }) => {
-    return _jsx("div", { className: "flex-1 overflow-y-auto p-6", children: children });
+export const DrawerBody = ({ children, className }) => {
+    return (_jsx("div", { className: `flex-1 overflow-y-auto p-6 ${className}`, children: children }));
 };
 export const DrawerFooter = ({ children }) => {
     return _jsx("div", { className: "px-6 py-4", children: children });

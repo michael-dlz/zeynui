@@ -1,9 +1,22 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-export const Tooltip = ({ content, children, placement = "top", color = "primary", variant = "solid", size = "md", radius = "md", delay = 0, className = "", }) => {
+export const Tooltip = ({ content, children, placement = "top", color = "primary", variant = "solid", size = "md", radius = "md", delay = 0, className = "", maxWidth = "none", }) => {
     const [isVisible, setIsVisible] = useState(false);
+    const [tooltipDimensions, setTooltipDimensions] = useState({
+        width: 0,
+        height: 0,
+    });
+    const tooltipRef = useRef(null);
+    const triggerRef = useRef(null);
     let timeoutId;
+    // Medir el tooltip cuando se monta y cuando cambia el contenido
+    useEffect(() => {
+        if (tooltipRef.current && isVisible) {
+            const { width, height } = tooltipRef.current.getBoundingClientRect();
+            setTooltipDimensions({ width, height });
+        }
+    }, [isVisible, content]);
     const handleMouseEnter = () => {
         timeoutId = setTimeout(() => setIsVisible(true), delay);
     };
@@ -11,27 +24,35 @@ export const Tooltip = ({ content, children, placement = "top", color = "primary
         clearTimeout(timeoutId);
         setIsVisible(false);
     };
-    const getPosition = () => {
+    const getPositionStyles = () => {
+        if (!triggerRef.current)
+            return {};
+        const triggerRect = triggerRef.current.getBoundingClientRect();
+        const offset = 8; // Espacio entre el trigger y el tooltip
         switch (placement) {
             case "top":
                 return {
-                    bottom: "100%",
-                    marginBottom: "0.5rem",
+                    bottom: `calc(100% + ${offset}px)`,
+                    left: "50%",
+                    transform: "translateX(-50%)",
                 };
             case "bottom":
                 return {
-                    top: "100%",
-                    marginTop: "0.5rem",
+                    top: `calc(100% + ${offset}px)`,
+                    left: "50%",
+                    transform: "translateX(-50%)",
                 };
             case "left":
                 return {
-                    right: "100%",
-                    marginRight: "0.5rem",
+                    right: `calc(100% + ${offset}px)`,
+                    top: "50%",
+                    transform: "translateY(-50%)",
                 };
             case "right":
                 return {
-                    left: "100%",
-                    marginLeft: "0.5rem",
+                    left: `calc(100% + ${offset}px)`,
+                    top: "50%",
+                    transform: "translateY(-50%)",
                 };
         }
     };
@@ -114,19 +135,17 @@ export const Tooltip = ({ content, children, placement = "top", color = "primary
         };
         return radiusMap[radiusSize];
     };
-    return (_jsxs("div", { className: "relative inline-block", onMouseEnter: handleMouseEnter, onMouseLeave: handleMouseLeave, onFocus: handleMouseEnter, onBlur: handleMouseLeave, children: [_jsx("div", { className: "inline-block", "aria-describedby": "tooltip", children: children }), _jsx(AnimatePresence, { children: isVisible && (_jsx(motion.div, { initial: {
+    return (_jsxs("div", { className: "relative inline-block", onMouseEnter: handleMouseEnter, onMouseLeave: handleMouseLeave, onFocus: handleMouseEnter, onBlur: handleMouseLeave, children: [_jsx("div", { ref: triggerRef, className: "inline-block", "aria-describedby": "tooltip", children: children }), _jsx(AnimatePresence, { children: isVisible && (_jsx(motion.div, { ref: tooltipRef, initial: {
                         opacity: 0,
                         scale: 0.95,
-                    }, animate: {
-                        opacity: 1,
-                        scale: 1,
-                    }, exit: {
+                        y: placement === "top" ? 5 : placement === "bottom" ? -5 : 0,
+                    }, animate: { opacity: 1, scale: 1, y: 0 }, exit: {
                         opacity: 0,
                         scale: 0.95,
-                    }, transition: {
-                        duration: 0.15,
-                    }, style: getPosition(), className: `
-              absolute z-50 whitespace-nowrap w-full text-center
+                        y: placement === "top" ? 5 : placement === "bottom" ? -5 : 0,
+                    }, transition: { duration: 0.15 }, style: Object.assign({ position: "absolute", maxWidth: typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth }, getPositionStyles()), className: `
+              z-50 whitespace-normal text-center
+              shadow-md
               ${getColorClasses(color, variant)}
               ${getRadiusClasses(radius)}
               ${getSizeClasses(size)}

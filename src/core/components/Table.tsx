@@ -81,15 +81,15 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
         <div className="flex flex-col gap-4">
           <div
             className={twMerge(
-              "rounded-lg border border-gray-200 shadow-sm",
+              "rounded-lg shadow-sm",
               scrollable && "overflow-x-auto"
             )}
           >
             <table
               ref={ref}
               className={twMerge(
-                "w-full text-sm bg-white min-w-max",
-                striped && "[&>tbody>tr:nth-child(even)]:bg-gray-50",
+                "w-full text-sm min-w-max border border-foreground/10",
+                striped && "[&>tbody>tr:nth-child(even)]:bg-card/50",
                 compact ? "text-sm" : "text-base",
                 className
               )}
@@ -103,7 +103,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
             <div className="flex items-center justify-between">
               <div>
                 {selectable && selectedCount > 0 && (
-                  <Text as="span" size="sm" className="text-gray-600">
+                  <Text as="span" size="sm" className="text-foreground">
                     {selectedCount} selected
                   </Text>
                 )}
@@ -156,7 +156,7 @@ const PaginationButton = ({
     size="sm"
     onClick={onClick}
     disabled={disabled}
-    className="p-1 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100"
+    className="p-1 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-card/50"
   >
     {icon}
   </Button>
@@ -202,7 +202,7 @@ export const TableHeader = forwardRef<
     <thead
       ref={ref}
       className={twMerge(
-        "bg-gray-100 text-gray-700 font-semibold border-b border-gray-200",
+        "bg-background text-foreground font-semibold border-b border-foreground/10",
         className
       )}
       {...props}
@@ -245,7 +245,9 @@ export const TableColumn = forwardRef<HTMLTableCellElement, TableColumnProps>(
         style={{ width }}
         {...props}
       >
-        {children}
+        <Text as="span" size="sm" weight="semibold" className="text-foreground">
+          {children}
+        </Text>
       </th>
     );
   }
@@ -258,7 +260,7 @@ export const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(
   ({ className, children, ...props }, ref) => (
     <tbody
       ref={ref}
-      className={twMerge("divide-y divide-gray-200", className)}
+      className={twMerge("divide-y divide-foreground/10", className)}
       {...props}
     >
       {children}
@@ -288,7 +290,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
       "transition-colors",
       isSelected && "bg-primary/10",
       isDisabled && "opacity-50 cursor-not-allowed",
-      hoverable && "hover:bg-gray-50",
+      hoverable && "hover:bg-foreground/10",
       className
     );
 
@@ -328,13 +330,15 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
         ref={ref}
         colSpan={colSpan}
         className={twMerge(
-          "px-4 py-3 whitespace-nowrap",
+          "px-4 py-3 whitespace-nowrap text-foreground",
           alignmentClass,
           className
         )}
         {...props}
       >
-        {children}
+        <Text as="span" size="sm" className="text-foreground">
+          {children}
+        </Text>
       </td>
     );
   }

@@ -89,7 +89,7 @@ export const Modal = ({
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 500 }}
-            className={`relative w-full ${sizeMap[size]} max-h-[calc(100vh-2rem)] bg-card rounded-lg shadow-xl overflow-hidden flex flex-col bg-white ${className}`}
+            className={`relative w-full ${sizeMap[size]} max-h-[calc(100vh-2rem)] bg-card rounded-lg shadow-xl overflow-hidden flex flex-col bg-card ${className}`}
           >
             {React.Children.map(children, (child) => {
               if (React.isValidElement(child)) {

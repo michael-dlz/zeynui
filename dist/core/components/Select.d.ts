@@ -1,4 +1,4 @@
-import React, { ReactNode, FC, InputHTMLAttributes } from "react";
+import React, { ReactNode, InputHTMLAttributes } from "react";
 import { ColorVariant, LabelPlacement, RadiusVariant, SizeVariant, StyleVariant } from "../types";
 export interface SelectProps extends InputHTMLAttributes<HTMLSelectElement> {
     label: string;
@@ -24,5 +24,5 @@ interface SelectItemProps {
     disabled?: boolean;
 }
 export declare const Select: React.ForwardRefExoticComponent<SelectProps & React.RefAttributes<HTMLSelectElement>>;
-export declare const SelectItem: FC<SelectItemProps>;
+export declare const SelectItem: ({ value, children, disabled }: SelectItemProps) => import("react/jsx-runtime").JSX.Element;
 export {};

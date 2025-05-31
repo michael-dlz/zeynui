@@ -87,9 +87,10 @@ export const Text = <C extends React.ElementType = "p">({
   return (
     <Component
       className={`
+        text-foreground
         ${getSizeClasses(size)}
         ${getWeightClasses(weight)}
-        ${as === "p" ? "text-[#545c75]" : ""}
+        ${as === "p" ? "text-foreground/50" : ""}
         ${className}
       `}
       {...props}

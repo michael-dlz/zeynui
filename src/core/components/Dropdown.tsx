@@ -67,7 +67,7 @@ export const DropdownContent: React.FC<DropdownContentProps> = ({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.2 }}
-          className="absolute z-50 mt-2 bg-white rounded-lg shadow-lg"
+          className="absolute z-50 mt-2 bg-card rounded-lg shadow-lg"
           role="menu"
           aria-label={ariaLabel}
         >

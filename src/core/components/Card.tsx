@@ -93,7 +93,7 @@ export const Card = ({
       )}
       <div
         className={`relative ${horizontal ? "flex" : ""}  ${
-          imageCover ? "text-white" : ""
+          imageCover ? "text-foreground" : ""
         }`}
       >
         {Children.map(children, (child) => {
@@ -125,8 +125,7 @@ export const CardHeader = ({
 }: CardHeaderProps) => {
   return (
     <div
-      className={`${compact ? "py-4" : "p-4"} ${
-        !hasImage ? "border-b border-b-gray-200" : ""
+      className={`${compact ? "py-4" : "p-4"} 
       } ${className}`}
     >
       {children}
@@ -149,11 +148,7 @@ export const CardFooter = ({
   compact = false,
 }: CardFooterProps) => {
   return (
-    <div
-      className={`${compact ? "py-4" : "p-4"} ${
-        !hasImage ? "border-t border-t-gray-200" : ""
-      } ${className}`}
-    >
+    <div className={`${compact ? "py-4" : "p-4"}  ${className}`}>
       {children}
     </div>
   );

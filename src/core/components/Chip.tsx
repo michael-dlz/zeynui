@@ -49,7 +49,7 @@ export const Chip = ({
       danger: "bg-danger text-white",
       warning: "bg-warning text-white",
       success: "bg-success text-white",
-      info: "bg-info text-black",
+      info: "bg-info text-white",
       whatsapp: "bg-whatsapp text-white",
     },
     outline: {

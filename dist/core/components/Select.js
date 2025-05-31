@@ -53,13 +53,13 @@ const INPUT_WRAPPER_CLASSES = {
         whatsapp: "bg-whatsapp/5 border border-transparent focus-within:border-whatsapp focus-within:ring-4 focus-within:ring-whatsapp/10 text-whatsapp",
     },
     light: {
-        primary: "border hover:border-primary focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-primary/10",
-        secondary: "border hover:border-secondary focus-within:border-secondary/50 focus-within:ring-4 focus-within:ring-secondary/10",
-        danger: "border hover:border-danger focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10",
-        warning: "border hover:border-warning focus-within:border-warning/50 focus-within:ring-4 focus-within:ring-warning/10",
-        success: "border hover:border-success focus-within:border-success/50 focus-within:ring-4 focus-within:ring-success/10",
-        info: "border hover:border-info focus-within:border-info/50 focus-within:ring-4 focus-within:ring-info/10",
-        whatsapp: "border hover:border-whatsapp focus-within:border-whatsapp/50 focus-within:ring-4 focus-within:ring-whatsapp/10",
+        primary: "border border-gray-300 hover:border-primary focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-primary/10",
+        secondary: "border border-gray-300 hover:border-secondary focus-within:border-secondary/50 focus-within:ring-4 focus-within:ring-secondary/10",
+        danger: "border border-gray-300 hover:border-danger focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10",
+        warning: "border border-gray-300 hover:border-warning focus-within:border-warning/50 focus-within:ring-4 focus-within:ring-warning/10",
+        success: "border border-gray-300 hover:border-success focus-within:border-success/50 focus-within:ring-4 focus-within:ring-success/10",
+        info: "border border-gray-300 hover:border-info focus-within:border-info/50 focus-within:ring-4 focus-within:ring-info/10",
+        whatsapp: "border border-gray-300 hover:border-whatsapp focus-within:border-whatsapp/50 focus-within:ring-4 focus-within:ring-whatsapp/10",
     },
     underline: {
         primary: "bg-gray-50 border-b border-primary hover:bg-gray-100 focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-primary/10",
@@ -175,6 +175,6 @@ export const Select = forwardRef((_a, ref) => {
                   ${SIZE_CLASSES[selectSize]}`, children: leftContent })), _jsx("select", Object.assign({ id: id, ref: ref, disabled: disabled, className: SelectClasses }, props, { children: children })), rightContent && (_jsx("div", { className: `flex items-center text-sm 
                 ${SIZE_CLASSES[selectSize]}`, children: rightContent }))] })] }), error && typeof error === "string" && (_jsxs("div", { className: "flex items-center gap-1 mt-1.5 text-danger text-sm", children: [_jsx("span", { children: "x" }), _jsx(Text, { as: "span", size: "xs", className: "!text-danger", children: error })] }))] }));
 });
-export const SelectItem = ({ value, children, disabled, }) => {
+export const SelectItem = ({ value, children, disabled }) => {
     return (_jsx("option", { value: value, disabled: disabled, children: children }));
 };

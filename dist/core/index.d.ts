@@ -16,7 +16,6 @@ export * from "./components/Text";
 export * from "./components/Navigation";
 export * from "./components/Checkbox";
 export * from "./components/Modal";
-export * from "./components/SideBar";
 export * from "./components/Table";
 export type * from "./types/index";
 export * from "./hook/useRipples";

@@ -38,7 +38,7 @@ const BASE_CLASSES = {
 
 const ERROR_CLASSES: Record<StyleVariant, string> = {
   solid:
-    "bg-danger border-danger/50 hover:border-danger/70 text-white focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10",
+    "bg-danger border-danger/50 hover:border-danger/70 text-foreground focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10",
   outline:
     "border border-danger/50 text-danger focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10",
   soft: "bg-danger/10 border-danger/50 text-danger focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/20",
@@ -51,18 +51,18 @@ const ERROR_CLASSES: Record<StyleVariant, string> = {
 const INPUT_WRAPPER_CLASSES: VariantClasses = {
   solid: {
     primary:
-      "bg-primary hover:bg-primary/80 text-white focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-primary/10",
+      "bg-primary hover:bg-primary/80 text-foreground focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-primary/10",
     secondary:
-      "bg-secondary hover:bg-secondary/80 text-white focus-within:border-secondary/50 focus-within:ring-4 focus-within:ring-secondary/10",
+      "bg-secondary hover:bg-secondary/80 text-foreground focus-within:border-secondary/50 focus-within:ring-4 focus-within:ring-secondary/10",
     danger:
-      "bg-danger hover:bg-danger/80 text-white focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10",
+      "bg-danger hover:bg-danger/80 text-foreground focus-within:border-danger/50 focus-within:ring-4 focus-within:ring-danger/10",
     warning:
-      "bg-warning hover:bg-warning/80 text-white focus-within:border-warning/50 focus-within:ring-4 focus-within:ring-warning/10",
+      "bg-warning hover:bg-warning/80 text-foreground focus-within:border-warning/50 focus-within:ring-4 focus-within:ring-warning/10",
     success:
-      "bg-success hover:bg-success/80 text-white focus-within:border-success/50 focus-within:ring-4 focus-within:ring-success/10",
+      "bg-success hover:bg-success/80 text-foreground focus-within:border-success/50 focus-within:ring-4 focus-within:ring-success/10",
     info: "bg-info hover:bg-info/80 text-black focus-within:border-info/50 focus-within:ring-4 focus-within:ring-info/10",
     whatsapp:
-      "bg-whatsapp hover:bg-whatsapp/80 text-white focus-within:border-whatsapp/50 focus-within:ring-4 focus-within:ring-whatsapp/10",
+      "bg-whatsapp hover:bg-whatsapp/80 text-foreground focus-within:border-whatsapp/50 focus-within:ring-4 focus-within:ring-whatsapp/10",
   },
   outline: {
     primary:
@@ -137,13 +137,13 @@ const INPUT_WRAPPER_CLASSES: VariantClasses = {
 
 const INPUT_CLASSES: VariantClasses = {
   solid: {
-    primary: "placeholder:text-white text-white",
-    secondary: "placeholder:text-white text-white",
-    danger: "placeholder:text-white text-white",
-    warning: "placeholder:text-white text-white",
-    success: "placeholder:text-white text-white",
+    primary: "placeholder:text-foreground text-foreground",
+    secondary: "placeholder:text-foreground text-foreground",
+    danger: "placeholder:text-foreground text-foreground",
+    warning: "placeholder:text-foreground text-foreground",
+    success: "placeholder:text-foreground text-foreground",
     info: "placeholder:text-black text-black",
-    whatsapp: "placeholder:text-white text-white",
+    whatsapp: "placeholder:text-foreground text-foreground",
   },
   outline: {
     primary: "placeholder:text-gray-500 text-black",

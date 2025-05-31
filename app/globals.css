@@ -1,16 +1,46 @@
 @import "tailwindcss";
 
-@theme {
+:root {
+  --primary: #714fd3;
+  --secondary: #71717a;
+  --danger: #f31260;
+  --warning: #f5a524;
+  --success: #17c964;
+  --card: #f3f4f6;
+  --info: #7ee7fc;
+  --black: #141414;
+  --whatsapp: #128c7e;
+  --background: #f9fafb;
+  --foreground: #111827;
+}
+
+.dark {
+  --primary: #714fd3;
+  --secondary: #71717a;
+  --danger: #f31260;
+  --warning: #f5a524;
+  --success: #17c964;
+  --info: #7ee7fc;
+  --black: #141414;
+  --background: #0f172a;
+  --foreground: #f9fafb;
+  --card: #1e293b;
+}
+
+@theme inline {
   /* COLORS */
 
-  --color-primary: #714fd3;
-  --color-secondary: #71717a;
-  --color-danger: #f31260;
-  --color-warning: #f5a524;
-  --color-success: #17c964;
-  --color-info: #7ee7fc;
-  --color-black: #141414;
-  --color-whatsapp: #128c7e;
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+  --color-info: var(--info);
+  --color-black: var(--black);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-whatsapp: var(--whatsapp);
+  --color-card: var(--card);
 
   /* KEYFRAMES */
 

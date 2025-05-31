@@ -130,50 +130,50 @@ const getTabClasses = (
 ): string => {
   const tabClasses: VarianActiveClasses = {
     solid: {
-      primary: { active: "bg-primary text-white", inactive: "text-primary" },
+      primary: { active: "bg-primary text-foreground", inactive: "text-primary" },
       secondary: {
-        active: "bg-secondary text-white",
+        active: "bg-secondary text-foreground",
         inactive: "text-secondary",
       },
-      danger: { active: "bg-danger text-white", inactive: "text-danger" },
-      warning: { active: "bg-warning text-white", inactive: "text-warning" },
-      success: { active: "bg-success text-white", inactive: "text-success" },
-      info: { active: "bg-info text-white", inactive: "text-info" },
-      whatsapp: { active: "bg-whatsapp text-white", inactive: "text-whatsapp" },
+      danger: { active: "bg-danger text-foreground", inactive: "text-danger" },
+      warning: { active: "bg-warning text-foreground", inactive: "text-warning" },
+      success: { active: "bg-success text-foreground", inactive: "text-success" },
+      info: { active: "bg-info text-foreground", inactive: "text-info" },
+      whatsapp: { active: "bg-whatsapp text-foreground", inactive: "text-whatsapp" },
     },
     outline: {
       primary: {
-        active: "border bg-primary border-primary/50 text-white",
+        active: "border bg-primary border-primary/50 text-foreground",
         inactive:
           "bg-transparent border border-primary/50 text-primary -ml-px first:ml-0",
       },
       secondary: {
-        active: "border bg-secondary border-secondary/50 text-white",
+        active: "border bg-secondary border-secondary/50 text-foreground",
         inactive:
           "bg-transparent border border-secondary/50 text-secondary -ml-px first:ml-0",
       },
       danger: {
-        active: "border bg-danger border-danger/50 text-white",
+        active: "border bg-danger border-danger/50 text-foreground",
         inactive:
           "bg-transparent border border-danger/50 text-danger -ml-px first:ml-0",
       },
       warning: {
-        active: "border bg-warning border-warning/50 text-white",
+        active: "border bg-warning border-warning/50 text-foreground",
         inactive:
           "bg-transparent border border-warning/50 text-warning -ml-px first:ml-0",
       },
       success: {
-        active: "border bg-success border-success/50 text-white",
+        active: "border bg-success border-success/50 text-foreground",
         inactive:
           "bg-transparent border border-success/50 text-success -ml-px first:ml-0",
       },
       info: {
-        active: "border bg-info border-info/50 text-white",
+        active: "border bg-info border-info/50 text-foreground",
         inactive:
           "bg-transparent border border-info/50 text-info -ml-px first:ml-0",
       },
       whatsapp: {
-        active: "border bg-whatsapp border-whatsapp/50 text-white",
+        active: "border bg-whatsapp border-whatsapp/50 text-foreground",
         inactive:
           "bg-transparent border border-whatsapp/50 text-whatsapp -ml-px first:ml-0",
       },

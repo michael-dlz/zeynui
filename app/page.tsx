@@ -78,7 +78,7 @@ const homePage = () => {
       <Navbar
         position="sticky"
         size="xl"
-        className="bg-white shadow-sm"
+        className="bg-card shadow-sm"
         responsive={
           <div className="space-y-3">
             <NavbarStart>
@@ -316,6 +316,9 @@ const homePage = () => {
       <Container className="py-10">
         <Text size="2xl" weight="semibold" as="h3">
           Hola, soy un título
+        </Text>
+        <Text size="lg" weight="semibold" as="p">
+          Hola, soy un párrafo
         </Text>
       </Container>
       <Container className="py-10">

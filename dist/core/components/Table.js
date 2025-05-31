@@ -11,58 +11,81 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { forwardRef, createContext, useContext, Children, isValidElement, } from "react";
+import { forwardRef, createContext, useContext, Children, isValidElement, useMemo, } from "react";
 import { twMerge } from "tailwind-merge";
 import Checkbox from "./Checkbox";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button, Text } from "@zeynui/react";
-const TableContext = createContext({});
-// Main Table Component
+const TableContext = createContext({
+    selectedRows: [],
+    onSelectRow: () => { },
+});
 export const Table = forwardRef((_a, ref) => {
-    var { striped = true, hoverable = true, compact = false, selectable = false, className, children, selectedRows = [], onSelectRow, page = 1, totalPages = 1, onPageChange, scrollable = true } = _a, props = __rest(_a, ["striped", "hoverable", "compact", "selectable", "className", "children", "selectedRows", "onSelectRow", "page", "totalPages", "onPageChange", "scrollable"]);
-    const contextValue = {
+    var { striped = true, hoverable = true, compact = false, selectable = false, className, children, selectedRows = [], onSelectRow = () => { }, page = 1, totalPages = 1, onPageChange, scrollable = true } = _a, props = __rest(_a, ["striped", "hoverable", "compact", "selectable", "className", "children", "selectedRows", "onSelectRow", "page", "totalPages", "onPageChange", "scrollable"]);
+    const contextValue = useMemo(() => ({
         selectable,
         selectedRows,
         onSelectRow,
         page,
         totalPages,
         onPageChange,
-    };
-    return (_jsx(TableContext.Provider, { value: contextValue, children: _jsxs("div", { className: "flex flex-col gap-4", children: [_jsx("div", { className: twMerge("rounded-lg border border-gray-200 shadow-sm", scrollable && "overflow-x-auto"), children: _jsx("table", Object.assign({ ref: ref, className: twMerge("w-full text-sm bg-white min-w-max", striped && "[&>tbody>tr:nth-child(even)]:bg-gray-50", hoverable && "hover:[&>tbody>tr]:bg-gray-50", compact ? "text-sm" : "text-base", className) }, props, { children: children })) }), totalPages > 1 && (_jsxs("div", { className: "flex items-center justify-between", children: [_jsx("div", { children: selectable && (_jsxs("span", { className: "text-sm text-gray-600", children: [selectedRows.length, " selected"] })) }), _jsxs("div", { className: "flex items-center gap-2", children: [_jsx(Button, { isIconOnly: true, size: "sm", onClick: () => onPageChange === null || onPageChange === void 0 ? void 0 : onPageChange(Math.max(1, page - 1)), disabled: page <= 1, className: "p-1 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100", children: _jsx(ChevronLeft, { size: 18 }) }), _jsxs(Text, { as: "span", size: "sm", children: ["P\u00E1gina ", page, " de ", totalPages] }), _jsx(Button, { isIconOnly: true, size: "sm", onClick: () => onPageChange === null || onPageChange === void 0 ? void 0 : onPageChange(Math.min(totalPages, page + 1)), disabled: page >= totalPages, className: "p-1 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100", children: _jsx(ChevronRight, { size: 18 }) })] })] }))] }) }));
+    }), [selectable, selectedRows, onSelectRow, page, totalPages, onPageChange]);
+    const hasPagination = totalPages > 1;
+    const selectedCount = selectedRows.length;
+    return (_jsx(TableContext.Provider, { value: contextValue, children: _jsxs("div", { className: "flex flex-col gap-4", children: [_jsx("div", { className: twMerge("rounded-lg border border-gray-200 shadow-sm", scrollable && "overflow-x-auto"), children: _jsx("table", Object.assign({ ref: ref, className: twMerge("w-full text-sm bg-white min-w-max", striped && "[&>tbody>tr:nth-child(even)]:bg-gray-50", compact ? "text-sm" : "text-base", className) }, props, { children: children })) }), hasPagination && (_jsxs("div", { className: "flex items-center justify-between", children: [_jsx("div", { children: selectable && selectedCount > 0 && (_jsxs(Text, { as: "span", size: "sm", className: "text-gray-600", children: [selectedCount, " selected"] })) }), _jsx(PaginationControls, {})] }))] }) }));
 });
-// Header component with built-in select all checkbox
+const PaginationControls = () => {
+    const { page = 1, totalPages = 1, onPageChange } = useContext(TableContext);
+    const handlePrevious = () => onPageChange === null || onPageChange === void 0 ? void 0 : onPageChange(Math.max(1, page - 1));
+    const handleNext = () => onPageChange === null || onPageChange === void 0 ? void 0 : onPageChange(Math.min(totalPages, page + 1));
+    return (_jsxs("div", { className: "flex items-center gap-2", children: [_jsx(PaginationButton, { onClick: handlePrevious, disabled: page <= 1, icon: _jsx(ChevronLeft, { size: 18 }) }), _jsxs(Text, { as: "span", size: "sm", children: ["P\u00E1gina ", page, " de ", totalPages] }), _jsx(PaginationButton, { onClick: handleNext, disabled: page >= totalPages, icon: _jsx(ChevronRight, { size: 18 }) })] }));
+};
+const PaginationButton = ({ onClick, disabled, icon, }) => (_jsx(Button, { isIconOnly: true, size: "sm", onClick: onClick, disabled: disabled, className: "p-1 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100", children: icon }));
 export const TableHeader = forwardRef((_a, ref) => {
     var { className, children } = _a, props = __rest(_a, ["className", "children"]);
     const { selectable, selectedRows = [], onSelectRow, } = useContext(TableContext);
-    const allSelected = selectedRows.length > 0;
+    const rowIds = useMemo(() => {
+        return Children.toArray(children)
+            .filter((child) => isValidElement(child))
+            .flatMap((child) => {
+            // Buscamos TableRow en los hijos
+            const rows = Children.toArray(child.props.children).filter((c) => isValidElement(c) && "props" in c && "rowId" in c.props);
+            return rows.map((row) => row.props.rowId);
+        });
+    }, [children]);
+    const allSelected = rowIds.length > 0 && selectedRows.length === rowIds.length;
     const someSelected = selectedRows.length > 0 && !allSelected;
-    return (_jsx("thead", Object.assign({ ref: ref, className: twMerge("bg-gray-100 text-gray-700 font-semibold border-b border-gray-200", className) }, props, { children: _jsxs("tr", { children: [selectable && (_jsx("th", { className: "w-10 px-4 py-3", children: _jsx(Checkbox, { checked: allSelected, onChange: (e) => {
-                            const allIds = Children.toArray(children)
-                                .filter((child) => isValidElement(child) &&
-                                "rowId" in child.props)
-                                .map((child) => child.props.rowId);
-                            allIds.forEach((id) => onSelectRow === null || onSelectRow === void 0 ? void 0 : onSelectRow(id, e.target.checked));
-                        }, indeterminate: someSelected }) })), children] }) })));
+    const handleSelectAll = (checked) => {
+        rowIds.forEach((id) => onSelectRow(id, checked));
+    };
+    return (_jsx("thead", Object.assign({ ref: ref, className: twMerge("bg-gray-100 text-gray-700 font-semibold border-b border-gray-200", className) }, props, { children: _jsxs("tr", { children: [selectable && (_jsx("th", { className: "w-10 px-4 py-3", children: _jsx(Checkbox, { checked: allSelected, onChange: (e) => handleSelectAll(e.target.checked), indeterminate: someSelected }) })), children] }) })));
 });
-// Column component
 export const TableColumn = forwardRef((_a, ref) => {
     var { children, align = "left", width, className } = _a, props = __rest(_a, ["children", "align", "width", "className"]);
-    return (_jsx("th", Object.assign({ ref: ref, className: twMerge("px-4 py-3 text-left", align === "center" && "text-center", align === "right" && "text-right", className), style: { width } }, props, { children: children })));
+    const alignmentClass = {
+        left: "text-left",
+        center: "text-center",
+        right: "text-right",
+    }[align];
+    return (_jsx("th", Object.assign({ ref: ref, className: twMerge("px-4 py-3", alignmentClass, className), style: { width } }, props, { children: children })));
 });
-// Body component
 export const TableBody = forwardRef((_a, ref) => {
     var { className, children } = _a, props = __rest(_a, ["className", "children"]);
     return (_jsx("tbody", Object.assign({ ref: ref, className: twMerge("divide-y divide-gray-200", className) }, props, { children: children })));
 });
-// Row component with built-in selection
 export const TableRow = forwardRef((_a, ref) => {
-    var { className, children, rowId, isDisabled } = _a, props = __rest(_a, ["className", "children", "rowId", "isDisabled"]);
+    var { className, children, rowId, isDisabled, hoverable = true } = _a, props = __rest(_a, ["className", "children", "rowId", "isDisabled", "hoverable"]);
     const { selectable, selectedRows = [], onSelectRow, } = useContext(TableContext);
     const isSelected = rowId ? selectedRows.includes(rowId) : false;
-    return (_jsxs("tr", Object.assign({ ref: ref, className: twMerge("transition-colors", isSelected && "bg-primary/10", isDisabled && "opacity-50 cursor-not-allowed", className) }, props, { children: [selectable && (_jsx("td", { className: "px-4 py-3 whitespace-nowrap", children: _jsx(Checkbox, { checked: isSelected, onChange: (e) => rowId && (onSelectRow === null || onSelectRow === void 0 ? void 0 : onSelectRow(rowId, e.target.checked)) }) })), children] })));
+    const rowClasses = twMerge("transition-colors", isSelected && "bg-primary/10", isDisabled && "opacity-50 cursor-not-allowed", hoverable && "hover:bg-gray-50", className);
+    return (_jsxs("tr", Object.assign({ ref: ref, className: rowClasses }, props, { children: [selectable && (_jsx("td", { className: "px-4 py-3 whitespace-nowrap", children: _jsx(Checkbox, { checked: isSelected, onChange: (e) => rowId && onSelectRow(rowId, e.target.checked) }) })), children] })));
 });
-// Cell component
 export const TableCell = forwardRef((_a, ref) => {
     var { children, align = "left", colSpan, className } = _a, props = __rest(_a, ["children", "align", "colSpan", "className"]);
-    return (_jsx("td", Object.assign({ ref: ref, colSpan: colSpan, className: twMerge("px-4 py-3 whitespace-nowrap", align === "center" && "text-center", align === "right" && "text-right", className) }, props, { children: children })));
+    const alignmentClass = {
+        left: "text-left",
+        center: "text-center",
+        right: "text-right",
+    }[align];
+    return (_jsx("td", Object.assign({ ref: ref, colSpan: colSpan, className: twMerge("px-4 py-3 whitespace-nowrap", alignmentClass, className) }, props, { children: children })));
 });

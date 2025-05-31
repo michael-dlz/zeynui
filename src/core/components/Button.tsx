@@ -75,7 +75,7 @@ export const Button = <C extends React.ElementType = "button">({
       danger: "bg-danger hover:bg-danger/90 text-white",
       warning: "bg-warning hover:bg-warning/90 text-white",
       success: "bg-success hover:bg-success/90 text-white",
-      info: "bg-info hover:bg-info/90 text-black",
+      info: "bg-info hover:bg-info/90 text-white",
       whatsapp: "bg-whatsapp hover:bg-whatsapp/90 text-white",
     },
     outline: {
@@ -91,7 +91,7 @@ export const Button = <C extends React.ElementType = "button">({
         "border border-success/50 text-success hover:bg-success hover:text-white",
       info: "border border-info/50 text-info hover:bg-info hover:text-white",
       whatsapp:
-        "border border-whatsapp/50 text-whatsapp hover:bg-whatsapp hover:text-white",
+        "border border-whatsapp/50 text-whatsapp hover:bg-whatsapp hover:text-foreground",
     },
     soft: {
       primary: "bg-primary/10 text-primary hover:bg-primary hover:text-white",

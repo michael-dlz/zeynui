@@ -97,13 +97,13 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
   const colorClasses: VariantClasses = {
     solid: {
-      primary: "bg-primary text-white",
-      secondary: "bg-secondary text-white",
-      danger: "bg-danger text-white",
-      warning: "bg-warning text-white",
-      success: "bg-success text-white",
+      primary: "bg-primary text-foreground",
+      secondary: "bg-secondary text-foreground",
+      danger: "bg-danger text-foreground",
+      warning: "bg-warning text-foreground",
+      success: "bg-success text-foreground",
       info: "bg-info text-black",
-      whatsapp: "bg-whatsapp text-white",
+      whatsapp: "bg-whatsapp text-foreground",
     },
     outline: {
       primary: "border border-primary/50 text-primary",
