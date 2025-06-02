@@ -19,8 +19,6 @@ import {
 import { ERROR_INPUT_SELECT_VARIANTS } from "../constants/variants";
 import { AlertTriangleIcon, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Ripple } from "./Ripples";
-import { useRipples } from "../hook/useRipples";
 
 export interface AutocompleteProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -114,7 +112,6 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       label: string;
     } | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const { ripples, createRipple } = useRipples();
 
     const wrapperClasses = getWrapperClasses(
       radius,
@@ -165,10 +162,8 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
     };
 
     const handleOptionClick = (
-      option: { value: string; label: string },
-      event: React.MouseEvent<HTMLDivElement>
+      option: { value: string; label: string }
     ) => {
-      createRipple(event);
       setInputValue(option.label);
       setSelectedOption(option);
       setIsOpen(false);
@@ -241,25 +236,21 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
-                    className={`absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-${radius} shadow-lg overflow-hidden`}
+                    className={`absolute z-50 w-full mt-1 bg-background border border-foreground/10 rounded-${radius} shadow-lg overflow-hidden`}
                   >
                     <div className="py-1 max-h-60 overflow-auto">
                       {filteredOptions.map((option) => (
                         <div
                           key={option.value}
                           className="relative overflow-hidden"
-                          onClick={(e) => handleOptionClick(option, e)}
+                          onClick={() => handleOptionClick(option)}
                         >
                           <div
-                            className={`
-                              px-3 py-2 cursor-pointer flex items-center justify-between
-                              transition-colors duration-200
-                              ${
-                                selectedOption?.value === option.value
-                                  ? `bg-${color}-50 text-${color}`
-                                  : "hover:bg-gray-50"
-                              }
-                            `}
+                            className={`px-3 py-2 cursor-pointer flex items-center justify-between transition-colors duration-200 ${
+                              selectedOption?.value === option.value
+                                ? "bg-background-50"
+                                : "hover:bg-foreground/5"
+                            }`}
                           >
                             <Text as="span" size="sm">
                               {option.label}
@@ -268,11 +259,6 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
                               <Check className="size-4" />
                             )}
                           </div>
-                          <Ripple
-                            variant={variant}
-                            ripples={ripples}
-                            color={color}
-                          />
                         </div>
                       ))}
                     </div>
