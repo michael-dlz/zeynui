@@ -18,6 +18,7 @@ export * from "./components/Table";
 export * from "./components/Autocomplete";
 export * from "./components/Button"
 export * from "./components/Card";
+export * from "./components/Textarea";
 /* types */
 
 export type * from "./types/index";

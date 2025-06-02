@@ -3,12 +3,14 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input } from "../../../src/core/components/Input";
-import { Autocomplete, Button, Select, SelectItem } from "../../../src/core";
+import { Autocomplete, Button, Select, SelectItem, Textarea } from "../../../src/core";
+import { KeyIcon, UserIcon } from "lucide-react";
 
 type FormValues = {
   name: string;
   role: string;
   permission: string;
+  description: string;
 };
 
 const Form = () => {
@@ -16,11 +18,13 @@ const Form = () => {
     name: "Federico",
     role: "admin",
     permission: "read",
+    description: "This is a description",
   };
   const defaultValues: FormValues = {
     name: "",
     role: "user",
     permission: "delete",
+    description: "",
   };
   const { register, handleSubmit, reset, control } = useForm<FormValues>({
     defaultValues,
@@ -44,12 +48,12 @@ const Form = () => {
           Resetear
         </Button>
       </div>
-      <Input {...register("name")} />
+      <Input {...register("name")} leftContent={<UserIcon className="size-4" />} />
       <Controller
         control={control}
         name="role"
         render={({ field }) => (
-          <Select {...field} label="Role">
+          <Select {...field} label="Role" rightContent={<UserIcon className="size-4" />}>
             <SelectItem value="admin">Admin</SelectItem>
             <SelectItem value="user">User</SelectItem>
           </Select>
@@ -60,6 +64,7 @@ const Form = () => {
         name="permission"
         render={({ field }) => (
           <Autocomplete
+            leftContent={<KeyIcon className="size-4" />}
             options={[
               { value: "read", label: "Read" },
               { value: "write", label: "Write" },
@@ -70,6 +75,7 @@ const Form = () => {
           />
         )}
       />
+      <Textarea leftContent={<UserIcon className="size-4" />} {...register("description")} />
       <Button type="submit">Submit</Button>
     </form>
   );

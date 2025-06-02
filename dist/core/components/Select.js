@@ -38,7 +38,7 @@ const getSelectClasses = (inputSize, variant, color, error, disabled, className)
   ${className}
 `;
 export const Select = forwardRef((_a, ref) => {
-    var { label, error, className = "", variant = "outline", color = "primary", required = false, radius = "md", selectSize = "md", description, leftContent, rightContent, id = "", disabled = false, labelPlacement = "outside", children, onChange, value } = _a, props = __rest(_a, ["label", "error", "className", "variant", "color", "required", "radius", "selectSize", "description", "leftContent", "rightContent", "id", "disabled", "labelPlacement", "children", "onChange", "value"]);
+    var { label, error, className = "", variant = "outline", color = "primary", required = false, radius = "md", selectSize = "md", description, leftContent, rightContent, id = "", disabled = false, labelPlacement = "outside", children, onChange, value = "" } = _a, props = __rest(_a, ["label", "error", "className", "variant", "color", "required", "radius", "selectSize", "description", "leftContent", "rightContent", "id", "disabled", "labelPlacement", "children", "onChange", "value"]);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(value);
     const selectRef = useRef(null);
@@ -79,6 +79,10 @@ export const Select = forwardRef((_a, ref) => {
             }
         }
     };
+    const handleChange = (e) => {
+        setSelectedValue(e.target.value);
+        onChange === null || onChange === void 0 ? void 0 : onChange(e);
+    };
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (containerRef.current &&
@@ -111,7 +115,7 @@ export const Select = forwardRef((_a, ref) => {
                                             ref.current = el;
                                         }
                                         selectRef.current = el;
-                                    }, id: id, value: selectedValue, disabled: disabled, className: "hidden" }, props, { children: children })), _jsx(AnimatePresence, { children: isOpen && !disabled && (_jsx(motion.div, { initial: { opacity: 0, y: -10 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -10 }, transition: { duration: 0.2 }, className: `absolute z-50 w-full mt-1 bg-background border border-foreground/10 rounded-${radius} shadow-lg overflow-hidden`, children: _jsx("div", { className: "py-1 max-h-60 overflow-auto", children: options.map((option) => (_jsx("div", { className: "relative overflow-hidden", onClick: (e) => !option.disabled &&
+                                    }, id: id, value: selectedValue, onChange: handleChange, disabled: disabled, className: "hidden" }, props, { children: children })), _jsx(AnimatePresence, { children: isOpen && !disabled && (_jsx(motion.div, { initial: { opacity: 0, y: -10 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -10 }, transition: { duration: 0.2 }, className: `absolute z-50 w-full mt-1 bg-background border border-foreground/10 rounded-${radius} shadow-lg overflow-hidden`, children: _jsx("div", { className: "py-1 max-h-60 overflow-auto", children: options.map((option) => (_jsx("div", { className: "relative overflow-hidden", onClick: (e) => !option.disabled &&
                                                     handleOptionClick(option.value, e), children: _jsxs("div", { className: twMerge("px-3 py-2 cursor-pointer flex items-center justify-between transition-colors duration-200", selectedValue === option.value
                                                         ? `bg-background-50`
                                                         : "hover:bg-foreground/5", option.disabled && "opacity-50 cursor-not-allowed"), children: [_jsx(Text, { as: "span", size: "sm", children: option.label }), selectedValue === option.value && (_jsx(Check, { className: "size-4" }))] }) }, option.value))) }) })) })] })] }) }), error && (_jsxs("div", { className: "flex items-center gap-2 mt-1", children: [_jsx(AlertTriangleIcon, { className: "size-4 text-danger" }), _jsx(Text, { size: "sm", as: "span", className: "text-danger", children: error })] }))] }));

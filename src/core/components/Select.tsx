@@ -1,6 +1,18 @@
 "use client";
 
-import React, { ReactNode, forwardRef, useState, useRef, useEffect, SelectHTMLAttributes, MouseEvent, ChangeEvent, Children, ReactElement, isValidElement } from "react";
+import React, {
+  ReactNode,
+  forwardRef,
+  useState,
+  useRef,
+  useEffect,
+  SelectHTMLAttributes,
+  MouseEvent,
+  ChangeEvent,
+  Children,
+  ReactElement,
+  isValidElement,
+} from "react";
 import {
   ColorVariant,
   LabelPlacement,
@@ -40,6 +52,7 @@ export interface SelectProps
   disabled?: boolean;
   labelPlacement?: LabelPlacement;
   children: ReactNode;
+  inputSize?: SizeVariant;
 }
 
 interface SelectItemProps {
@@ -106,6 +119,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       children,
       onChange,
       value = "",
+      inputSize = "md",
       ...props
     },
     ref
@@ -148,17 +162,21 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
         if (selectRef.current) {
           selectRef.current.value = optionValue;
-          
-          const nativeEvent = new Event('change', { bubbles: true });
-          Object.defineProperty(nativeEvent, 'target', { value: selectRef.current });
-          Object.defineProperty(nativeEvent, 'currentTarget', { value: selectRef.current });
-          
+
+          const nativeEvent = new Event("change", { bubbles: true });
+          Object.defineProperty(nativeEvent, "target", {
+            value: selectRef.current,
+          });
+          Object.defineProperty(nativeEvent, "currentTarget", {
+            value: selectRef.current,
+          });
+
           selectRef.current.dispatchEvent(nativeEvent);
-          
+
           onChange?.({
             target: selectRef.current,
             currentTarget: selectRef.current,
-            type: 'change',
+            type: "change",
             bubbles: true,
             cancelable: false,
             defaultPrevented: false,
@@ -190,8 +208,9 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         }
       };
 
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
     const options = Children.toArray(children)
@@ -249,7 +268,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                 onClick={() => !disabled && setIsOpen(!isOpen)}
               >
                 {leftContent && (
-                  <div className="pl-3 flex items-center text-gray-400">
+                  <div
+                    className={`flex items-center text-sm !pr-0
+                ${INPUT_SELECT_SIZE_CLASSES[inputSize]}`}
+                  >
                     {leftContent}
                   </div>
                 )}
@@ -265,6 +287,14 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                     }`}
                   />
                 </div>
+                {rightContent && (
+                  <div
+                    className={`flex items-center text-sm !pl-0
+                ${INPUT_SELECT_SIZE_CLASSES[inputSize]}`}
+                  >
+                    {rightContent}
+                  </div>
+                )}
               </div>
 
               <select

@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes } from "react";
+import { forwardRef, InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { Text } from "./Text";
 import {
   ColorVariant,
@@ -17,7 +17,7 @@ import {
 } from "../constants/classes";
 import { ERROR_INPUT_SELECT_VARIANTS } from "../constants/variants";
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   error?: string;
   variant?: StyleVariant;
@@ -33,6 +33,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id?: string;
   disabled?: boolean;
   labelPlacement?: LabelPlacement;
+  rows?: number;
 }
 
 // Función para generar clases dinámicas
@@ -43,7 +44,7 @@ const getWrapperInputClasses = (
   error?: string,
   disabled?: boolean
 ) => `
-  flex items-center w-full rounded-lg
+  flex items-start w-full rounded-lg
   transition-all duration-300 ease-in-out
   ${
     disabled
@@ -74,7 +75,7 @@ const getInputClasses = (
   ${className}
 `;
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
       label,
@@ -91,6 +92,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       id = "",
       disabled = false,
       labelPlacement = "outside",
+      rows = 3,
       ...props
     },
     ref
@@ -152,10 +154,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 {leftContent}
               </div>
             )}
-            <input
+            <textarea
               id={id}
               ref={ref}
               disabled={disabled}
+              rows={rows}
               className={inputClasses}
               {...props}
             />
@@ -182,4 +185,4 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   }
 );
 
-Input.displayName = "Input";
+Textarea.displayName = "Textarea";

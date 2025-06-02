@@ -1,6 +1,14 @@
 "use client";
 
-import React, { forwardRef, useState, useEffect, useRef, InputHTMLAttributes, ReactNode, ChangeEvent } from "react";
+import React, {
+  forwardRef,
+  useState,
+  useEffect,
+  useRef,
+  InputHTMLAttributes,
+  ReactNode,
+  ChangeEvent,
+} from "react";
 import { Text } from "./Text";
 import {
   ColorVariant,
@@ -116,7 +124,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 
     useEffect(() => {
       if (value) {
-        const option = options.find(opt => opt.value === value);
+        const option = options.find((opt) => opt.value === value);
         if (option) {
           setSelectedOption(option);
           setInputValue(option.label);
@@ -151,13 +159,11 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 
     useEffect(() => {
       setFilteredOptions(
-        inputValue
-          ? options.filter((option) =>
-              option.label
-                .toLowerCase()
-                .includes(inputValue.toString().toLowerCase())
-            )
-          : options
+        options.filter((option) =>
+          option.label
+            .toLowerCase()
+            .includes(inputValue.toString().toLowerCase())
+        )
       );
     }, [inputValue, options]);
 
@@ -172,7 +178,6 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
             setInputValue(selectedOption.label);
           } else {
             setInputValue("");
-            setFilteredOptions(options);
           }
         }
       };
@@ -180,7 +185,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       document.addEventListener("mousedown", handleClickOutside);
       return () =>
         document.removeEventListener("mousedown", handleClickOutside);
-    }, [selectedOption, options]);
+    }, [selectedOption]);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
@@ -188,46 +193,42 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       setIsOpen(true);
       
       if (!newValue) {
-        setFilteredOptions(options);
         onChange?.({
           ...e,
           target: {
             ...e.target,
-            value: ""
-          }
+            value: "",
+          },
         });
       }
     };
 
-    const handleOptionClick = (
-      option: { value: string; label: string }
-    ) => {
+    const handleOptionClick = (option: { value: string; label: string }) => {
       setInputValue(option.label);
       setSelectedOption(option);
       setIsOpen(false);
       onOptionSelected?.(option.value);
-      
+
       const syntheticEvent = {
         target: {
           name: props.name,
-          value: option.value
-        }
+          value: option.value,
+        },
       } as ChangeEvent<HTMLInputElement>;
-      
+
       onChange?.(syntheticEvent);
     };
 
     const handleClear = () => {
       setInputValue("");
       setSelectedOption(null);
-      setIsOpen(true);
-      setFilteredOptions(options);
+      setIsOpen(false);
       
       const syntheticEvent = {
         target: {
           name: props.name,
-          value: ""
-        }
+          value: "",
+        },
       } as ChangeEvent<HTMLInputElement>;
       
       onChange?.(syntheticEvent);
@@ -235,9 +236,6 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 
     const handleInputFocus = () => {
       setIsOpen(true);
-      if (!inputValue) {
-        setFilteredOptions(options);
-      }
     };
 
     return (
@@ -273,7 +271,10 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
             <div className="relative w-full">
               <div className={wrapperClasses}>
                 {leftContent && (
-                  <div className="pl-3 flex items-center text-gray-400">
+                  <div
+                    className={`flex items-center text-sm !pr-0
+                ${INPUT_SELECT_SIZE_CLASSES[inputSize]}`}
+                  >
                     {leftContent}
                   </div>
                 )}
@@ -299,7 +300,14 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
                       <XIcon className="size-4" />
                     </button>
                   )}
-                  {rightContent}
+                  {rightContent && (
+                    <div
+                      className={`flex items-center text-sm !pl-0
+                ${INPUT_SELECT_SIZE_CLASSES[inputSize]}`}
+                    >
+                      {rightContent}
+                    </div>
+                  )}
                 </div>
               </div>
 
