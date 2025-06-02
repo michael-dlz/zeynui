@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef, useState, useEffect, useRef } from "react";
+import React, { forwardRef, useState, useEffect, useRef, InputHTMLAttributes, ReactNode, ChangeEvent } from "react";
 import { Text } from "./Text";
 import {
   ColorVariant,
@@ -21,7 +21,7 @@ import { AlertTriangleIcon, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export interface AutocompleteProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+  extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   variant?: StyleVariant;
@@ -32,8 +32,8 @@ export interface AutocompleteProps
   inputSize?: SizeVariant;
   description?: string;
   className?: string;
-  leftContent?: React.ReactNode;
-  rightContent?: React.ReactNode;
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
   id?: string;
   disabled?: boolean;
   labelPlacement?: LabelPlacement;
@@ -104,7 +104,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
     },
     ref
   ) => {
-    const [inputValue, setInputValue] = useState(value || "");
+    const [inputValue, setInputValue] = useState("");
     const [filteredOptions, setFilteredOptions] = useState(options);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<{
@@ -112,6 +112,19 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       label: string;
     } | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (value) {
+        const option = options.find(opt => opt.value === value);
+        if (option) {
+          setSelectedOption(option);
+          setInputValue(option.label);
+        }
+      } else {
+        setSelectedOption(null);
+        setInputValue("");
+      }
+    }, [value, options]);
 
     const wrapperClasses = getWrapperClasses(
       radius,
@@ -147,18 +160,31 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
           !containerRef.current.contains(event.target as Node)
         ) {
           setIsOpen(false);
+          if (selectedOption) {
+            setInputValue(selectedOption.label);
+          } else {
+            setInputValue("");
+          }
         }
       };
 
       document.addEventListener("mousedown", handleClickOutside);
       return () =>
         document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    }, [selectedOption]);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
       setInputValue(e.target.value);
-      onChange?.(e);
       setIsOpen(true);
+      if (!e.target.value) {
+        onChange?.({
+          ...e,
+          target: {
+            ...e.target,
+            value: ""
+          }
+        });
+      }
     };
 
     const handleOptionClick = (
@@ -168,6 +194,15 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       setSelectedOption(option);
       setIsOpen(false);
       onOptionSelected?.(option.value);
+      
+      const syntheticEvent = {
+        target: {
+          name: props.name,
+          value: option.value
+        }
+      } as ChangeEvent<HTMLInputElement>;
+      
+      onChange?.(syntheticEvent);
     };
 
     const handleInputFocus = () => {

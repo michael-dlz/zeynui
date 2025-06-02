@@ -17,8 +17,6 @@ import { BASE_INPUT_SELECT_CLASSES, INPUT_SELECT_CLASSES, INPUT_SELECT_SIZE_CLAS
 import { ERROR_INPUT_SELECT_VARIANTS } from "../constants/variants";
 import { AlertTriangleIcon, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Ripple } from "./Ripples";
-import { useRipples } from "../hook/useRipples";
 const getWrapperClasses = (radius, variant, color, error, disabled) => `
   flex items-center w-full rounded-lg
   transition-all duration-300 ease-in-out
@@ -45,7 +43,6 @@ export const Autocomplete = forwardRef((_a, ref) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const containerRef = useRef(null);
-    const { ripples, createRipple } = useRipples();
     const wrapperClasses = getWrapperClasses(radius, variant, color, error, disabled);
     const inputClasses = getInputClasses(inputSize, variant, color, error, disabled, className);
     useEffect(() => {
@@ -68,8 +65,7 @@ export const Autocomplete = forwardRef((_a, ref) => {
         onChange === null || onChange === void 0 ? void 0 : onChange(e);
         setIsOpen(true);
     };
-    const handleOptionClick = (option, event) => {
-        createRipple(event);
+    const handleOptionClick = (option) => {
         setInputValue(option.label);
         setSelectedOption(option);
         setIsOpen(false);
@@ -80,12 +76,8 @@ export const Autocomplete = forwardRef((_a, ref) => {
     };
     return (_jsxs("div", { className: "w-full grid gap-1.5 relative", ref: containerRef, children: [labelPlacement === "outside" && (_jsxs(Text, { as: "label", htmlFor: id, weight: "semibold", size: "sm", children: [label, " ", required && _jsx("span", { className: "text-danger", children: "*" })] })), description && !(labelPlacement === "outside-left") && (_jsx(Text, { size: "sm", weight: "normal", as: "p", children: description })), _jsx("div", { className: labelPlacement === "outside-left"
                     ? "flex items-center gap-5 justify-start"
-                    : "", children: _jsxs("div", { className: "w-full", children: [labelPlacement === "outside-left" && (_jsxs(Text, { as: "label", htmlFor: id, weight: "semibold", size: "sm", children: [label, " ", required && _jsx("span", { className: "text-danger", children: "*" })] })), description && labelPlacement === "outside-left" && (_jsx(Text, { size: "sm", weight: "normal", as: "p", children: description })), _jsxs("div", { className: "relative w-full", children: [_jsxs("div", { className: wrapperClasses, children: [leftContent && (_jsx("div", { className: "pl-3 flex items-center text-gray-400", children: leftContent })), _jsx("input", Object.assign({ ref: ref, id: id, value: inputValue, onChange: handleInputChange, onFocus: handleInputFocus, disabled: disabled, required: required, className: inputClasses }, props)), rightContent && (_jsx("div", { className: "pr-3 flex items-center text-gray-400", children: rightContent }))] }), _jsx(AnimatePresence, { children: isOpen && filteredOptions.length > 0 && (_jsx(motion.div, { initial: { opacity: 0, y: -10 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -10 }, transition: { duration: 0.2 }, className: `absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-${radius} shadow-lg overflow-hidden`, children: _jsx("div", { className: "py-1 max-h-60 overflow-auto", children: filteredOptions.map((option) => (_jsxs("div", { className: "relative overflow-hidden", onClick: (e) => handleOptionClick(option, e), children: [_jsxs("div", { className: `
-                              px-3 py-2 cursor-pointer flex items-center justify-between
-                              transition-colors duration-200
-                              ${(selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.value) === option.value
-                                                            ? `bg-${color}-50 text-${color}`
-                                                            : "hover:bg-gray-50"}
-                            `, children: [_jsx(Text, { as: "span", size: "sm", children: option.label }), (selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.value) === option.value && (_jsx(Check, { className: "size-4" }))] }), _jsx(Ripple, { variant: variant, ripples: ripples, color: color })] }, option.value))) }) })) })] })] }) }), error && (_jsxs("div", { className: "flex items-center gap-2 mt-1", children: [_jsx(AlertTriangleIcon, { className: "size-4 text-danger" }), _jsx(Text, { size: "sm", as: "span", className: "text-danger", children: error })] }))] }));
+                    : "", children: _jsxs("div", { className: "w-full", children: [labelPlacement === "outside-left" && (_jsxs(Text, { as: "label", htmlFor: id, weight: "semibold", size: "sm", children: [label, " ", required && _jsx("span", { className: "text-danger", children: "*" })] })), description && labelPlacement === "outside-left" && (_jsx(Text, { size: "sm", weight: "normal", as: "p", children: description })), _jsxs("div", { className: "relative w-full", children: [_jsxs("div", { className: wrapperClasses, children: [leftContent && (_jsx("div", { className: "pl-3 flex items-center text-gray-400", children: leftContent })), _jsx("input", Object.assign({ ref: ref, id: id, value: inputValue, onChange: handleInputChange, onFocus: handleInputFocus, disabled: disabled, required: required, className: inputClasses }, props)), rightContent && (_jsx("div", { className: "pr-3 flex items-center text-gray-400", children: rightContent }))] }), _jsx(AnimatePresence, { children: isOpen && filteredOptions.length > 0 && (_jsx(motion.div, { initial: { opacity: 0, y: -10 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -10 }, transition: { duration: 0.2 }, className: `absolute z-50 w-full mt-1 bg-background border border-foreground/10 rounded-${radius} shadow-lg overflow-hidden`, children: _jsx("div", { className: "py-1 max-h-60 overflow-auto", children: filteredOptions.map((option) => (_jsx("div", { className: "relative overflow-hidden", onClick: () => handleOptionClick(option), children: _jsxs("div", { className: `px-3 py-2 cursor-pointer flex items-center justify-between transition-colors duration-200 ${(selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.value) === option.value
+                                                        ? "bg-background-50"
+                                                        : "hover:bg-foreground/5"}`, children: [_jsx(Text, { as: "span", size: "sm", children: option.label }), (selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.value) === option.value && (_jsx(Check, { className: "size-4" }))] }) }, option.value))) }) })) })] })] }) }), error && (_jsxs("div", { className: "flex items-center gap-2 mt-1", children: [_jsx(AlertTriangleIcon, { className: "size-4 text-danger" }), _jsx(Text, { size: "sm", as: "span", className: "text-danger", children: error })] }))] }));
 });
 Autocomplete.displayName = "Autocomplete";

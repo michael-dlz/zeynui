@@ -17,8 +17,6 @@ import { BASE_INPUT_SELECT_CLASSES, INPUT_SELECT_CLASSES, INPUT_SELECT_SIZE_CLAS
 import { ERROR_INPUT_SELECT_VARIANTS } from "../constants/variants";
 import { AlertTriangleIcon, Check, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Ripple } from "./Ripples";
-import { useRipples } from "../hook/useRipples";
 import { twMerge } from "tailwind-merge";
 const getWrapperSelectClasses = (radius, variant, color, error, disabled) => `
   flex items-center w-full rounded-lg
@@ -45,45 +43,35 @@ export const Select = forwardRef((_a, ref) => {
     const [selectedValue, setSelectedValue] = useState(value);
     const selectRef = useRef(null);
     const containerRef = useRef(null);
-    const { ripples, createRipple } = useRipples();
     const wrapperSelectClasses = getWrapperSelectClasses(radius, variant, color, error, disabled);
     const selectClasses = getSelectClasses(selectSize, variant, color, error, disabled, className);
     const handleOptionClick = (optionValue, event) => {
-        createRipple(event);
-        setSelectedValue(optionValue);
-        setIsOpen(false);
-        if (onChange && selectRef.current) {
-            selectRef.current.value = optionValue;
-            const syntheticEvent = new Event("change", { bubbles: true });
-            selectRef.current.dispatchEvent(syntheticEvent);
-            onChange({
-                target: selectRef.current,
-                currentTarget: selectRef.current,
-                type: "change",
-                bubbles: true,
-                cancelable: false,
-                defaultPrevented: false,
-                isDefaultPrevented: () => false,
-                isPropagationStopped: () => false,
-                isTrusted: true,
-                nativeEvent: syntheticEvent,
-                preventDefault: () => { },
-                stopPropagation: () => { },
-                persist: () => { },
-                timeStamp: Date.now(),
-            });
+        if (!disabled) {
+            setSelectedValue(optionValue);
+            setIsOpen(false);
+            if (onChange && selectRef.current) {
+                selectRef.current.value = optionValue;
+                const syntheticEvent = new Event("change", { bubbles: true });
+                selectRef.current.dispatchEvent(syntheticEvent);
+                onChange({
+                    target: selectRef.current,
+                    currentTarget: selectRef.current,
+                    type: "change",
+                    bubbles: true,
+                    cancelable: false,
+                    defaultPrevented: false,
+                    isDefaultPrevented: () => false,
+                    isPropagationStopped: () => false,
+                    isTrusted: true,
+                    nativeEvent: syntheticEvent,
+                    preventDefault: () => { },
+                    stopPropagation: () => { },
+                    persist: () => { },
+                    timeStamp: Date.now(),
+                });
+            }
         }
     };
-    React.useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (containerRef.current &&
-                !containerRef.current.contains(event.target)) {
-                setIsOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
     const options = React.Children.toArray(children)
         .filter((child) => React.isValidElement(child) &&
         typeof child.props.value === "string" &&
@@ -106,10 +94,10 @@ export const Select = forwardRef((_a, ref) => {
                                             ref.current = el;
                                         }
                                         selectRef.current = el;
-                                    }, id: id, value: selectedValue, disabled: disabled, className: "hidden" }, props, { children: children })), _jsx(AnimatePresence, { children: isOpen && !disabled && (_jsx(motion.div, { initial: { opacity: 0, y: -10 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -10 }, transition: { duration: 0.2 }, className: `absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-${radius} shadow-lg overflow-hidden`, children: _jsx("div", { className: "py-1 max-h-60 overflow-auto", children: options.map((option) => (_jsxs("div", { className: "relative overflow-hidden", onClick: (e) => !option.disabled &&
-                                                    handleOptionClick(option.value, e), children: [_jsxs("div", { className: twMerge("px-3 py-2 cursor-pointer flex items-center justify-between transition-colors duration-200", selectedValue === option.value
-                                                            ? `bg-${color}-50 text-${color}`
-                                                            : "hover:bg-gray-50", option.disabled && "opacity-50 cursor-not-allowed"), children: [_jsx(Text, { as: "span", size: "sm", children: option.label }), selectedValue === option.value && (_jsx(Check, { className: "size-4" }))] }), !option.disabled && (_jsx(Ripple, { variant: variant, ripples: ripples, color: color }))] }, option.value))) }) })) })] })] }) }), error && (_jsxs("div", { className: "flex items-center gap-2 mt-1", children: [_jsx(AlertTriangleIcon, { className: "size-4 text-danger" }), _jsx(Text, { size: "sm", as: "span", className: "text-danger", children: error })] }))] }));
+                                    }, id: id, value: selectedValue, disabled: disabled, className: "hidden" }, props, { children: children })), _jsx(AnimatePresence, { children: isOpen && !disabled && (_jsx(motion.div, { initial: { opacity: 0, y: -10 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -10 }, transition: { duration: 0.2 }, className: `absolute z-50 w-full mt-1 bg-background border border-foreground/10 rounded-${radius} shadow-lg overflow-hidden`, children: _jsx("div", { className: "py-1 max-h-60 overflow-auto", children: options.map((option) => (_jsx("div", { className: "relative overflow-hidden", onClick: (e) => !option.disabled &&
+                                                    handleOptionClick(option.value, e), children: _jsxs("div", { className: twMerge("px-3 py-2 cursor-pointer flex items-center justify-between transition-colors duration-200", selectedValue === option.value
+                                                        ? `bg-background-50`
+                                                        : "hover:bg-foreground/5", option.disabled && "opacity-50 cursor-not-allowed"), children: [_jsx(Text, { as: "span", size: "sm", children: option.label }), selectedValue === option.value && (_jsx(Check, { className: "size-4" }))] }) }, option.value))) }) })) })] })] }) }), error && (_jsxs("div", { className: "flex items-center gap-2 mt-1", children: [_jsx(AlertTriangleIcon, { className: "size-4 text-danger" }), _jsx(Text, { size: "sm", as: "span", className: "text-danger", children: error })] }))] }));
 });
 export const SelectItem = ({ value, children, disabled }) => {
     return (_jsx("option", { value: value, disabled: disabled, children: children }));

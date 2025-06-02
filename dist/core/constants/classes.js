@@ -93,12 +93,12 @@ export const INPUT_SELECT_CLASSES = {
         info: "placeholder:text-info text-info",
     },
     light: {
-        primary: "placeholder:text-gray-500 text-black",
-        secondary: "placeholder:text-gray-500 text-black",
-        danger: "placeholder:text-gray-500 text-black",
-        warning: "placeholder:text-gray-500 text-black",
-        success: "placeholder:text-gray-500 text-black",
-        info: "placeholder:text-gray-500 text-black",
+        primary: "placeholder:text-foreground/50 text-foreground",
+        secondary: "placeholder:text-foreground/50 text-foreground",
+        danger: "placeholder:text-foreground/50 text-foreground",
+        warning: "placeholder:text-foreground/50 text-foreground",
+        success: "placeholder:text-foreground/50 text-foreground",
+        info: "placeholder:text-foreground/50 text-foreground",
     },
     underline: {
         primary: "placeholder:text-gray-500 text-black",

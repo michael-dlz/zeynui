@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, forwardRef, useState, useRef } from "react";
+import React, { ReactNode, forwardRef, useState, useRef, useEffect, SelectHTMLAttributes, MouseEvent, ChangeEvent, Children, ReactElement, isValidElement } from "react";
 import {
   ColorVariant,
   LabelPlacement,
@@ -23,7 +23,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 
 export interface SelectProps
-  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "size"> {
+  extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "size"> {
   label: string;
   error?: string;
   variant?: StyleVariant;
@@ -34,8 +34,8 @@ export interface SelectProps
   selectSize?: SizeVariant;
   description?: string;
   className?: string;
-  leftContent?: React.ReactNode;
-  rightContent?: React.ReactNode;
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
   id?: string;
   disabled?: boolean;
   labelPlacement?: LabelPlacement;
@@ -117,6 +117,12 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     const selectRef = useRef<HTMLSelectElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+      if (value !== undefined) {
+        setSelectedValue(value as string);
+      }
+    }, [value]);
+
     const wrapperSelectClasses = getWrapperSelectClasses(
       radius,
       variant,
@@ -136,40 +142,59 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
     const handleOptionClick = (
       optionValue: string,
-      event: React.MouseEvent<HTMLDivElement>
+      event: MouseEvent<HTMLDivElement>
     ) => {
       if (!disabled) {
         setSelectedValue(optionValue);
         setIsOpen(false);
 
-        if (onChange && selectRef.current) {
+        if (selectRef.current) {
           selectRef.current.value = optionValue;
-          const syntheticEvent = new Event("change", { bubbles: true });
-          selectRef.current.dispatchEvent(syntheticEvent);
-          onChange({
+          
+          const nativeEvent = new Event('change', { bubbles: true });
+          Object.defineProperty(nativeEvent, 'target', { value: selectRef.current });
+          Object.defineProperty(nativeEvent, 'currentTarget', { value: selectRef.current });
+          
+          selectRef.current.dispatchEvent(nativeEvent);
+          
+          onChange?.({
             target: selectRef.current,
             currentTarget: selectRef.current,
-            type: "change",
+            type: 'change',
             bubbles: true,
             cancelable: false,
             defaultPrevented: false,
             isDefaultPrevented: () => false,
             isPropagationStopped: () => false,
             isTrusted: true,
-            nativeEvent: syntheticEvent,
+            nativeEvent: nativeEvent,
             preventDefault: () => {},
             stopPropagation: () => {},
             persist: () => {},
             timeStamp: Date.now(),
-          } as React.ChangeEvent<HTMLSelectElement>);
+          } as ChangeEvent<HTMLSelectElement>);
         }
       }
     };
 
-    const options = React.Children.toArray(children)
+    useEffect(() => {
+      const handleClickOutside = (event: globalThis.MouseEvent) => {
+        if (
+          containerRef.current &&
+          !containerRef.current.contains(event.target as Node)
+        ) {
+          setIsOpen(false);
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const options = Children.toArray(children)
       .filter(
-        (child): child is React.ReactElement<SelectItemProps> =>
-          React.isValidElement<SelectItemProps>(child) &&
+        (child): child is ReactElement<SelectItemProps> =>
+          isValidElement<SelectItemProps>(child) &&
           typeof child.props.value === "string" &&
           "children" in child.props
       )
