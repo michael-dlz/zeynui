@@ -1,6 +1,7 @@
 "use client";
 
-import React, { ReactNode, forwardRef, useState, useRef } from "react";
+import React, { forwardRef, useState, useEffect, useRef } from "react";
+import { Text } from "./Text";
 import {
   ColorVariant,
   LabelPlacement,
@@ -8,32 +9,29 @@ import {
   SizeVariant,
   StyleVariant,
 } from "../types";
-import { Text } from "./Text";
 import {
   BASE_INPUT_SELECT_CLASSES,
   INPUT_SELECT_CLASSES,
   INPUT_SELECT_SIZE_CLASSES,
   RADIUS_CLASSES,
-  SIZE_CLASSES,
   WRAPPER_INPUT_SELECT_CLASSES,
 } from "../constants/classes";
 import { ERROR_INPUT_SELECT_VARIANTS } from "../constants/variants";
-import { AlertTriangleIcon, Check, ChevronDown } from "lucide-react";
+import { AlertTriangleIcon, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Ripple } from "./Ripples";
 import { useRipples } from "../hook/useRipples";
-import { twMerge } from "tailwind-merge";
 
-export interface SelectProps
-  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "size"> {
-  label: string;
+export interface AutocompleteProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
   error?: string;
   variant?: StyleVariant;
   color?: ColorVariant;
   name?: string;
   radius?: RadiusVariant;
   required?: boolean;
-  selectSize?: SizeVariant;
+  inputSize?: SizeVariant;
   description?: string;
   className?: string;
   leftContent?: React.ReactNode;
@@ -41,16 +39,11 @@ export interface SelectProps
   id?: string;
   disabled?: boolean;
   labelPlacement?: LabelPlacement;
-  children: ReactNode;
+  options: Array<{ value: string; label: string }>;
+  onOptionSelected?: (value: string) => void;
 }
 
-interface SelectItemProps {
-  value: string;
-  children: ReactNode;
-  disabled?: boolean;
-}
-
-const getWrapperSelectClasses = (
+const getWrapperClasses = (
   radius: RadiusVariant,
   variant: StyleVariant,
   color: ColorVariant,
@@ -72,7 +65,7 @@ const getWrapperSelectClasses = (
   }
 `;
 
-const getSelectClasses = (
+const getInputClasses = (
   inputSize: SizeVariant,
   variant: StyleVariant,
   color: ColorVariant,
@@ -88,7 +81,7 @@ const getSelectClasses = (
   ${className}
 `;
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(
+export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
   (
     {
       label,
@@ -98,29 +91,32 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       color = "primary",
       required = false,
       radius = "md",
-      selectSize = "md",
+      inputSize = "md",
       description,
       leftContent,
       rightContent,
       id = "",
       disabled = false,
       labelPlacement = "outside",
-      children,
+      options = [],
+      onOptionSelected,
       onChange,
       value,
       ...props
     },
     ref
   ) => {
+    const [inputValue, setInputValue] = useState(value || "");
+    const [filteredOptions, setFilteredOptions] = useState(options);
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState<string | undefined>(
-      value as string
-    );
-    const selectRef = useRef<HTMLSelectElement>(null);
+    const [selectedOption, setSelectedOption] = useState<{
+      value: string;
+      label: string;
+    } | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const { ripples, createRipple } = useRipples();
 
-    const wrapperSelectClasses = getWrapperSelectClasses(
+    const wrapperClasses = getWrapperClasses(
       radius,
       variant,
       color,
@@ -128,8 +124,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       disabled
     );
 
-    const selectClasses = getSelectClasses(
-      selectSize,
+    const inputClasses = getInputClasses(
+      inputSize,
       variant,
       color,
       error,
@@ -137,38 +133,17 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       className
     );
 
-    const handleOptionClick = (
-      optionValue: string,
-      event: React.MouseEvent<HTMLDivElement>
-    ) => {
-      createRipple(event);
-      setSelectedValue(optionValue);
-      setIsOpen(false);
+    useEffect(() => {
+      setFilteredOptions(
+        options.filter((option) =>
+          option.label
+            .toLowerCase()
+            .includes(inputValue.toString().toLowerCase())
+        )
+      );
+    }, [inputValue, options]);
 
-      if (onChange && selectRef.current) {
-        selectRef.current.value = optionValue;
-        const syntheticEvent = new Event("change", { bubbles: true });
-        selectRef.current.dispatchEvent(syntheticEvent);
-        onChange({
-          target: selectRef.current,
-          currentTarget: selectRef.current,
-          type: "change",
-          bubbles: true,
-          cancelable: false,
-          defaultPrevented: false,
-          isDefaultPrevented: () => false,
-          isPropagationStopped: () => false,
-          isTrusted: true,
-          nativeEvent: syntheticEvent,
-          preventDefault: () => {},
-          stopPropagation: () => {},
-          persist: () => {},
-          timeStamp: Date.now(),
-        } as React.ChangeEvent<HTMLSelectElement>);
-      }
-    };
-
-    React.useEffect(() => {
+    useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
         if (
           containerRef.current &&
@@ -183,23 +158,29 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    const options = React.Children.toArray(children)
-      .filter(
-        (child): child is React.ReactElement<SelectItemProps> =>
-          React.isValidElement<SelectItemProps>(child) &&
-          typeof child.props.value === "string" &&
-          "children" in child.props
-      )
-      .map((child) => ({
-        value: child.props.value,
-        label: child.props.children,
-        disabled: child.props.disabled,
-      }));
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setInputValue(e.target.value);
+      onChange?.(e);
+      setIsOpen(true);
+    };
 
-    const selectedOption = options.find((opt) => opt.value === selectedValue);
+    const handleOptionClick = (
+      option: { value: string; label: string },
+      event: React.MouseEvent<HTMLDivElement>
+    ) => {
+      createRipple(event);
+      setInputValue(option.label);
+      setSelectedOption(option);
+      setIsOpen(false);
+      onOptionSelected?.(option.value);
+    };
+
+    const handleInputFocus = () => {
+      setIsOpen(true);
+    };
 
     return (
-      <div className="w-full space-y-1.5" ref={containerRef}>
+      <div className="w-full grid gap-1.5 relative" ref={containerRef}>
         {labelPlacement === "outside" && (
           <Text as="label" htmlFor={id} weight="semibold" size="sm">
             {label} {required && <span className="text-danger">*</span>}
@@ -229,53 +210,32 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
               </Text>
             )}
             <div className="relative w-full">
-              <div
-                className={twMerge(
-                  wrapperSelectClasses,
-                  "cursor-pointer",
-                  disabled && "cursor-not-allowed"
-                )}
-                onClick={() => !disabled && setIsOpen(!isOpen)}
-              >
+              <div className={wrapperClasses}>
                 {leftContent && (
                   <div className="pl-3 flex items-center text-gray-400">
                     {leftContent}
                   </div>
                 )}
-                <div className={selectClasses}>
-                  {selectedOption
-                    ? selectedOption.label
-                    : "Selecciona una opción"}
-                </div>
-                <div className="pr-3 flex items-center text-gray-400">
-                  <ChevronDown
-                    className={`size-4 transition-transform duration-200 ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </div>
+                <input
+                  ref={ref}
+                  id={id}
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onFocus={handleInputFocus}
+                  disabled={disabled}
+                  required={required}
+                  className={inputClasses}
+                  {...props}
+                />
+                {rightContent && (
+                  <div className="pr-3 flex items-center text-gray-400">
+                    {rightContent}
+                  </div>
+                )}
               </div>
 
-              <select
-                ref={(el) => {
-                  if (typeof ref === "function") {
-                    ref(el);
-                  } else if (ref) {
-                    ref.current = el;
-                  }
-                  selectRef.current = el;
-                }}
-                id={id}
-                value={selectedValue}
-                disabled={disabled}
-                className="hidden"
-                {...props}
-              >
-                {children}
-              </select>
-
               <AnimatePresence>
-                {isOpen && !disabled && (
+                {isOpen && filteredOptions.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -284,38 +244,35 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                     className={`absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-${radius} shadow-lg overflow-hidden`}
                   >
                     <div className="py-1 max-h-60 overflow-auto">
-                      {options.map((option) => (
+                      {filteredOptions.map((option) => (
                         <div
                           key={option.value}
                           className="relative overflow-hidden"
-                          onClick={(e) =>
-                            !option.disabled &&
-                            handleOptionClick(option.value, e)
-                          }
+                          onClick={(e) => handleOptionClick(option, e)}
                         >
                           <div
-                            className={twMerge(
-                              "px-3 py-2 cursor-pointer flex items-center justify-between transition-colors duration-200",
-                              selectedValue === option.value
-                                ? `bg-${color}-50 text-${color}`
-                                : "hover:bg-gray-50",
-                              option.disabled && "opacity-50 cursor-not-allowed"
-                            )}
+                            className={`
+                              px-3 py-2 cursor-pointer flex items-center justify-between
+                              transition-colors duration-200
+                              ${
+                                selectedOption?.value === option.value
+                                  ? `bg-${color}-50 text-${color}`
+                                  : "hover:bg-gray-50"
+                              }
+                            `}
                           >
                             <Text as="span" size="sm">
                               {option.label}
                             </Text>
-                            {selectedValue === option.value && (
+                            {selectedOption?.value === option.value && (
                               <Check className="size-4" />
                             )}
                           </div>
-                          {!option.disabled && (
-                            <Ripple
-                              variant={variant}
-                              ripples={ripples}
-                              color={color}
-                            />
-                          )}
+                          <Ripple
+                            variant={variant}
+                            ripples={ripples}
+                            color={color}
+                          />
                         </div>
                       ))}
                     </div>
@@ -339,12 +296,4 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   }
 );
 
-export const SelectItem = ({ value, children, disabled }: SelectItemProps) => {
-  return (
-    <option value={value} disabled={disabled}>
-      {children}
-    </option>
-  );
-};
-
-Select.displayName = "Select";
+Autocomplete.displayName = "Autocomplete";

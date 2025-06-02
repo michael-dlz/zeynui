@@ -26,7 +26,7 @@ export const DropdownContent = ({ children, "aria-label": ariaLabel, }) => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [setIsOpen]);
-    return (_jsx(AnimatePresence, { children: isOpen && (_jsx(motion.div, { ref: ref, initial: { opacity: 0, y: -5 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -5 }, transition: { duration: 0.2 }, className: "absolute z-50 mt-2 bg-white rounded-lg shadow-lg", role: "menu", "aria-label": ariaLabel, children: children })) }));
+    return (_jsx(AnimatePresence, { children: isOpen && (_jsx(motion.div, { ref: ref, initial: { opacity: 0, y: -5 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -5 }, transition: { duration: 0.2 }, className: "absolute z-50 mt-2 bg-card rounded-lg shadow-lg", role: "menu", "aria-label": ariaLabel, children: children })) }));
 };
 export const DropdownTrigger = ({ children, isHover = false, fullWidth = false, className = "" }) => {
     const { isOpen, setIsOpen } = useDropdown();

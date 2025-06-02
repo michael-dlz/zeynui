@@ -1,6 +1,6 @@
-import React, { ReactNode, InputHTMLAttributes } from "react";
+import React, { ReactNode } from "react";
 import { ColorVariant, LabelPlacement, RadiusVariant, SizeVariant, StyleVariant } from "../types";
-export interface SelectProps extends InputHTMLAttributes<HTMLSelectElement> {
+export interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "size"> {
     label: string;
     error?: string;
     variant?: StyleVariant;
@@ -16,7 +16,7 @@ export interface SelectProps extends InputHTMLAttributes<HTMLSelectElement> {
     id?: string;
     disabled?: boolean;
     labelPlacement?: LabelPlacement;
-    children: React.ReactNode;
+    children: ReactNode;
 }
 interface SelectItemProps {
     value: string;

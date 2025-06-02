@@ -11,66 +11,11 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { CHIP_CLASSES } from "../constants/classes";
 export const Chip = (_a) => {
     var { children, className = "", color = "primary", radius = "md", size = "sm", variant = "solid", leftContent, rightContent, isIconOnly = false, isRelative = true, fullWidth = false, align = "center", onClick, onClose } = _a, props = __rest(_a, ["children", "className", "color", "radius", "size", "variant", "leftContent", "rightContent", "isIconOnly", "isRelative", "fullWidth", "align", "onClick", "onClose"]);
-    const chipClasses = {
-        solid: {
-            primary: "bg-primary text-white",
-            secondary: "bg-secondary text-white",
-            danger: "bg-danger text-white",
-            warning: "bg-warning text-white",
-            success: "bg-success text-white",
-            info: "bg-info text-black",
-            whatsapp: "bg-whatsapp text-white",
-        },
-        outline: {
-            primary: "border border-primary/50 text-primary",
-            secondary: "border border-secondary/50 text-secondary",
-            danger: "border border-danger/50 text-danger",
-            warning: "border border-warning/50 text-warning",
-            success: "border border-success/50 text-success",
-            info: "border border-info/50 text-info",
-            whatsapp: "border border-whatsapp/50 text-whatsapp",
-        },
-        soft: {
-            primary: "bg-primary/10 text-primary",
-            secondary: "bg-secondary/10 text-secondary",
-            danger: "bg-danger/10 text-danger",
-            warning: "bg-warning/10 text-warning",
-            success: "bg-success/10 text-success",
-            info: "bg-info/10 text-info",
-            whatsapp: "bg-whatsapp/10 text-whatsapp",
-        },
-        light: {
-            primary: "text-primary",
-            secondary: "text-secondary",
-            danger: "text-danger",
-            warning: "text-warning",
-            success: "text-success",
-            info: "text-info",
-            whatsapp: "text-whatsapp",
-        },
-        underline: {
-            primary: "text-primary border-b border-primary",
-            secondary: "text-secondary border-b border-secondary",
-            danger: "text-danger border-b border-danger",
-            warning: "text-warning border-b border-warning",
-            success: "text-success border-b border-success",
-            info: "text-info border-b border-info",
-            whatsapp: "text-whatsapp border-b border-whatsapp",
-        },
-        ghost: {
-            primary: "text-black",
-            secondary: "text-black",
-            danger: "text-black",
-            warning: "text-black",
-            success: "text-black",
-            info: "text-black",
-            whatsapp: "text-black",
-        },
-    };
     const getColorClasses = (colorName, variant) => {
-        return chipClasses[variant][colorName];
+        return CHIP_CLASSES[variant][colorName];
     };
     const alignmentClasses = {
         left: "justify-start",

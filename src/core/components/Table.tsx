@@ -11,9 +11,9 @@ import {
   useMemo,
 } from "react";
 import { twMerge } from "tailwind-merge";
-import Checkbox from "./Checkbox";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button, Text } from "@zeynui/react";
+import { Checkbox } from "./Checkbox";
 
 type TableContextType = {
   selectable?: boolean;

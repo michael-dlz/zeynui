@@ -13,66 +13,11 @@ var __rest = (this && this.__rest) || function (s, e) {
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Ripple } from "./Ripples";
 import { useRipples } from "../hook/useRipples";
+import { BUTTON_CLASSES, RADIUS_CLASSES, SIZE_CLASSES, SIZE_CLASSES_ONLY_ICON, } from "../constants/classes";
 export const Button = (_a) => {
     var { children, className = "", color = "primary", radius = "md", size = "md", variant = "solid", leftContent, rightContent, topContent, bottomContent, isIconOnly = false, isRelative = true, isBounce = true, fullWidth = false, isElevation = true, align = "center", as, onClick } = _a, props = __rest(_a, ["children", "className", "color", "radius", "size", "variant", "leftContent", "rightContent", "topContent", "bottomContent", "isIconOnly", "isRelative", "isBounce", "fullWidth", "isElevation", "align", "as", "onClick"]);
     const { ripples, createRipple } = useRipples();
     const Component = as || "button";
-    const BUTTON_CLASSES = {
-        solid: {
-            primary: "bg-primary hover:bg-primary/90 text-white",
-            secondary: "bg-secondary hover:bg-secondary/90 text-white",
-            danger: "bg-danger hover:bg-danger/90 text-white",
-            warning: "bg-warning hover:bg-warning/90 text-white",
-            success: "bg-success hover:bg-success/90 text-white",
-            info: "bg-info hover:bg-info/90 text-black",
-            whatsapp: "bg-whatsapp hover:bg-whatsapp/90 text-white",
-        },
-        outline: {
-            primary: "border border-primary/50 text-primary hover:bg-primary hover:text-white",
-            secondary: "border border-secondary/50 text-secondary hover:bg-secondary hover:text-white",
-            danger: "border border-danger/50 text-danger hover:bg-danger hover:text-white",
-            warning: "border border-warning/50 text-warning hover:bg-warning hover:text-white",
-            success: "border border-success/50 text-success hover:bg-success hover:text-white",
-            info: "border border-info/50 text-info hover:bg-info hover:text-white",
-            whatsapp: "border border-whatsapp/50 text-whatsapp hover:bg-whatsapp hover:text-white",
-        },
-        soft: {
-            primary: "bg-primary/10 text-primary hover:bg-primary hover:text-white",
-            secondary: "bg-secondary/10 text-secondary hover:bg-secondary hover:text-white",
-            danger: "bg-danger/10 text-danger hover:bg-danger hover:text-white",
-            warning: "bg-warning/10 text-warning hover:bg-warning hover:text-white",
-            success: "bg-success/10 text-success hover:bg-success hover:text-white",
-            info: "bg-info/10 text-info hover:bg-info hover:text-white",
-            whatsapp: "bg-whatsapp/10 text-whatsapp hover:bg-whatsapp hover:text-white",
-        },
-        light: {
-            primary: "text-primary hover:bg-primary/10",
-            secondary: "text-secondary hover:bg-secondary/10",
-            danger: "text-danger hover:bg-danger/10",
-            warning: "text-warning hover:bg-warning/10",
-            success: "text-success hover:bg-success/10",
-            info: "text-info hover:bg-info/10",
-            whatsapp: "text-whatsapp hover:bg-whatsapp/10",
-        },
-        underline: {
-            primary: "text-primary border-b border-primary hover:bg-primary/10",
-            secondary: "text-secondary border-b border-secondary hover:bg-secondary/10",
-            danger: "text-danger border-b border-danger hover:bg-danger/10",
-            warning: "text-warning border-b border-warning hover:bg-warning/10",
-            success: "text-success border-b border-success hover:bg-success/10",
-            info: "text-info border-b border-info hover:bg-info/10",
-            whatsapp: "text-whatsapp border-b border-whatsapp hover:bg-whatsapp/10",
-        },
-        ghost: {
-            primary: "text-black hover:bg-primary/10 hover:text-black",
-            secondary: "text-black hover:bg-secondary/10 hover:text-black",
-            danger: "text-black hover:bg-danger/10 hover:text-black",
-            warning: "text-black hover:bg-warning/10 hover:text-black",
-            success: "text-black hover:bg-success/10 hover:text-black",
-            info: "text-black hover:bg-info/10 hover:text-black",
-            whatsapp: "text-black hover:bg-whatsapp/10 hover:text-black",
-        },
-    };
     const handleClick = (event) => {
         createRipple(event);
         if (onClick) {
@@ -89,31 +34,13 @@ export const Button = (_a) => {
     };
     const getSizeClasses = (buttonSize, isIconOnly) => {
         if (isIconOnly) {
-            const iconSizeMap = {
-                sm: "w-8 h-8 text-lg",
-                md: "w-10 h-10 text-xl",
-                lg: "w-12 h-12 text-2xl",
-            };
-            return iconSizeMap[buttonSize];
+            return SIZE_CLASSES_ONLY_ICON[buttonSize];
         }
-        const sizeMap = {
-            sm: "text-xs px-3 py-1.5",
-            md: "text-sm px-6 py-3",
-            lg: "text-base px-9 py-4",
-        };
-        return sizeMap[buttonSize];
+        return SIZE_CLASSES[buttonSize];
     };
     const getRadiusClasses = (radiusSize) => {
-        const radiusMap = {
-            none: "rounded-none",
-            sm: "rounded-sm",
-            md: "rounded-md",
-            lg: "rounded-lg",
-            full: "rounded-full",
-        };
-        return radiusMap[radiusSize];
+        return RADIUS_CLASSES[radiusSize];
     };
-    const finalIsElevation = variant === "light" || variant === "underline" ? false : isElevation;
     return (_jsxs(Component, Object.assign({ className: `
         cursor-pointer
         overflow-hidden 
@@ -127,8 +54,10 @@ export const Button = (_a) => {
         ease-in-out
         disabled:opacity-50
         disabled:cursor-not-allowed
+        focus-visible:ring-2
+        focus-visible:ring-offset-1
+        focus-visible:outline-none
         ${alignmentClasses[align]}
-        ${finalIsElevation ? "hover:shadow-xl" : ""}
         ${fullWidth ? "w-full" : ""}
         ${isBounce ? "active:scale-95" : ""}
         ${isRelative ? "relative" : ""}

@@ -73,9 +73,10 @@ export const Text = (_a) => {
     };
     const Component = as || getDefaultElement(size);
     return (_jsx(Component, Object.assign({ className: `
+        text-foreground
         ${getSizeClasses(size)}
         ${getWeightClasses(weight)}
-        ${as === "p" ? "text-[#545c75]" : ""}
+        ${as === "p" ? "text-foreground/50" : ""}
         ${className}
       ` }, props, { children: children })));
 };

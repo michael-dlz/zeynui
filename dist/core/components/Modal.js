@@ -39,7 +39,7 @@ export const Modal = ({ children, backdrop = "blur", size = "md", isOpen: isOpen
             finalOnClose();
         }
     };
-    return (_jsx(AnimatePresence, { children: finalIsOpen && (_jsx(motion.div, { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, onClick: handleClickOutside, className: `fixed inset-0 z-50 flex items-center justify-center p-4 ${backdropClasses[backdrop]}`, children: _jsx(motion.div, { ref: modalRef, initial: { y: 20, opacity: 0 }, animate: { y: 0, opacity: 1 }, exit: { y: 20, opacity: 0 }, transition: { type: "spring", damping: 25, stiffness: 500 }, className: `relative w-full ${sizeMap[size]} max-h-[calc(100vh-2rem)] bg-card rounded-lg shadow-xl overflow-hidden flex flex-col bg-white ${className}`, children: React.Children.map(children, (child) => {
+    return (_jsx(AnimatePresence, { children: finalIsOpen && (_jsx(motion.div, { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, onClick: handleClickOutside, className: `fixed inset-0 z-50 flex items-center justify-center p-4 ${backdropClasses[backdrop]}`, children: _jsx(motion.div, { ref: modalRef, initial: { y: 20, opacity: 0 }, animate: { y: 0, opacity: 1 }, exit: { y: 20, opacity: 0 }, transition: { type: "spring", damping: 25, stiffness: 500 }, className: `relative w-full ${sizeMap[size]} max-h-[calc(100vh-2rem)] bg-card rounded-lg shadow-xl overflow-hidden flex flex-col ${className}`, children: React.Children.map(children, (child) => {
                     if (React.isValidElement(child)) {
                         return React.cloneElement(child, {
                             onClose: finalOnClose,

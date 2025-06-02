@@ -7,5 +7,4 @@ export const colors: ColorVariant[] = [
   "warning",
   "success",
   "info",
-  "whatsapp",
 ];

@@ -75,7 +75,7 @@ const getPlacementAnimation = (placement) => {
             };
     }
 };
-export const Drawer = ({ children, isOpen, onClose, placement = "right", size = "md", backdrop = "transparent", className = "bg-white", }) => {
+export const Drawer = ({ children, isOpen, onClose, placement = "right", size = "md", backdrop = "transparent", className = "bg-card", }) => {
     return (_jsx(DrawerContext.Provider, { value: {
             isOpen,
             onClose,

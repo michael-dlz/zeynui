@@ -1,42 +1,33 @@
-import { RadiusVariant } from "../types";
+import { GradientDirection, RadiusVariant } from "../types";
 import {
   Children,
   cloneElement,
   isValidElement,
+  PropsWithChildren,
   ReactElement,
-  ReactNode,
 } from "react";
-type GradientDirection = "up" | "down" | "left" | "right";
-interface CardProps {
-  children: ReactNode;
+
+interface CardProps extends PropsWithChildren {
   imageCover?: string;
   className?: string;
   gradient?: GradientDirection;
   radius?: RadiusVariant;
-  compact?: boolean;
-  horizontal?: boolean;
+  hasShadow?: boolean;
+  isCompact?: boolean;
 }
-interface CardHeaderProps {
-  children?: ReactNode;
+interface CardHeaderProps extends PropsWithChildren {
+  className?: string;
+}
+interface CardImageProps extends PropsWithChildren {
+  className?: string;
+}
+interface CardContentProps extends PropsWithChildren {
   className?: string;
   hasImage?: boolean;
-  compact?: boolean;
 }
-interface CardImageProps {
-  children?: ReactNode;
-  className?: string;
-}
-interface CardContentProps {
-  children?: ReactNode;
+interface CardFooterProps extends PropsWithChildren {
   className?: string;
   hasImage?: boolean;
-  compact?: boolean;
-}
-interface CardFooterProps {
-  children?: ReactNode;
-  className?: string;
-  hasImage?: boolean;
-  compact?: boolean;
 }
 const getGradientStyle = (direction?: GradientDirection) => {
   if (!direction) return "";
@@ -54,7 +45,8 @@ export const Card = ({
   className = "",
   gradient,
   radius = "md",
-  horizontal = false,
+  hasShadow = true,
+  isCompact = false,
 }: CardProps) => {
   const getRadiusClasses = (radiusSize: RadiusVariant): string => {
     const radiusMap = {
@@ -62,15 +54,24 @@ export const Card = ({
       sm: "rounded-sm",
       md: "rounded-md",
       lg: "rounded-lg",
-      full: "rounded-full",
+      full: "rounded-[9999px]",
     };
     return radiusMap[radiusSize];
+  };
+
+  const getPaddingClasses = (isCompact: boolean) => {
+    if (!isCompact) return "p-[1.144rem]";
+    return "p-0";
   };
 
   return (
     <div
       className={`relative
-        ${getRadiusClasses(radius)} overflow-hidden ${className}`}
+        ${getRadiusClasses(radius)} ${getPaddingClasses(
+        isCompact
+      )} overflow-hidden ${className} ${
+        hasShadow ? "shadow-lg shadow-black/10" : ""
+      }`}
       style={
         imageCover
           ? {
@@ -92,9 +93,7 @@ export const Card = ({
         />
       )}
       <div
-        className={`relative ${horizontal ? "flex" : ""}  ${
-          imageCover ? "text-foreground" : ""
-        }`}
+        className={`relative grid gap-4 ${imageCover ? "text-foreground" : ""}`}
       >
         {Children.map(children, (child) => {
           if (isValidElement(child)) {
@@ -117,39 +116,12 @@ export const CardImage = ({ children, className = "" }: CardImageProps) => {
   );
 };
 
-export const CardHeader = ({
-  children,
-  className = "",
-  hasImage,
-  compact = false,
-}: CardHeaderProps) => {
-  return (
-    <div
-      className={`${compact ? "py-4" : "p-4"} 
-      } ${className}`}
-    >
-      {children}
-    </div>
-  );
+export const CardHeader = ({ children, className = "" }: CardHeaderProps) => {
+  return <div className={className}>{children}</div>;
 };
-export const CardContent = ({
-  children,
-  className = "",
-  compact = false,
-}: CardContentProps) => {
-  return (
-    <div className={`${compact ? "py-4" : "p-4"} ${className}`}>{children}</div>
-  );
+export const CardContent = ({ children, className = "" }: CardContentProps) => {
+  return <div className={className}>{children}</div>;
 };
-export const CardFooter = ({
-  children,
-  className = "",
-  hasImage,
-  compact = false,
-}: CardFooterProps) => {
-  return (
-    <div className={`${compact ? "py-4" : "p-4"}  ${className}`}>
-      {children}
-    </div>
-  );
+export const CardFooter = ({ children, className = "" }: CardFooterProps) => {
+  return <div className={className}>{children}</div>;
 };

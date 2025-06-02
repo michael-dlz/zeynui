@@ -1,24 +1,31 @@
 "use client";
-import { useCallback, useEffect, useState, Children, useMemo } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  Children,
+  useMemo,
+  PropsWithChildren,
+} from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { EmblaEventType } from "embla-carousel";
-import { Button } from "./Button";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import { Button } from "./Button";
+import { RadiusVariant } from "../types";
 
-interface CarouselProps {
-  children: React.ReactNode;
+interface CarouselProps extends PropsWithChildren {
   navigation?: boolean;
   pagination?: boolean;
   thumbnails?: boolean;
   autoplay?: boolean;
   interval?: number;
   loop?: boolean;
-  draggable?: boolean;
   align?: "start" | "center" | "end";
   slidesToShow?: number;
   spacing?: number;
   duration?: number;
   dragFree?: boolean;
+  radiusThumbnails?: RadiusVariant;
   className?: string;
 }
 
@@ -30,12 +37,12 @@ export const Carousel = ({
   autoplay = false,
   interval = 3000,
   loop = false,
-  draggable = true,
   align = "center",
   slidesToShow = 1,
   spacing = 10,
   duration = 25,
   dragFree = false,
+  radiusThumbnails = "sm",
   className = "",
 }: CarouselProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -45,13 +52,13 @@ export const Carousel = ({
     align,
     slidesToScroll: slidesToShow,
     skipSnaps: false,
-    duration, // Duración de la transición ajustada
+    duration,
     startIndex: 0,
   });
 
   const [thumbsRef, thumbsApi] = useEmblaCarousel({
     containScroll: "keepSnaps",
-    dragFree: true,
+    dragFree: dragFree,
     align: "start",
     slidesToScroll: 1,
   });
@@ -215,21 +222,24 @@ export const Carousel = ({
           <div ref={thumbsRef} className="overflow-hidden">
             <div className="flex gap-2">
               {Children.map(children, (child, index) => (
-                <button
+                <Button
                   key={index}
+                  isBounce={false}
+                  size="sm"
+                  radius={radiusThumbnails}
                   onClick={() => scrollTo(index)}
-                  className={`flex-[0_0_100px] min-w-0 transition-opacity rounded-lg overflow-hidden aspect-square h-20 object-cover bg-neutral-50
+                  className={`!p-0 flex-[0_0_100px] min-w-0 transition-opacity rounded-lg overflow-hidden aspect-square h-20 object-cover bg-black/50 cursor-pointer
                     ${
                       selectedIndex === index
                         ? ""
                         : "opacity-50 hover:opacity-75"
                     }`}
                   style={{
-                    transition: "opacity 0.2s ease", // Transición más rápida para los thumbnails
+                    transition: "opacity 0.2s ease",
                   }}
                 >
                   {child}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -239,8 +249,7 @@ export const Carousel = ({
   );
 };
 
-interface CarouselItemProps {
-  children: React.ReactNode;
+interface CarouselItemProps extends PropsWithChildren {
   className?: string;
 }
 

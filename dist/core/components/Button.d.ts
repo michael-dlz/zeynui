@@ -1,19 +1,14 @@
-import React, { ComponentPropsWithoutRef } from "react";
-import { AlignmentVariant, ColorVariant, RadiusVariant, SizeVariant, StyleVariant } from "../types";
-type AsProp<C extends React.ElementType> = {
-    as?: C;
-};
-type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
-type PolymorphicComponentProp<C extends React.ElementType, Props = {}> = React.PropsWithChildren<Props & AsProp<C>> & Omit<ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
+import { ElementType, ReactNode } from "react";
+import { AlignmentVariant, ColorVariant, PolymorphicComponentProp, RadiusVariant, SizeVariant, StyleVariant } from "../types";
 type ButtonVariantsProps = {
     color?: ColorVariant;
     radius?: RadiusVariant;
     size?: SizeVariant;
     variant?: StyleVariant;
-    leftContent?: React.ReactNode;
-    rightContent?: React.ReactNode;
-    topContent?: React.ReactNode;
-    bottomContent?: React.ReactNode;
+    leftContent?: ReactNode;
+    rightContent?: ReactNode;
+    topContent?: ReactNode;
+    bottomContent?: ReactNode;
     isIconOnly?: boolean;
     className?: string;
     isRelative?: boolean;
@@ -22,6 +17,6 @@ type ButtonVariantsProps = {
     isElevation?: boolean;
     align?: AlignmentVariant;
 };
-type ButtonProps<C extends React.ElementType> = PolymorphicComponentProp<C, ButtonVariantsProps>;
-export declare const Button: <C extends React.ElementType = "button">({ children, className, color, radius, size, variant, leftContent, rightContent, topContent, bottomContent, isIconOnly, isRelative, isBounce, fullWidth, isElevation, align, as, onClick, ...props }: ButtonProps<C>) => import("react/jsx-runtime").JSX.Element;
+type ButtonProps<C extends ElementType> = PolymorphicComponentProp<C, ButtonVariantsProps>;
+export declare const Button: <C extends ElementType = "button">({ children, className, color, radius, size, variant, leftContent, rightContent, topContent, bottomContent, isIconOnly, isRelative, isBounce, fullWidth, isElevation, align, as, onClick, ...props }: ButtonProps<C>) => import("react/jsx-runtime").JSX.Element;
 export {};

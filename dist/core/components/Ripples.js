@@ -5,9 +5,10 @@ export const Ripple = ({ variant, ripples, color }) => {
             solid: `bg-white/40`,
             outline: `bg-white/40`,
             soft: `bg-white/40`,
-            light: `bg-${color}/10`,
-            underline: `bg-${color}/10`,
+            light: `bg-slate-500/10`,
+            underline: `bg-slate-500/10`,
             ghost: `bg-white/40`,
+            shadow: `bg-slate-500/10`,
         };
         return rippleColorMap[variant];
     };

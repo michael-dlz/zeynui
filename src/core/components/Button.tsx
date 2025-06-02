@@ -1,35 +1,32 @@
 "use client";
-import React, { ComponentPropsWithoutRef } from "react";
+
+import { ElementType, MouseEvent, ReactNode } from "react";
 import { Ripple } from "./Ripples";
 import {
   AlignmentVariant,
   ColorVariant,
+  PolymorphicComponentProp,
   RadiusVariant,
   SizeVariant,
   StyleVariant,
-  VariantClasses,
 } from "../types";
 import { useRipples } from "../hook/useRipples";
-import { Text } from "./Text";
-type AsProp<C extends React.ElementType> = {
-  as?: C;
-};
-type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
-type PolymorphicComponentProp<
-  C extends React.ElementType,
-  Props = {}
-> = React.PropsWithChildren<Props & AsProp<C>> &
-  Omit<ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
+import {
+  BUTTON_CLASSES,
+  RADIUS_CLASSES,
+  SIZE_CLASSES,
+  SIZE_CLASSES_ONLY_ICON,
+} from "../constants/classes";
 
 type ButtonVariantsProps = {
   color?: ColorVariant;
   radius?: RadiusVariant;
   size?: SizeVariant;
   variant?: StyleVariant;
-  leftContent?: React.ReactNode;
-  rightContent?: React.ReactNode;
-  topContent?: React.ReactNode;
-  bottomContent?: React.ReactNode;
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
+  topContent?: ReactNode;
+  bottomContent?: ReactNode;
   isIconOnly?: boolean;
   className?: string;
   isRelative?: boolean;
@@ -39,12 +36,12 @@ type ButtonVariantsProps = {
   align?: AlignmentVariant;
 };
 
-type ButtonProps<C extends React.ElementType> = PolymorphicComponentProp<
+type ButtonProps<C extends ElementType> = PolymorphicComponentProp<
   C,
   ButtonVariantsProps
 >;
 
-export const Button = <C extends React.ElementType = "button">({
+export const Button = <C extends ElementType = "button">({
   children,
   className = "",
   color = "primary",
@@ -68,73 +65,7 @@ export const Button = <C extends React.ElementType = "button">({
   const { ripples, createRipple } = useRipples();
   const Component = as || "button";
 
-  const BUTTON_CLASSES: VariantClasses = {
-    solid: {
-      primary: "bg-primary hover:bg-primary/90 text-white",
-      secondary: "bg-secondary hover:bg-secondary/90 text-white",
-      danger: "bg-danger hover:bg-danger/90 text-white",
-      warning: "bg-warning hover:bg-warning/90 text-white",
-      success: "bg-success hover:bg-success/90 text-white",
-      info: "bg-info hover:bg-info/90 text-white",
-      whatsapp: "bg-whatsapp hover:bg-whatsapp/90 text-white",
-    },
-    outline: {
-      primary:
-        "border border-primary/50 text-primary hover:bg-primary hover:text-white",
-      secondary:
-        "border border-secondary/50 text-secondary hover:bg-secondary hover:text-white",
-      danger:
-        "border border-danger/50 text-danger hover:bg-danger hover:text-white",
-      warning:
-        "border border-warning/50 text-warning hover:bg-warning hover:text-white",
-      success:
-        "border border-success/50 text-success hover:bg-success hover:text-white",
-      info: "border border-info/50 text-info hover:bg-info hover:text-white",
-      whatsapp:
-        "border border-whatsapp/50 text-whatsapp hover:bg-whatsapp hover:text-foreground",
-    },
-    soft: {
-      primary: "bg-primary/10 text-primary hover:bg-primary hover:text-white",
-      secondary:
-        "bg-secondary/10 text-secondary hover:bg-secondary hover:text-white",
-      danger: "bg-danger/10 text-danger hover:bg-danger hover:text-white",
-      warning: "bg-warning/10 text-warning hover:bg-warning hover:text-white",
-      success: "bg-success/10 text-success hover:bg-success hover:text-white",
-      info: "bg-info/10 text-info hover:bg-info hover:text-white",
-      whatsapp:
-        "bg-whatsapp/10 text-whatsapp hover:bg-whatsapp hover:text-white",
-    },
-    light: {
-      primary: "text-primary hover:bg-primary/10",
-      secondary: "text-secondary hover:bg-secondary/10",
-      danger: "text-danger hover:bg-danger/10",
-      warning: "text-warning hover:bg-warning/10",
-      success: "text-success hover:bg-success/10",
-      info: "text-info hover:bg-info/10",
-      whatsapp: "text-whatsapp hover:bg-whatsapp/10",
-    },
-    underline: {
-      primary: "text-primary border-b border-primary hover:bg-primary/10",
-      secondary:
-        "text-secondary border-b border-secondary hover:bg-secondary/10",
-      danger: "text-danger border-b border-danger hover:bg-danger/10",
-      warning: "text-warning border-b border-warning hover:bg-warning/10",
-      success: "text-success border-b border-success hover:bg-success/10",
-      info: "text-info border-b border-info hover:bg-info/10",
-      whatsapp: "text-whatsapp border-b border-whatsapp hover:bg-whatsapp/10",
-    },
-    ghost: {
-      primary: "text-black hover:bg-primary/10 hover:text-black",
-      secondary: "text-black hover:bg-secondary/10 hover:text-black",
-      danger: "text-black hover:bg-danger/10 hover:text-black",
-      warning: "text-black hover:bg-warning/10 hover:text-black",
-      success: "text-black hover:bg-success/10 hover:text-black",
-      info: "text-black hover:bg-info/10 hover:text-black",
-      whatsapp: "text-black hover:bg-whatsapp/10 hover:text-black",
-    },
-  };
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
     createRipple(event);
     if (onClick) {
       onClick(event);
@@ -148,7 +79,7 @@ export const Button = <C extends React.ElementType = "button">({
     return BUTTON_CLASSES[variant][colorName];
   };
 
-  const alignmentClasses = {
+  const alignmentClasses: Record<AlignmentVariant, string> = {
     left: "justify-start",
     center: "justify-center",
     right: "justify-end",
@@ -159,34 +90,14 @@ export const Button = <C extends React.ElementType = "button">({
     isIconOnly: boolean
   ): string => {
     if (isIconOnly) {
-      const iconSizeMap = {
-        sm: "w-8 h-8 text-lg",
-        md: "w-10 h-10 text-xl",
-        lg: "w-12 h-12 text-2xl",
-      };
-      return iconSizeMap[buttonSize];
+      return SIZE_CLASSES_ONLY_ICON[buttonSize];
     }
-    const sizeMap = {
-      sm: "text-xs px-3 py-1.5",
-      md: "text-sm px-6 py-3",
-      lg: "text-base px-9 py-4",
-    };
-    return sizeMap[buttonSize];
+    return SIZE_CLASSES[buttonSize];
   };
 
   const getRadiusClasses = (radiusSize: RadiusVariant): string => {
-    const radiusMap = {
-      none: "rounded-none",
-      sm: "rounded-sm",
-      md: "rounded-md",
-      lg: "rounded-lg",
-      full: "rounded-full",
-    };
-    return radiusMap[radiusSize];
+    return RADIUS_CLASSES[radiusSize];
   };
-
-  const finalIsElevation =
-    variant === "light" || variant === "underline" ? false : isElevation;
 
   return (
     <Component
@@ -203,8 +114,10 @@ export const Button = <C extends React.ElementType = "button">({
         ease-in-out
         disabled:opacity-50
         disabled:cursor-not-allowed
+        focus-visible:ring-2
+        focus-visible:ring-offset-1
+        focus-visible:outline-none
         ${alignmentClasses[align]}
-        ${finalIsElevation ? "hover:shadow-xl" : ""}
         ${fullWidth ? "w-full" : ""}
         ${isBounce ? "active:scale-95" : ""}
         ${isRelative ? "relative" : ""}

@@ -2,9 +2,9 @@
 import React, { createContext, useContext } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { ContainerSizeVariant, JustifyNavbar, PositionNavbar } from "../types";
-import { Button } from "./Button";
 import { Drawer, DrawerBody } from "./Drawer";
 import { useDisclosure } from "../hook/useDisclosure";
+import { Button } from "./Button";
 
 export interface NavbarProps {
   children: React.ReactNode;
