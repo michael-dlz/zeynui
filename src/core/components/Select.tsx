@@ -105,15 +105,13 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       labelPlacement = "outside",
       children,
       onChange,
-      value,
+      value = "",
       ...props
     },
     ref
   ) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState<string | undefined>(
-      value as string
-    );
+    const [selectedValue, setSelectedValue] = useState<string>(value as string);
     const selectRef = useRef<HTMLSelectElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -175,6 +173,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           } as ChangeEvent<HTMLSelectElement>);
         }
       }
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedValue(e.target.value);
+      onChange?.(e);
     };
 
     useEffect(() => {
@@ -275,6 +278,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                 }}
                 id={id}
                 value={selectedValue}
+                onChange={handleChange}
                 disabled={disabled}
                 className="hidden"
                 {...props}

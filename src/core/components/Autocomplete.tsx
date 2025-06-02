@@ -17,7 +17,7 @@ import {
   WRAPPER_INPUT_SELECT_CLASSES,
 } from "../constants/classes";
 import { ERROR_INPUT_SELECT_VARIANTS } from "../constants/variants";
-import { AlertTriangleIcon, Check } from "lucide-react";
+import { AlertTriangleIcon, Check, XIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export interface AutocompleteProps
@@ -99,7 +99,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       options = [],
       onOptionSelected,
       onChange,
-      value,
+      value = "",
       ...props
     },
     ref
@@ -111,6 +111,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       value: string;
       label: string;
     } | null>(null);
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -119,12 +120,17 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
         if (option) {
           setSelectedOption(option);
           setInputValue(option.label);
+          if (isInitialLoad) {
+            setFilteredOptions(options);
+            setIsOpen(true);
+          }
         }
       } else {
         setSelectedOption(null);
         setInputValue("");
       }
-    }, [value, options]);
+      setIsInitialLoad(false);
+    }, [value, options, isInitialLoad]);
 
     const wrapperClasses = getWrapperClasses(
       radius,
@@ -145,16 +151,18 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 
     useEffect(() => {
       setFilteredOptions(
-        options.filter((option) =>
-          option.label
-            .toLowerCase()
-            .includes(inputValue.toString().toLowerCase())
-        )
+        inputValue
+          ? options.filter((option) =>
+              option.label
+                .toLowerCase()
+                .includes(inputValue.toString().toLowerCase())
+            )
+          : options
       );
     }, [inputValue, options]);
 
     useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
+      const handleClickOutside = (event: globalThis.MouseEvent) => {
         if (
           containerRef.current &&
           !containerRef.current.contains(event.target as Node)
@@ -164,6 +172,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
             setInputValue(selectedOption.label);
           } else {
             setInputValue("");
+            setFilteredOptions(options);
           }
         }
       };
@@ -171,12 +180,15 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       document.addEventListener("mousedown", handleClickOutside);
       return () =>
         document.removeEventListener("mousedown", handleClickOutside);
-    }, [selectedOption]);
+    }, [selectedOption, options]);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setInputValue(e.target.value);
+      const newValue = e.target.value;
+      setInputValue(newValue);
       setIsOpen(true);
-      if (!e.target.value) {
+      
+      if (!newValue) {
+        setFilteredOptions(options);
         onChange?.({
           ...e,
           target: {
@@ -205,8 +217,27 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       onChange?.(syntheticEvent);
     };
 
+    const handleClear = () => {
+      setInputValue("");
+      setSelectedOption(null);
+      setIsOpen(true);
+      setFilteredOptions(options);
+      
+      const syntheticEvent = {
+        target: {
+          name: props.name,
+          value: ""
+        }
+      } as ChangeEvent<HTMLInputElement>;
+      
+      onChange?.(syntheticEvent);
+    };
+
     const handleInputFocus = () => {
       setIsOpen(true);
+      if (!inputValue) {
+        setFilteredOptions(options);
+      }
     };
 
     return (
@@ -257,11 +288,19 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
                   className={inputClasses}
                   {...props}
                 />
-                {rightContent && (
-                  <div className="pr-3 flex items-center text-gray-400">
-                    {rightContent}
-                  </div>
-                )}
+                <div className="pr-3 flex items-center gap-2 text-gray-400">
+                  {inputValue && !disabled && (
+                    <button
+                      type="button"
+                      onClick={handleClear}
+                      className="hover:text-gray-600 transition-colors"
+                      aria-label="Limpiar selección"
+                    >
+                      <XIcon className="size-4" />
+                    </button>
+                  )}
+                  {rightContent}
+                </div>
               </div>
 
               <AnimatePresence>

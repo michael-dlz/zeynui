@@ -38,11 +38,24 @@ const getInputClasses = (inputSize, variant, color, error, disabled, className) 
 `;
 export const Autocomplete = forwardRef((_a, ref) => {
     var { label, error, className = "", variant = "outline", color = "primary", required = false, radius = "md", inputSize = "md", description, leftContent, rightContent, id = "", disabled = false, labelPlacement = "outside", options = [], onOptionSelected, onChange, value } = _a, props = __rest(_a, ["label", "error", "className", "variant", "color", "required", "radius", "inputSize", "description", "leftContent", "rightContent", "id", "disabled", "labelPlacement", "options", "onOptionSelected", "onChange", "value"]);
-    const [inputValue, setInputValue] = useState(value || "");
+    const [inputValue, setInputValue] = useState("");
     const [filteredOptions, setFilteredOptions] = useState(options);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const containerRef = useRef(null);
+    useEffect(() => {
+        if (value) {
+            const option = options.find(opt => opt.value === value);
+            if (option) {
+                setSelectedOption(option);
+                setInputValue(option.label);
+            }
+        }
+        else {
+            setSelectedOption(null);
+            setInputValue("");
+        }
+    }, [value, options]);
     const wrapperClasses = getWrapperClasses(radius, variant, color, error, disabled);
     const inputClasses = getInputClasses(inputSize, variant, color, error, disabled, className);
     useEffect(() => {
@@ -55,21 +68,36 @@ export const Autocomplete = forwardRef((_a, ref) => {
             if (containerRef.current &&
                 !containerRef.current.contains(event.target)) {
                 setIsOpen(false);
+                if (selectedOption) {
+                    setInputValue(selectedOption.label);
+                }
+                else {
+                    setInputValue("");
+                }
             }
         };
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    }, [selectedOption]);
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
-        onChange === null || onChange === void 0 ? void 0 : onChange(e);
         setIsOpen(true);
+        if (!e.target.value) {
+            onChange === null || onChange === void 0 ? void 0 : onChange(Object.assign(Object.assign({}, e), { target: Object.assign(Object.assign({}, e.target), { value: "" }) }));
+        }
     };
     const handleOptionClick = (option) => {
         setInputValue(option.label);
         setSelectedOption(option);
         setIsOpen(false);
         onOptionSelected === null || onOptionSelected === void 0 ? void 0 : onOptionSelected(option.value);
+        const syntheticEvent = {
+            target: {
+                name: props.name,
+                value: option.value
+            }
+        };
+        onChange === null || onChange === void 0 ? void 0 : onChange(syntheticEvent);
     };
     const handleInputFocus = () => {
         setIsOpen(true);

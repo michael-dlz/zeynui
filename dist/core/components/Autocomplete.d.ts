@@ -1,6 +1,6 @@
-import React from "react";
+import React, { InputHTMLAttributes, ReactNode } from "react";
 import { ColorVariant, LabelPlacement, RadiusVariant, SizeVariant, StyleVariant } from "../types";
-export interface AutocompleteProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface AutocompleteProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string;
     error?: string;
     variant?: StyleVariant;
@@ -11,8 +11,8 @@ export interface AutocompleteProps extends React.InputHTMLAttributes<HTMLInputEl
     inputSize?: SizeVariant;
     description?: string;
     className?: string;
-    leftContent?: React.ReactNode;
-    rightContent?: React.ReactNode;
+    leftContent?: ReactNode;
+    rightContent?: ReactNode;
     id?: string;
     disabled?: boolean;
     labelPlacement?: LabelPlacement;

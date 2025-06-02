@@ -1,6 +1,6 @@
 "use client";
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { createContext, useContext } from "react";
+import { createContext, useContext, } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Drawer, DrawerBody } from "./Drawer";
 import { useDisclosure } from "../hook/useDisclosure";
@@ -60,6 +60,7 @@ export const Navbar = ({ children, className = "", position = "sticky", size = "
     return (_jsx("nav", { className: `${className} ${getPositionClass()}`, children: _jsx("div", { children: _jsxs("div", { className: `
           mx-auto
           w-full py-3
+          bg-background
         ${size === "full" ? "px-0" : "px-6 sm:px-10 2xl:px-20"} ${getSizeClass()} ${getJustifyClass()} flex items-center`, children: [responsive && (_jsx("div", { className: "flex md:hidden", children: _jsx(Button, { variant: "light", isIconOnly: true, onClick: onOpen, children: _jsx(Bars3Icon, { className: "size-6" }) }) })), children, _jsx(Drawer, { isOpen: isOpen, onClose: onClose, placement: "right", size: "md", backdrop: "blur", children: _jsx(DrawerBody, { children: responsive }) })] }) }) }));
 };
 export const NavbarStart = ({ children, className = "" }) => {
@@ -89,7 +90,7 @@ export const NavbarContent = ({ children, className = "", justify = "center", fu
             isOpen,
             setIsOpen,
             fullHeightItems,
-        }, children: _jsx("div", { className: `${getJustifyClass()} items-center ${className}`, children: children }) }));
+        }, children: _jsx("div", { className: `${getJustifyClass()} gap-4 hidden md:flex items-center ${className}`, children: children }) }));
 };
 export const NavbarItem = ({ children, className = "" }) => {
     return _jsx("div", { className: `${className}`, children: children });

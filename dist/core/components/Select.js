@@ -11,7 +11,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import React, { forwardRef, useState, useRef } from "react";
+import { forwardRef, useState, useRef, useEffect, Children, isValidElement } from "react";
 import { Text } from "./Text";
 import { BASE_INPUT_SELECT_CLASSES, INPUT_SELECT_CLASSES, INPUT_SELECT_SIZE_CLASSES, RADIUS_CLASSES, WRAPPER_INPUT_SELECT_CLASSES, } from "../constants/classes";
 import { ERROR_INPUT_SELECT_VARIANTS } from "../constants/variants";
@@ -43,27 +43,34 @@ export const Select = forwardRef((_a, ref) => {
     const [selectedValue, setSelectedValue] = useState(value);
     const selectRef = useRef(null);
     const containerRef = useRef(null);
+    useEffect(() => {
+        if (value !== undefined) {
+            setSelectedValue(value);
+        }
+    }, [value]);
     const wrapperSelectClasses = getWrapperSelectClasses(radius, variant, color, error, disabled);
     const selectClasses = getSelectClasses(selectSize, variant, color, error, disabled, className);
     const handleOptionClick = (optionValue, event) => {
         if (!disabled) {
             setSelectedValue(optionValue);
             setIsOpen(false);
-            if (onChange && selectRef.current) {
+            if (selectRef.current) {
                 selectRef.current.value = optionValue;
-                const syntheticEvent = new Event("change", { bubbles: true });
-                selectRef.current.dispatchEvent(syntheticEvent);
-                onChange({
+                const nativeEvent = new Event('change', { bubbles: true });
+                Object.defineProperty(nativeEvent, 'target', { value: selectRef.current });
+                Object.defineProperty(nativeEvent, 'currentTarget', { value: selectRef.current });
+                selectRef.current.dispatchEvent(nativeEvent);
+                onChange === null || onChange === void 0 ? void 0 : onChange({
                     target: selectRef.current,
                     currentTarget: selectRef.current,
-                    type: "change",
+                    type: 'change',
                     bubbles: true,
                     cancelable: false,
                     defaultPrevented: false,
                     isDefaultPrevented: () => false,
                     isPropagationStopped: () => false,
                     isTrusted: true,
-                    nativeEvent: syntheticEvent,
+                    nativeEvent: nativeEvent,
                     preventDefault: () => { },
                     stopPropagation: () => { },
                     persist: () => { },
@@ -72,8 +79,18 @@ export const Select = forwardRef((_a, ref) => {
             }
         }
     };
-    const options = React.Children.toArray(children)
-        .filter((child) => React.isValidElement(child) &&
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (containerRef.current &&
+                !containerRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+    const options = Children.toArray(children)
+        .filter((child) => isValidElement(child) &&
         typeof child.props.value === "string" &&
         "children" in child.props)
         .map((child) => ({

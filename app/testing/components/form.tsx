@@ -5,24 +5,33 @@ import { useForm, Controller } from "react-hook-form";
 import { Input } from "../../../src/core/components/Input";
 import { Autocomplete, Button, Select, SelectItem } from "../../../src/core";
 
+type FormValues = {
+  name: string;
+  role: string;
+  permission: string;
+};
+
 const Form = () => {
   const existingUser = {
     name: "Federico",
     role: "admin",
     permission: "read",
   };
-  const { register, handleSubmit, reset, control } = useForm<{
-    name: string;
-    role: string;
-    permission: string;
-  }>();
+  const defaultValues: FormValues = {
+    name: "",
+    role: "user",
+    permission: "delete",
+  };
+  const { register, handleSubmit, reset, control } = useForm<FormValues>({
+    defaultValues,
+  });
 
   const onSubmit = (data: {
     name: string;
     role: string;
     permission: string;
   }) => {
-    console.log(data);
+    alert(JSON.stringify(data));
   };
 
   return (
@@ -31,11 +40,7 @@ const Form = () => {
         <Button type="button" onClick={() => reset(existingUser)}>
           Añadir existente usuario
         </Button>
-        <Button type="button" onClick={() => reset({
-            name: "",
-            role: "",
-            permission: "",
-        })}>
+        <Button type="button" onClick={() => reset(defaultValues)}>
           Resetear
         </Button>
       </div>
