@@ -17,7 +17,7 @@ import { BASE_INPUT_SELECT_CLASSES, INPUT_SELECT_CLASSES, INPUT_SELECT_SIZE_CLAS
 import { ERROR_INPUT_SELECT_VARIANTS } from "../constants/variants";
 // Función para generar clases dinámicas
 const getWrapperInputClasses = (radius, variant, color, error, disabled) => `
-  flex items-center w-full rounded-lg
+  flex items-start w-full rounded-lg
   transition-all duration-300 ease-in-out
   ${disabled
     ? "bg-gray-50 opacity-60 border border-gray-300 cursor-not-allowed text-black/80"
@@ -35,14 +35,14 @@ const getInputClasses = (inputSize, variant, color, error, disabled, className) 
   ${error && variant === "soft" ? "placeholder:text-danger" : ""}
   ${className}
 `;
-export const Input = forwardRef((_a, ref) => {
-    var { label, error, className = "", variant = "outline", color = "primary", required = false, radius = "md", inputSize = "md", description, leftContent, rightContent, id = "", disabled = false, labelPlacement = "outside" } = _a, props = __rest(_a, ["label", "error", "className", "variant", "color", "required", "radius", "inputSize", "description", "leftContent", "rightContent", "id", "disabled", "labelPlacement"]);
+export const Textarea = forwardRef((_a, ref) => {
+    var { label, error, className = "", variant = "outline", color = "primary", required = false, radius = "md", inputSize = "md", description, leftContent, rightContent, id = "", disabled = false, labelPlacement = "outside", rows = 3 } = _a, props = __rest(_a, ["label", "error", "className", "variant", "color", "required", "radius", "inputSize", "description", "leftContent", "rightContent", "id", "disabled", "labelPlacement", "rows"]);
     const wrapperClasses = getWrapperInputClasses(radius, variant, color, error, disabled);
     const inputClasses = getInputClasses(inputSize, variant, color, error, disabled, className);
     return (_jsxs("div", { className: "w-full grid gap-1.5", children: [labelPlacement === "outside" && (_jsxs(Text, { as: "label", htmlFor: id, weight: "semibold", size: "sm", children: [label, " ", required && _jsx("span", { className: "text-danger", children: "*" })] })), description && !(labelPlacement === "outside-left") && (_jsx(Text, { size: "sm", weight: "normal", as: "p", children: description })), _jsxs("div", { className: labelPlacement === "outside-left"
                     ? "flex items-center gap-5 justify-start"
                     : "", children: [_jsxs("div", { className: "", children: [labelPlacement === "outside-left" && (_jsxs(Text, { as: "label", htmlFor: id, weight: "semibold", size: "sm", children: [label, " ", required && _jsx("span", { className: "text-danger", children: "*" })] })), description && labelPlacement === "outside-left" && (_jsx(Text, { size: "xs", weight: "normal", as: "p", children: description }))] }), _jsxs("div", { className: wrapperClasses, children: [leftContent && (_jsx("div", { className: `flex items-center text-sm !pr-0 
-                  ${INPUT_SELECT_SIZE_CLASSES[inputSize]}`, children: leftContent })), _jsx("input", Object.assign({ id: id, ref: ref, disabled: disabled, className: inputClasses }, props)), rightContent && (_jsx("div", { className: `flex items-center text-sm !pl-0 
+                  ${INPUT_SELECT_SIZE_CLASSES[inputSize]}`, children: leftContent })), _jsx("textarea", Object.assign({ id: id, ref: ref, disabled: disabled, rows: rows, className: inputClasses }, props)), rightContent && (_jsx("div", { className: `flex items-center text-sm !pl-0 
                 ${INPUT_SELECT_SIZE_CLASSES[inputSize]}`, children: rightContent }))] })] }), error && typeof error === "string" && (_jsxs("div", { className: "flex items-center gap-1 mt-1.5 text-danger text-sm", children: [_jsx(AlertTriangleIcon, { className: "size-3" }), _jsx(Text, { as: "span", size: "xs", className: "!text-danger", children: error })] }))] }));
 });
-Input.displayName = "Input";
+Textarea.displayName = "Textarea";

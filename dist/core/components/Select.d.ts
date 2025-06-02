@@ -17,6 +17,7 @@ export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement
     disabled?: boolean;
     labelPlacement?: LabelPlacement;
     children: ReactNode;
+    inputSize?: SizeVariant;
 }
 interface SelectItemProps {
     value: string;

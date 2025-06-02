@@ -16,6 +16,7 @@ export * from "./components/Table";
 export * from "./components/Autocomplete";
 export * from "./components/Button";
 export * from "./components/Card";
+export * from "./components/Textarea";
 export type * from "./types/index";
 export * from "./hook/useRipples";
 export * from "./hook/useDisclosure";

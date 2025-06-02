@@ -119,7 +119,6 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       value: string;
       label: string;
     } | null>(null);
-    const [isInitialLoad, setIsInitialLoad] = useState(true);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -128,17 +127,12 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
         if (option) {
           setSelectedOption(option);
           setInputValue(option.label);
-          if (isInitialLoad) {
-            setFilteredOptions(options);
-            setIsOpen(true);
-          }
         }
       } else {
         setSelectedOption(null);
         setInputValue("");
       }
-      setIsInitialLoad(false);
-    }, [value, options, isInitialLoad]);
+    }, [value, options]);
 
     const wrapperClasses = getWrapperClasses(
       radius,
@@ -191,7 +185,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       const newValue = e.target.value;
       setInputValue(newValue);
       setIsOpen(true);
-      
+
       if (!newValue) {
         onChange?.({
           ...e,
@@ -223,14 +217,14 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       setInputValue("");
       setSelectedOption(null);
       setIsOpen(false);
-      
+
       const syntheticEvent = {
         target: {
           name: props.name,
           value: "",
         },
       } as ChangeEvent<HTMLInputElement>;
-      
+
       onChange?.(syntheticEvent);
     };
 

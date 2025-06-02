@@ -11,7 +11,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { forwardRef, useState, useRef, useEffect, Children, isValidElement } from "react";
+import { forwardRef, useState, useRef, useEffect, Children, isValidElement, } from "react";
 import { Text } from "./Text";
 import { BASE_INPUT_SELECT_CLASSES, INPUT_SELECT_CLASSES, INPUT_SELECT_SIZE_CLASSES, RADIUS_CLASSES, WRAPPER_INPUT_SELECT_CLASSES, } from "../constants/classes";
 import { ERROR_INPUT_SELECT_VARIANTS } from "../constants/variants";
@@ -38,7 +38,7 @@ const getSelectClasses = (inputSize, variant, color, error, disabled, className)
   ${className}
 `;
 export const Select = forwardRef((_a, ref) => {
-    var { label, error, className = "", variant = "outline", color = "primary", required = false, radius = "md", selectSize = "md", description, leftContent, rightContent, id = "", disabled = false, labelPlacement = "outside", children, onChange, value = "" } = _a, props = __rest(_a, ["label", "error", "className", "variant", "color", "required", "radius", "selectSize", "description", "leftContent", "rightContent", "id", "disabled", "labelPlacement", "children", "onChange", "value"]);
+    var { label, error, className = "", variant = "outline", color = "primary", required = false, radius = "md", selectSize = "md", description, leftContent, rightContent, id = "", disabled = false, labelPlacement = "outside", children, onChange, value = "", inputSize = "md" } = _a, props = __rest(_a, ["label", "error", "className", "variant", "color", "required", "radius", "selectSize", "description", "leftContent", "rightContent", "id", "disabled", "labelPlacement", "children", "onChange", "value", "inputSize"]);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(value);
     const selectRef = useRef(null);
@@ -56,14 +56,18 @@ export const Select = forwardRef((_a, ref) => {
             setIsOpen(false);
             if (selectRef.current) {
                 selectRef.current.value = optionValue;
-                const nativeEvent = new Event('change', { bubbles: true });
-                Object.defineProperty(nativeEvent, 'target', { value: selectRef.current });
-                Object.defineProperty(nativeEvent, 'currentTarget', { value: selectRef.current });
+                const nativeEvent = new Event("change", { bubbles: true });
+                Object.defineProperty(nativeEvent, "target", {
+                    value: selectRef.current,
+                });
+                Object.defineProperty(nativeEvent, "currentTarget", {
+                    value: selectRef.current,
+                });
                 selectRef.current.dispatchEvent(nativeEvent);
                 onChange === null || onChange === void 0 ? void 0 : onChange({
                     target: selectRef.current,
                     currentTarget: selectRef.current,
-                    type: 'change',
+                    type: "change",
                     bubbles: true,
                     cancelable: false,
                     defaultPrevented: false,
@@ -90,8 +94,8 @@ export const Select = forwardRef((_a, ref) => {
                 setIsOpen(false);
             }
         };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
     const options = Children.toArray(children)
         .filter((child) => isValidElement(child) &&
@@ -105,9 +109,11 @@ export const Select = forwardRef((_a, ref) => {
     const selectedOption = options.find((opt) => opt.value === selectedValue);
     return (_jsxs("div", { className: "w-full space-y-1.5", ref: containerRef, children: [labelPlacement === "outside" && (_jsxs(Text, { as: "label", htmlFor: id, weight: "semibold", size: "sm", children: [label, " ", required && _jsx("span", { className: "text-danger", children: "*" })] })), description && !(labelPlacement === "outside-left") && (_jsx(Text, { size: "sm", weight: "normal", as: "p", children: description })), _jsx("div", { className: labelPlacement === "outside-left"
                     ? "flex items-center gap-5 justify-start"
-                    : "", children: _jsxs("div", { className: "w-full", children: [labelPlacement === "outside-left" && (_jsxs(Text, { as: "label", htmlFor: id, weight: "semibold", size: "sm", children: [label, " ", required && _jsx("span", { className: "text-danger", children: "*" })] })), description && labelPlacement === "outside-left" && (_jsx(Text, { size: "sm", weight: "normal", as: "p", children: description })), _jsxs("div", { className: "relative w-full", children: [_jsxs("div", { className: twMerge(wrapperSelectClasses, "cursor-pointer", disabled && "cursor-not-allowed"), onClick: () => !disabled && setIsOpen(!isOpen), children: [leftContent && (_jsx("div", { className: "pl-3 flex items-center text-gray-400", children: leftContent })), _jsx("div", { className: selectClasses, children: selectedOption
+                    : "", children: _jsxs("div", { className: "w-full", children: [labelPlacement === "outside-left" && (_jsxs(Text, { as: "label", htmlFor: id, weight: "semibold", size: "sm", children: [label, " ", required && _jsx("span", { className: "text-danger", children: "*" })] })), description && labelPlacement === "outside-left" && (_jsx(Text, { size: "sm", weight: "normal", as: "p", children: description })), _jsxs("div", { className: "relative w-full", children: [_jsxs("div", { className: twMerge(wrapperSelectClasses, "cursor-pointer", disabled && "cursor-not-allowed"), onClick: () => !disabled && setIsOpen(!isOpen), children: [leftContent && (_jsx("div", { className: `flex items-center text-sm !pr-0
+                ${INPUT_SELECT_SIZE_CLASSES[inputSize]}`, children: leftContent })), _jsx("div", { className: selectClasses, children: selectedOption
                                                 ? selectedOption.label
-                                                : "Selecciona una opción" }), _jsx("div", { className: "pr-3 flex items-center text-gray-400", children: _jsx(ChevronDown, { className: `size-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}` }) })] }), _jsx("select", Object.assign({ ref: (el) => {
+                                                : "Selecciona una opción" }), _jsx("div", { className: "pr-3 flex items-center text-gray-400", children: _jsx(ChevronDown, { className: `size-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}` }) }), rightContent && (_jsx("div", { className: `flex items-center text-sm !pl-0
+                ${INPUT_SELECT_SIZE_CLASSES[inputSize]}`, children: rightContent }))] }), _jsx("select", Object.assign({ ref: (el) => {
                                         if (typeof ref === "function") {
                                             ref(el);
                                         }
