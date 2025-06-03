@@ -3,7 +3,13 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input } from "../../../src/core/components/Input";
-import { Autocomplete, Button, Select, SelectItem, Textarea } from "../../../src/core";
+import {
+  Autocomplete,
+  Button,
+  Select,
+  SelectItem,
+  Textarea,
+} from "../../../src/core";
 import { KeyIcon, UserIcon } from "lucide-react";
 
 type FormValues = {
@@ -48,12 +54,19 @@ const Form = () => {
           Resetear
         </Button>
       </div>
-      <Input {...register("name")} leftContent={<UserIcon className="size-4" />} />
+      <Input
+        {...register("name")}
+        leftContent={<UserIcon className="size-4" />}
+      />
       <Controller
         control={control}
         name="role"
         render={({ field }) => (
-          <Select {...field} label="Role" rightContent={<UserIcon className="size-4" />}>
+          <Select
+            {...field}
+            label="Role"
+            rightContent={<UserIcon className="size-4" />}
+          >
             <SelectItem value="admin">Admin</SelectItem>
             <SelectItem value="user">User</SelectItem>
           </Select>
@@ -69,13 +82,25 @@ const Form = () => {
               { value: "read", label: "Read" },
               { value: "write", label: "Write" },
               { value: "delete", label: "Delete" },
+              { value: "update", label: "Update" },
+              { value: "create", label: "Create" },
+              { value: "inspect", label: "Inspect" },
+              { value: "execute", label: "Execute" },
+              { value: "manage", label: "Manage" },
+              { value: "audit", label: "Audit" },
+              { value: "report", label: "Report" },
+              { value: "configure", label: "Configure" },
+              { value: "monitor", label: "Monitor" },
             ]}
             {...field}
             label="Permission"
           />
         )}
       />
-      <Textarea leftContent={<UserIcon className="size-4" />} {...register("description")} />
+      <Textarea
+        leftContent={<UserIcon className="size-4" />}
+        {...register("description")}
+      />
       <Button type="submit">Submit</Button>
     </form>
   );

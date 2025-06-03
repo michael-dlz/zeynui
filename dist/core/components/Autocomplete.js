@@ -42,7 +42,6 @@ export const Autocomplete = forwardRef((_a, ref) => {
     const [filteredOptions, setFilteredOptions] = useState(options);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
-    const [isInitialLoad, setIsInitialLoad] = useState(true);
     const containerRef = useRef(null);
     useEffect(() => {
         if (value) {
@@ -50,18 +49,13 @@ export const Autocomplete = forwardRef((_a, ref) => {
             if (option) {
                 setSelectedOption(option);
                 setInputValue(option.label);
-                if (isInitialLoad) {
-                    setFilteredOptions(options);
-                    setIsOpen(true);
-                }
             }
         }
         else {
             setSelectedOption(null);
             setInputValue("");
         }
-        setIsInitialLoad(false);
-    }, [value, options, isInitialLoad]);
+    }, [value, options]);
     const wrapperClasses = getWrapperClasses(radius, variant, color, error, disabled);
     const inputClasses = getInputClasses(inputSize, variant, color, error, disabled, className);
     useEffect(() => {

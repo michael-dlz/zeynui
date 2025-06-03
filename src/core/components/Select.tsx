@@ -128,12 +128,44 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     const [selectedValue, setSelectedValue] = useState<string>(value as string);
     const selectRef = useRef<HTMLSelectElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const listboxRef = useRef<HTMLDivElement>(null);
+    const isTouchDeviceRef = useRef(false);
+
+    useEffect(() => {
+      isTouchDeviceRef.current =
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        // @ts-ignore
+        navigator.msMaxTouchPoints > 0;
+    }, []);
 
     useEffect(() => {
       if (value !== undefined) {
         setSelectedValue(value as string);
       }
     }, [value]);
+
+    useEffect(() => {
+      const listbox = listboxRef.current;
+      if (!listbox || !isOpen || !isTouchDeviceRef.current) return;
+
+      listbox.style.touchAction = "pan-y";
+      listbox.style.overflowY = "auto";
+      // @ts-ignore - Safari necesita esta propiedad para el scroll suave
+      listbox.style.webkitOverflowScrolling = "touch";
+
+      const preventZoom = (e: TouchEvent) => {
+        if (e.touches.length > 1) {
+          e.preventDefault();
+        }
+      };
+
+      listbox.addEventListener("touchstart", preventZoom, { passive: false });
+
+      return () => {
+        listbox.removeEventListener("touchstart", preventZoom);
+      };
+    }, [isOpen]);
 
     const wrapperSelectClasses = getWrapperSelectClasses(
       radius,
@@ -152,31 +184,26 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       className
     );
 
-    const handleOptionClick = (
-      optionValue: string,
-      event: MouseEvent<HTMLDivElement>
-    ) => {
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedValue(e.target.value);
+      onChange?.(e);
+    };
+
+    const handleOptionClick = (optionValue: string) => {
       if (!disabled) {
         setSelectedValue(optionValue);
         setIsOpen(false);
 
         if (selectRef.current) {
           selectRef.current.value = optionValue;
-
-          const nativeEvent = new Event("change", { bubbles: true });
-          Object.defineProperty(nativeEvent, "target", {
-            value: selectRef.current,
-          });
-          Object.defineProperty(nativeEvent, "currentTarget", {
-            value: selectRef.current,
-          });
-
+          const nativeEvent = new Event('change', { bubbles: true });
+          Object.defineProperty(nativeEvent, 'target', { value: selectRef.current });
+          Object.defineProperty(nativeEvent, 'currentTarget', { value: selectRef.current });
           selectRef.current.dispatchEvent(nativeEvent);
-
           onChange?.({
             target: selectRef.current,
             currentTarget: selectRef.current,
-            type: "change",
+            type: 'change',
             bubbles: true,
             cancelable: false,
             defaultPrevented: false,
@@ -188,30 +215,53 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             stopPropagation: () => {},
             persist: () => {},
             timeStamp: Date.now(),
-          } as ChangeEvent<HTMLSelectElement>);
+          } as React.ChangeEvent<HTMLSelectElement>);
         }
       }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setSelectedValue(e.target.value);
-      onChange?.(e);
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        setIsOpen(!isOpen);
+      } else if (e.key === "Escape") {
+        setIsOpen(false);
+      } else if (e.key === "ArrowDown" && isOpen) {
+        e.preventDefault();
+        const firstOption = listboxRef.current?.querySelector(
+          '[role="option"]'
+        ) as HTMLElement;
+        firstOption?.focus();
+      }
     };
 
-    useEffect(() => {
-      const handleClickOutside = (event: globalThis.MouseEvent) => {
-        if (
-          containerRef.current &&
-          !containerRef.current.contains(event.target as Node)
-        ) {
-          setIsOpen(false);
+    const handleOptionKeyDown = (
+      e: React.KeyboardEvent,
+      optionValue: string
+    ) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleOptionClick(optionValue);
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        const nextOption = (e.currentTarget as HTMLElement)
+          .nextElementSibling as HTMLElement;
+        nextOption?.focus();
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        const prevOption = (e.currentTarget as HTMLElement)
+          .previousElementSibling as HTMLElement;
+        if (prevOption) {
+          prevOption.focus();
+        } else {
+          containerRef.current?.focus();
         }
-      };
-
-      document.addEventListener("mousedown", handleClickOutside);
-      return () =>
-        document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        setIsOpen(false);
+        containerRef.current?.focus();
+      }
+    };
 
     const options = Children.toArray(children)
       .filter(
@@ -236,7 +286,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           </Text>
         )}
         {description && !(labelPlacement === "outside-left") && (
-          <Text size="sm" weight="normal" as="p">
+          <Text size="sm" weight="normal" as="p" id={`${id}-description`}>
             {description}
           </Text>
         )}
@@ -254,7 +304,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
               </Text>
             )}
             {description && labelPlacement === "outside-left" && (
-              <Text size="sm" weight="normal" as="p">
+              <Text size="sm" weight="normal" as="p" id={`${id}-description`}>
                 {description}
               </Text>
             )}
@@ -266,12 +316,17 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                   disabled && "cursor-not-allowed"
                 )}
                 onClick={() => !disabled && setIsOpen(!isOpen)}
+                onKeyDown={handleKeyDown}
+                role="combobox"
+                aria-controls={`${id}-listbox`}
+                aria-expanded={isOpen}
+                aria-haspopup="listbox"
+                aria-labelledby={`${id}-label`}
+                aria-describedby={description ? `${id}-description` : undefined}
+                tabIndex={disabled ? -1 : 0}
               >
                 {leftContent && (
-                  <div
-                    className={`flex items-center text-sm !pr-0
-                ${INPUT_SELECT_SIZE_CLASSES[inputSize]}`}
-                  >
+                  <div className="pl-3 flex items-center text-gray-400">
                     {leftContent}
                   </div>
                 )}
@@ -287,14 +342,6 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                     }`}
                   />
                 </div>
-                {rightContent && (
-                  <div
-                    className={`flex items-center text-sm !pl-0
-                ${INPUT_SELECT_SIZE_CLASSES[inputSize]}`}
-                  >
-                    {rightContent}
-                  </div>
-                )}
               </div>
 
               <select
@@ -311,6 +358,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                 onChange={handleChange}
                 disabled={disabled}
                 className="hidden"
+                aria-hidden="true"
                 {...props}
               >
                 {children}
@@ -324,25 +372,40 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
                     className={`absolute z-50 w-full mt-1 bg-background border border-foreground/10 rounded-${radius} shadow-lg overflow-hidden`}
+                    id={`${id}-listbox`}
+                    role="listbox"
+                    ref={listboxRef}
+                    style={{
+                      WebkitOverflowScrolling: "touch",
+                      overflowY: "auto",
+                      maxHeight: "60vh",
+                      overscrollBehavior: "contain",
+                    }}
                   >
-                    <div className="py-1 max-h-60 overflow-auto">
+                    <div className="py-1">
                       {options.map((option) => (
                         <div
                           key={option.value}
                           className="relative overflow-hidden"
-                          onClick={(e) =>
-                            !option.disabled &&
-                            handleOptionClick(option.value, e)
-                          }
+                          onClick={() => !option.disabled && handleOptionClick(option.value)}
+                          onKeyDown={(e) => handleOptionKeyDown(e, option.value)}
+                          role="option"
+                          aria-selected={selectedValue === option.value}
+                          aria-disabled={option.disabled}
+                          tabIndex={0}
                         >
                           <div
                             className={twMerge(
-                              "px-3 py-2 cursor-pointer flex items-center justify-between transition-colors duration-200",
+                              "px-3 py-3 cursor-pointer flex items-center justify-between transition-colors duration-200",
                               selectedValue === option.value
-                                ? `bg-background-50`
+                                ? "bg-background-50"
                                 : "hover:bg-foreground/5",
                               option.disabled && "opacity-50 cursor-not-allowed"
                             )}
+                            style={{
+                              minHeight: "44px",
+                              padding: "12px 16px",
+                            }}
                           >
                             <Text as="span" size="sm">
                               {option.label}

@@ -120,7 +120,21 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       label: string;
     } | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const listboxRef = useRef<HTMLDivElement>(null);
+    const isTouchDeviceRef = useRef(false);
+    const ignoreClickOutsideRef = useRef(false);
 
+    // Detectar si es un dispositivo táctil
+    useEffect(() => {
+      isTouchDeviceRef.current =
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        // @ts-ignore
+        navigator.msMaxTouchPoints > 0;
+    }, []);
+
+    // Manejo del valor inicial y cambios
     useEffect(() => {
       if (value) {
         const option = options.find((opt) => opt.value === value);
@@ -151,18 +165,24 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       className
     );
 
+    // Filtrado mejorado
     useEffect(() => {
-      setFilteredOptions(
-        options.filter((option) =>
-          option.label
-            .toLowerCase()
-            .includes(inputValue.toString().toLowerCase())
-        )
-      );
-    }, [inputValue, options]);
+      if (!isOpen) return;
 
+      if (inputValue === "" || inputValue === selectedOption?.label) {
+        setFilteredOptions(options);
+      } else {
+        setFilteredOptions(
+          options.filter((option) =>
+            option.label.toLowerCase().includes(inputValue.toLowerCase())
+          )
+        );
+      }
+    }, [inputValue, options, isOpen, selectedOption]);
+
+    // Manejo de clicks fuera del componente
     useEffect(() => {
-      const handleClickOutside = (event: globalThis.MouseEvent) => {
+      const handleClickOutside = (event: MouseEvent) => {
         if (
           containerRef.current &&
           !containerRef.current.contains(event.target as Node)
@@ -170,8 +190,6 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
           setIsOpen(false);
           if (selectedOption) {
             setInputValue(selectedOption.label);
-          } else {
-            setInputValue("");
           }
         }
       };
@@ -181,12 +199,38 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
         document.removeEventListener("mousedown", handleClickOutside);
     }, [selectedOption]);
 
+    // Mejor manejo del scroll en dispositivos móviles
+    useEffect(() => {
+      const listbox = listboxRef.current;
+      if (!listbox || !isOpen || !isTouchDeviceRef.current) return;
+
+      // Habilitar scroll táctil nativo
+      listbox.style.touchAction = "pan-y";
+      listbox.style.overflowY = "auto";
+      // @ts-ignore - Safari necesita esta propiedad para el scroll suave
+      listbox.style.webkitOverflowScrolling = "touch";
+
+      // Prevenir el zoom con doble toque
+      const preventZoom = (e: TouchEvent) => {
+        if (e.touches.length > 1) {
+          e.preventDefault();
+        }
+      };
+
+      listbox.addEventListener("touchstart", preventZoom, { passive: false });
+
+      return () => {
+        listbox.removeEventListener("touchstart", preventZoom);
+      };
+    }, [isOpen]);
+
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
       setInputValue(newValue);
       setIsOpen(true);
 
       if (!newValue) {
+        setSelectedOption(null);
         onChange?.({
           ...e,
           target: {
@@ -200,23 +244,24 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
     const handleOptionClick = (option: { value: string; label: string }) => {
       setInputValue(option.label);
       setSelectedOption(option);
-      setIsOpen(false);
-      onOptionSelected?.(option.value);
+      setIsOpen(false); // esto basta
 
-      const syntheticEvent = {
+      onOptionSelected?.(option.value);
+      onChange?.({
         target: {
           name: props.name,
           value: option.value,
         },
-      } as ChangeEvent<HTMLInputElement>;
+      } as ChangeEvent<HTMLInputElement>);
 
-      onChange?.(syntheticEvent);
+      // No necesitas volver a hacer focus ni abrir el dropdown aquí
     };
 
     const handleClear = () => {
       setInputValue("");
       setSelectedOption(null);
-      setIsOpen(false);
+      setIsOpen(true);
+      inputRef.current?.focus();
 
       const syntheticEvent = {
         target: {
@@ -230,6 +275,52 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 
     const handleInputFocus = () => {
       setIsOpen(true);
+      setFilteredOptions(options);
+    };
+
+    const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+      } else if (
+        e.key === "ArrowDown" &&
+        isOpen &&
+        filteredOptions.length > 0
+      ) {
+        e.preventDefault();
+        const firstOption = listboxRef.current?.querySelector(
+          'div[role="option"]'
+        ) as HTMLElement;
+        firstOption?.focus();
+      }
+    };
+
+    const handleOptionKeyDown = (
+      e: React.KeyboardEvent,
+      option: { value: string; label: string }
+    ) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleOptionClick(option);
+        setIsOpen(false);
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        const nextOption = (e.currentTarget as HTMLElement)
+          .nextElementSibling as HTMLElement;
+        nextOption?.focus();
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        const prevOption = (e.currentTarget as HTMLElement)
+          .previousElementSibling as HTMLElement;
+        if (prevOption) {
+          prevOption.focus();
+        } else {
+          inputRef.current?.focus();
+        }
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        setIsOpen(false);
+        inputRef.current?.focus();
+      }
     };
 
     return (
@@ -273,14 +364,27 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
                   </div>
                 )}
                 <input
-                  ref={ref}
+                  ref={(node) => {
+                    if (typeof ref === "function") {
+                      ref(node);
+                    } else if (ref) {
+                      ref.current = node;
+                    }
+                    inputRef.current = node;
+                  }}
                   id={id}
                   value={inputValue}
                   onChange={handleInputChange}
                   onFocus={handleInputFocus}
+                  onKeyDown={handleInputKeyDown}
                   disabled={disabled}
                   required={required}
                   className={inputClasses}
+                  aria-autocomplete="list"
+                  aria-haspopup="listbox"
+                  aria-expanded={isOpen}
+                  aria-controls={`${id}-listbox`}
+                  role="combobox"
                   {...props}
                 />
                 <div className="pr-3 flex items-center gap-2 text-gray-400">
@@ -313,20 +417,39 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
                     className={`absolute z-50 w-full mt-1 bg-background border border-foreground/10 rounded-${radius} shadow-lg overflow-hidden`}
+                    id={`${id}-listbox`}
+                    role="listbox"
+                    ref={listboxRef}
+                    style={{
+                      // Mejoras específicas para scroll en móviles
+                      WebkitOverflowScrolling: "touch",
+                      overflowY: "auto",
+                      maxHeight: "60vh",
+                      overscrollBehavior: "contain",
+                    }}
                   >
-                    <div className="py-1 max-h-60 overflow-auto">
+                    <div className="py-1">
                       {filteredOptions.map((option) => (
                         <div
                           key={option.value}
                           className="relative overflow-hidden"
                           onClick={() => handleOptionClick(option)}
+                          onKeyDown={(e) => handleOptionKeyDown(e, option)}
+                          role="option"
+                          aria-selected={selectedOption?.value === option.value}
+                          tabIndex={0}
                         >
                           <div
-                            className={`px-3 py-2 cursor-pointer flex items-center justify-between transition-colors duration-200 ${
+                            className={`px-3 py-3 cursor-pointer flex items-center justify-between transition-colors duration-200 ${
                               selectedOption?.value === option.value
                                 ? "bg-background-50"
                                 : "hover:bg-foreground/5"
                             }`}
+                            style={{
+                              // Tamaño mínimo de toque para dispositivos móviles
+                              minHeight: "44px",
+                              padding: "12px 16px",
+                            }}
                           >
                             <Text as="span" size="sm">
                               {option.label}
