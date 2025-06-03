@@ -59,16 +59,10 @@ export const Card = ({
     return radiusMap[radiusSize];
   };
 
-  const getPaddingClasses = (isCompact: boolean) => {
-    if (!isCompact) return "p-[1.144rem]";
-    return "p-0";
-  };
-
   return (
     <div
-      className={`relative
-        ${getRadiusClasses(radius)} ${getPaddingClasses(
-        isCompact
+      className={`relative ${getRadiusClasses(
+        radius
       )} overflow-hidden ${className} ${
         hasShadow ? "shadow-lg shadow-black/10" : ""
       }`}
@@ -97,8 +91,11 @@ export const Card = ({
       >
         {Children.map(children, (child) => {
           if (isValidElement(child)) {
+            const isImage = child.type === CardImage;
             return cloneElement(child as ReactElement<any>, {
               hasImage: !!imageCover,
+              isCompact,
+              isImage,
             });
           }
           return child;
@@ -110,18 +107,18 @@ export const Card = ({
 
 export const CardImage = ({ children, className = "" }: CardImageProps) => {
   return (
-    <div className={`relative overflow-hidden ${className}`}>
+    <div className={`relative overflow-hidden p-0 ${className}`}>
       <div className="hover:scale-105 transition-transform">{children}</div>
     </div>
   );
 };
 
-export const CardHeader = ({ children, className = "" }: CardHeaderProps) => {
-  return <div className={className}>{children}</div>;
+export const CardHeader = ({ children, className = "", isCompact }: CardHeaderProps & { isCompact?: boolean }) => {
+  return <div className={`${!isCompact ? "p-[1.144rem]" : "p-0"} ${className}`}>{children}</div>;
 };
-export const CardContent = ({ children, className = "" }: CardContentProps) => {
-  return <div className={className}>{children}</div>;
+export const CardContent = ({ children, className = "", isCompact }: CardContentProps & { isCompact?: boolean }) => {
+  return <div className={`${!isCompact ? "p-[1.144rem]" : "p-0"} ${className}`}>{children}</div>;
 };
-export const CardFooter = ({ children, className = "" }: CardFooterProps) => {
-  return <div className={className}>{children}</div>;
+export const CardFooter = ({ children, className = "", isCompact }: CardFooterProps & { isCompact?: boolean }) => {
+  return <div className={`${!isCompact ? "p-[1.144rem]" : "p-0"} ${className}`}>{children}</div>;
 };
