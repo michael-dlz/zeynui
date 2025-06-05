@@ -244,9 +244,9 @@ export const SIZE_CLASSES_ONLY_ICON: Record<SizeVariant, string> = {
 };
 
 export const INPUT_SELECT_SIZE_CLASSES: Record<SizeVariant, string> = {
-    sm: "text-[0.6rem] px-2 py-1.5",
-    md: "text-[0.8rem] px-3 py-3",
-    lg: "text-[1rem] px-4 py-4",
+    sm: "text-[0.6rem] h-[2rem] px-2 py-1.5",
+    md: "text-[0.8rem] h-[2.7rem] px-3 py-3",
+    lg: "text-[1rem] h-[3rem] px-4 py-4",
 };
 
 export const TAB_CLASSES: VarianActiveClasses = {

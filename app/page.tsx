@@ -184,6 +184,22 @@ const homePage = () => {
             })}
           </div>
         </Container>
+        <Container>
+          <Table>
+            <TableHeader>
+              <TableColumn>Nombre</TableColumn>
+              <TableColumn>Edad</TableColumn>
+              <TableColumn>Email</TableColumn>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell>Juan</TableCell>
+                <TableCell>20</TableCell>
+                <TableCell>juan@gmail.com</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Container>
         <Container className="grid gap-3 py-10">
           <div className="flex flex-wrap gap-2">
             {colors.map((color) => {
@@ -200,6 +216,13 @@ const homePage = () => {
                       color={color}
                       label={variant}
                       className="w-96"
+                      mode="single"
+                      placeholder="Selecciona un país"
+                      maxSelectedDisplay={2}
+                      value={"1"}
+                      onChange={(value) => {
+                        console.log(value);
+                      }}
                     >
                       <SelectItem value="1">1</SelectItem>
                       <SelectItem value="2">2</SelectItem>

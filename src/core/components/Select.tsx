@@ -30,12 +30,16 @@ import {
   WRAPPER_INPUT_SELECT_CLASSES,
 } from "../constants/classes";
 import { ERROR_INPUT_SELECT_VARIANTS } from "../constants/variants";
-import { AlertTriangleIcon, Check, ChevronDown } from "lucide-react";
+import { AlertTriangleIcon, Check, ChevronDown, X } from "lucide-react";
+import { Chip } from "./Chip";
 import { motion, AnimatePresence } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 
 export interface SelectProps
-  extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "size"> {
+  extends Omit<
+    SelectHTMLAttributes<HTMLSelectElement>,
+    "size" | "value" | "onChange"
+  > {
   label: string;
   error?: string;
   variant?: StyleVariant;
@@ -53,6 +57,20 @@ export interface SelectProps
   labelPlacement?: LabelPlacement;
   children: ReactNode;
   inputSize?: SizeVariant;
+  // Nuevas props para múltiple selección
+  mode?: "single" | "multiple";
+  value?: string | string[];
+  onChange?: (
+    value: string | string[],
+    event?: React.ChangeEvent<HTMLSelectElement>
+  ) => void;
+  placeholder?: string;
+  maxSelectedDisplay?: number;
+  // Props para personalizar los chips
+  chipVariant?: StyleVariant;
+  chipColor?: ColorVariant;
+  chipSize?: SizeVariant;
+  chipRadius?: RadiusVariant;
 }
 
 interface SelectItemProps {
@@ -120,12 +138,27 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       onChange,
       value = "",
       inputSize = "md",
+      mode = "single",
+      placeholder = "Selecciona una opción",
+      maxSelectedDisplay = 3,
+      chipVariant = "soft",
+      chipColor = "primary",
+      chipSize = "sm",
+      chipRadius = "md",
       ...props
     },
     ref
   ) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState<string>(value as string);
+
+    // Estado para manejar valores únicos o múltiples
+    const [selectedValues, setSelectedValues] = useState<string[]>(() => {
+      if (mode === "multiple") {
+        return Array.isArray(value) ? value : value ? [value as string] : [];
+      }
+      return value ? [value as string] : [];
+    });
+
     const selectRef = useRef<HTMLSelectElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const listboxRef = useRef<HTMLDivElement>(null);
@@ -141,9 +174,15 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
     useEffect(() => {
       if (value !== undefined) {
-        setSelectedValue(value as string);
+        if (mode === "multiple") {
+          setSelectedValues(
+            Array.isArray(value) ? value : value ? [value as string] : []
+          );
+        } else {
+          setSelectedValues(value ? [value as string] : []);
+        }
       }
-    }, [value]);
+    }, [value, mode]);
 
     useEffect(() => {
       const listbox = listboxRef.current;
@@ -184,39 +223,93 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       className
     );
 
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setSelectedValue(e.target.value);
-      onChange?.(e);
+    const handleOptionClick = (optionValue: string) => {
+      if (disabled) return;
+
+      let newSelectedValues: string[];
+
+      if (mode === "multiple") {
+        if (selectedValues.includes(optionValue)) {
+          // Remover si ya está seleccionado
+          newSelectedValues = selectedValues.filter(
+            (val) => val !== optionValue
+          );
+        } else {
+          // Agregar si no está seleccionado
+          newSelectedValues = [...selectedValues, optionValue];
+        }
+      } else {
+        // Modo single
+        newSelectedValues = [optionValue];
+        setIsOpen(false);
+      }
+
+      setSelectedValues(newSelectedValues);
+
+      // Llamar onChange con el formato correcto
+      const returnValue =
+        mode === "multiple" ? newSelectedValues : newSelectedValues[0] || "";
+      onChange?.(returnValue);
+
+      // Actualizar el select nativo
+      if (selectRef.current) {
+        if (mode === "multiple") {
+          // Para múltiple, seleccionar todas las opciones correspondientes
+          Array.from(selectRef.current.options).forEach((option) => {
+            option.selected = newSelectedValues.includes(option.value);
+          });
+        } else {
+          selectRef.current.value = newSelectedValues[0] || "";
+        }
+
+        const nativeEvent = new Event("change", { bubbles: true });
+        selectRef.current.dispatchEvent(nativeEvent);
+      }
     };
 
-    const handleOptionClick = (optionValue: string) => {
-      if (!disabled) {
-        setSelectedValue(optionValue);
-        setIsOpen(false);
-
-        if (selectRef.current) {
-          selectRef.current.value = optionValue;
-          const nativeEvent = new Event('change', { bubbles: true });
-          Object.defineProperty(nativeEvent, 'target', { value: selectRef.current });
-          Object.defineProperty(nativeEvent, 'currentTarget', { value: selectRef.current });
-          selectRef.current.dispatchEvent(nativeEvent);
-          onChange?.({
-            target: selectRef.current,
-            currentTarget: selectRef.current,
-            type: 'change',
-            bubbles: true,
-            cancelable: false,
-            defaultPrevented: false,
-            isDefaultPrevented: () => false,
-            isPropagationStopped: () => false,
-            isTrusted: true,
-            nativeEvent: nativeEvent,
-            preventDefault: () => {},
-            stopPropagation: () => {},
-            persist: () => {},
-            timeStamp: Date.now(),
-          } as React.ChangeEvent<HTMLSelectElement>);
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          containerRef.current &&
+          !containerRef.current.contains(event.target as Node) &&
+          listboxRef.current &&
+          !listboxRef.current.contains(event.target as Node)
+        ) {
+          setIsOpen(false);
         }
+      };
+
+      if (isOpen) {
+        document.addEventListener(
+          "mousedown",
+          handleClickOutside as unknown as EventListener
+        );
+      }
+
+      return () => {
+        document.removeEventListener(
+          "mousedown",
+          handleClickOutside as unknown as EventListener
+        );
+      };
+    }, [isOpen]);
+
+    const handleRemoveTag = (valueToRemove: string, e: React.MouseEvent) => {
+      // No necesitamos stopPropagation aquí ya que el Chip lo maneja internamente
+      if (disabled || mode !== "multiple") return;
+
+      const newSelectedValues = selectedValues.filter(
+        (val) => val !== valueToRemove
+      );
+      setSelectedValues(newSelectedValues);
+      onChange?.(newSelectedValues);
+
+      if (selectRef.current) {
+        Array.from(selectRef.current.options).forEach((option) => {
+          option.selected = newSelectedValues.includes(option.value);
+        });
+        const nativeEvent = new Event("change", { bubbles: true });
+        selectRef.current.dispatchEvent(nativeEvent);
       }
     };
 
@@ -232,6 +325,15 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           '[role="option"]'
         ) as HTMLElement;
         firstOption?.focus();
+      } else if (
+        e.key === "Backspace" &&
+        mode === "multiple" &&
+        selectedValues.length > 0
+      ) {
+        // Remover el último elemento seleccionado con Backspace
+        const newSelectedValues = selectedValues.slice(0, -1);
+        setSelectedValues(newSelectedValues);
+        onChange?.(newSelectedValues);
       }
     };
 
@@ -276,7 +378,60 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         disabled: child.props.disabled,
       }));
 
-    const selectedOption = options.find((opt) => opt.value === selectedValue);
+    const getDisplayContent = () => {
+      if (selectedValues.length === 0) {
+        return <span className="text-gray-500">{placeholder}</span>;
+      }
+
+      if (mode === "single") {
+        const selectedOption = options.find(
+          (opt) => opt.value === selectedValues[0]
+        );
+        return selectedOption?.label || selectedValues[0];
+      }
+
+      // Modo múltiple
+      if (selectedValues.length <= maxSelectedDisplay) {
+        return (
+          <div className="flex flex-wrap gap-1.5">
+            {selectedValues.map((value) => {
+              const option = options.find((opt) => opt.value === value);
+              return (
+                <Chip
+                  key={value}
+                  variant={chipVariant}
+                  color={chipColor}
+                  size={chipSize}
+                  radius={chipRadius}
+                  onClose={() => handleRemoveTag(value, {} as React.MouseEvent)}
+                  className="max-w-[200px]"
+                >
+                  <span className="truncate">{option?.label || value}</span>
+                </Chip>
+              );
+            })}
+          </div>
+        );
+      }
+
+      return (
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-700">
+            {selectedValues.length} elemento
+            {selectedValues.length !== 1 ? "s" : ""} seleccionado
+            {selectedValues.length !== 1 ? "s" : ""}
+          </span>
+          <Chip
+            variant={chipVariant}
+            color={chipColor}
+            size={chipSize}
+            radius={chipRadius}
+          >
+            +{selectedValues.length}
+          </Chip>
+        </div>
+      );
+    };
 
     return (
       <div className="w-full space-y-1.5" ref={containerRef}>
@@ -312,10 +467,15 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
               <div
                 className={twMerge(
                   wrapperSelectClasses,
-                  "cursor-pointer",
+                  "cursor-pointer min-h-[40px]",
                   disabled && "cursor-not-allowed"
                 )}
-                onClick={() => !disabled && setIsOpen(!isOpen)}
+                onClick={(e) => {
+                  if (!disabled) {
+                    e.stopPropagation();
+                    setIsOpen(!isOpen);
+                  }
+                }}
                 onKeyDown={handleKeyDown}
                 role="combobox"
                 aria-controls={`${id}-listbox`}
@@ -330,10 +490,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                     {leftContent}
                   </div>
                 )}
-                <div className={selectClasses}>
-                  {selectedOption
-                    ? selectedOption.label
-                    : "Selecciona una opción"}
+                <div
+                  className={twMerge(selectClasses, "flex-1 flex items-center")}
+                >
+                  {getDisplayContent()}
                 </div>
                 <div className="pr-3 flex items-center text-gray-400">
                   <ChevronDown
@@ -354,8 +514,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                   selectRef.current = el;
                 }}
                 id={id}
-                value={selectedValue}
-                onChange={handleChange}
+                multiple={mode === "multiple"}
                 disabled={disabled}
                 className="hidden"
                 aria-hidden="true"
@@ -375,6 +534,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                     id={`${id}-listbox`}
                     role="listbox"
                     ref={listboxRef}
+                    aria-multiselectable={mode === "multiple"}
                     style={{
                       WebkitOverflowScrolling: "touch",
                       overflowY: "auto",
@@ -383,39 +543,48 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                     }}
                   >
                     <div className="py-1">
-                      {options.map((option) => (
-                        <div
-                          key={option.value}
-                          className="relative overflow-hidden"
-                          onClick={() => !option.disabled && handleOptionClick(option.value)}
-                          onKeyDown={(e) => handleOptionKeyDown(e, option.value)}
-                          role="option"
-                          aria-selected={selectedValue === option.value}
-                          aria-disabled={option.disabled}
-                          tabIndex={0}
-                        >
+                      {options.map((option) => {
+                        const isSelected = selectedValues.includes(
+                          option.value
+                        );
+                        return (
                           <div
-                            className={twMerge(
-                              "px-3 py-3 cursor-pointer flex items-center justify-between transition-colors duration-200",
-                              selectedValue === option.value
-                                ? "bg-background-50"
-                                : "hover:bg-foreground/5",
-                              option.disabled && "opacity-50 cursor-not-allowed"
-                            )}
-                            style={{
-                              minHeight: "44px",
-                              padding: "12px 16px",
-                            }}
+                            key={option.value}
+                            className="relative overflow-hidden"
+                            onClick={() =>
+                              !option.disabled &&
+                              handleOptionClick(option.value)
+                            }
+                            onKeyDown={(e) =>
+                              handleOptionKeyDown(e, option.value)
+                            }
+                            role="option"
+                            aria-selected={isSelected}
+                            aria-disabled={option.disabled}
+                            tabIndex={0}
                           >
-                            <Text as="span" size="sm">
-                              {option.label}
-                            </Text>
-                            {selectedValue === option.value && (
-                              <Check className="size-4" />
-                            )}
+                            <div
+                              className={twMerge(
+                                "px-3 py-3 cursor-pointer flex items-center justify-between transition-colors duration-200",
+                                isSelected
+                                  ? "bg-primary/10 text-primary"
+                                  : "hover:bg-foreground/5",
+                                option.disabled &&
+                                  "opacity-50 cursor-not-allowed"
+                              )}
+                              style={{
+                                minHeight: "44px",
+                                padding: "12px 16px",
+                              }}
+                            >
+                              <Text as="span" size="sm">
+                                {option.label}
+                              </Text>
+                              {isSelected && <Check className="size-4" />}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </motion.div>
                 )}

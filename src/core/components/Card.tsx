@@ -86,9 +86,7 @@ export const Card = ({
           }`}
         />
       )}
-      <div
-        className={`relative grid gap-4 ${imageCover ? "text-foreground" : ""}`}
-      >
+      <div className={`relative grid ${imageCover ? "text-foreground" : ""}`}>
         {Children.map(children, (child) => {
           if (isValidElement(child)) {
             const isImage = child.type === CardImage;
@@ -113,12 +111,36 @@ export const CardImage = ({ children, className = "" }: CardImageProps) => {
   );
 };
 
-export const CardHeader = ({ children, className = "", isCompact }: CardHeaderProps & { isCompact?: boolean }) => {
-  return <div className={`${!isCompact ? "p-[1.144rem]" : "p-0"} ${className}`}>{children}</div>;
+export const CardHeader = ({
+  children,
+  className = "",
+  isCompact,
+}: CardHeaderProps & { isCompact?: boolean }) => {
+  return (
+    <div className={`${!isCompact ? "p-[1.144rem]" : "p-0"} ${className}`}>
+      {children}
+    </div>
+  );
 };
-export const CardContent = ({ children, className = "", isCompact }: CardContentProps & { isCompact?: boolean }) => {
-  return <div className={`${!isCompact ? "p-[1.144rem]" : "p-0"} ${className}`}>{children}</div>;
+export const CardContent = ({
+  children,
+  className = "",
+  isCompact,
+}: CardContentProps & { isCompact?: boolean }) => {
+  return (
+    <div className={`${!isCompact ? "p-[1.144rem]" : "p-0"} ${className}`}>
+      {children}
+    </div>
+  );
 };
-export const CardFooter = ({ children, className = "", isCompact }: CardFooterProps & { isCompact?: boolean }) => {
-  return <div className={`${!isCompact ? "p-[1.144rem]" : "p-0"} ${className}`}>{children}</div>;
+export const CardFooter = ({
+  children,
+  className = "",
+  isCompact,
+}: CardFooterProps & { isCompact?: boolean }) => {
+  return (
+    <div className={`${!isCompact ? "p-[1.144rem]" : "p-0"} ${className}`}>
+      {children}
+    </div>
+  );
 };

@@ -209,7 +209,7 @@ export const TableHeader = forwardRef<
     >
       <tr>
         {selectable && (
-          <th className="w-10 px-4 py-3">
+          <th className="w-10 px-2 py-1">
             <Checkbox
               checked={allSelected}
               onChange={(e) => handleSelectAll(e.target.checked)}
@@ -241,7 +241,7 @@ export const TableColumn = forwardRef<HTMLTableCellElement, TableColumnProps>(
     return (
       <th
         ref={ref}
-        className={twMerge("px-4 py-3", alignmentClass, className)}
+        className={twMerge("px-2 py-1", alignmentClass, className)}
         style={{ width }}
         {...props}
       >
@@ -297,7 +297,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
     return (
       <tr ref={ref} className={rowClasses} {...props}>
         {selectable && (
-          <td className="px-4 py-3 whitespace-nowrap">
+          <td className="px-2 py-1 whitespace-nowrap">
             <Checkbox
               checked={isSelected}
               onChange={(e) => rowId && onSelectRow(rowId, e.target.checked)}
@@ -330,7 +330,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
         ref={ref}
         colSpan={colSpan}
         className={twMerge(
-          "px-4 py-3 whitespace-nowrap text-foreground",
+          "px-2 py-1 whitespace-nowrap text-foreground",
           alignmentClass,
           className
         )}
