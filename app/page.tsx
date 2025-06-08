@@ -112,6 +112,7 @@ const homePage = () => {
                         variant={variant}
                         size="md"
                         radius="sm"
+                        onClick={onOpenDrawer}
                         isElevation={false}
                         color={color}
                       >
@@ -219,14 +220,10 @@ const homePage = () => {
                       mode="single"
                       placeholder="Selecciona un país"
                       maxSelectedDisplay={2}
-                      value={"1"}
-                      onChange={(value) => {
-                        console.log(value);
-                      }}
                     >
-                      <SelectItem value="1">1</SelectItem>
-                      <SelectItem value="2">2</SelectItem>
-                      <SelectItem value="3">3</SelectItem>
+                      <SelectItem value="1">Argentina</SelectItem>
+                      <SelectItem value="2">Brasil</SelectItem>
+                      <SelectItem value="3">Chile</SelectItem>
                     </Select>
                   ))}
                 </div>
@@ -243,6 +240,23 @@ const homePage = () => {
           />
         </Container>
       </div>
+      <Drawer
+        isOpen={isOpenDrawer}
+        onClose={onCloseDrawer}
+        placement="right"
+        size="sm"
+      >
+        <DrawerHeader>
+          <Text as="h2" size="sm" className="w-16">
+            Hola
+          </Text>
+        </DrawerHeader>
+        <DrawerBody>
+          <Text as="h2" size="sm" className="w-16">
+            Hola
+          </Text>
+        </DrawerBody>
+      </Drawer>
     </>
   );
 };

@@ -24,13 +24,13 @@ interface CardFooterProps extends PropsWithChildren {
 }
 export declare const Card: ({ children, imageCover, className, gradient, radius, hasShadow, isCompact, }: CardProps) => import("react/jsx-runtime").JSX.Element;
 export declare const CardImage: ({ children, className }: CardImageProps) => import("react/jsx-runtime").JSX.Element;
-export declare const CardHeader: ({ children, className, isCompact }: CardHeaderProps & {
+export declare const CardHeader: ({ children, className, isCompact, }: CardHeaderProps & {
     isCompact?: boolean;
 }) => import("react/jsx-runtime").JSX.Element;
-export declare const CardContent: ({ children, className, isCompact }: CardContentProps & {
+export declare const CardContent: ({ children, className, isCompact, }: CardContentProps & {
     isCompact?: boolean;
 }) => import("react/jsx-runtime").JSX.Element;
-export declare const CardFooter: ({ children, className, isCompact }: CardFooterProps & {
+export declare const CardFooter: ({ children, className, isCompact, }: CardFooterProps & {
     isCompact?: boolean;
 }) => import("react/jsx-runtime").JSX.Element;
 export {};

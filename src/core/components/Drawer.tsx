@@ -25,49 +25,49 @@ interface DrawerProps {
   className?: string;
 }
 const sizeMap: Record<DrawerSize, string> = {
-  sm: "20vw",
-  md: "35vw",
-  lg: "50vw",
-  xl: "60vw",
-  "2xl": "70vw",
-  "3xl": "80vw",
-  full: "100%",
+  sm: "w-[90vw] md:w-[20vw]",
+  md: "w-[90vw] md:w-[35vw]",
+  lg: "w-[90vw] md:w-[50vw]",
+  xl: "w-[90vw] md:w-[60vw]",
+  "2xl": "w-[90vw] md:w-[70vw]",
+  "3xl": "w-[90vw] md:w-[80vw]",
+  full: "w-full",
 };
 const backdropStyles: Record<BackdropType, string> = {
   blur: "bg-black/30 backdrop-blur-md",
   opaque: "bg-black/70",
   transparent: "bg-black/40",
 };
-const getPlacementStyles = (placement: DrawerPlacement, size: DrawerSize) => {
-  const sizeValue = sizeMap[size];
+
+const getSizeValue = (size: DrawerSize) => {
+  return sizeMap[size];
+};
+
+const getPlacementStyles = (placement: DrawerPlacement) => {
   switch (placement) {
     case "left":
       return {
         left: 0,
         top: 0,
         bottom: 0,
-        width: sizeValue,
       };
     case "right":
       return {
         right: 0,
         top: 0,
         bottom: 0,
-        width: sizeValue,
       };
     case "top":
       return {
         top: 0,
         left: 0,
         right: 0,
-        height: sizeValue,
       };
     case "bottom":
       return {
         bottom: 0,
         left: 0,
         right: 0,
-        height: sizeValue,
       };
   }
 };
@@ -140,8 +140,10 @@ export const Drawer = ({
                 stiffness: 300,
                 mass: 0.2,
               }}
-              style={getPlacementStyles(placement, size)}
-              className={`fixed z-50 ${className} shadow-xl overflow-auto`}
+              style={getPlacementStyles(placement)}
+              className={`fixed z-50 ${className} shadow-xl overflow-auto ${getSizeValue(
+                size
+              )}`}
             >
               <XMarkIcon
                 className="absolute size-6 top-4 right-4 cursor-pointer p-1 rounded-full hover:bg-gray-100"

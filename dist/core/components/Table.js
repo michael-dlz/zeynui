@@ -58,7 +58,7 @@ export const TableHeader = forwardRef((_a, ref) => {
     const handleSelectAll = (checked) => {
         rowIds.forEach((id) => onSelectRow(id, checked));
     };
-    return (_jsx("thead", Object.assign({ ref: ref, className: twMerge("bg-background text-foreground font-semibold border-b border-foreground/10", className) }, props, { children: _jsxs("tr", { children: [selectable && (_jsx("th", { className: "w-10 px-4 py-3", children: _jsx(Checkbox, { checked: allSelected, onChange: (e) => handleSelectAll(e.target.checked), indeterminate: someSelected }) })), children] }) })));
+    return (_jsx("thead", Object.assign({ ref: ref, className: twMerge("bg-background text-foreground font-semibold border-b border-foreground/10", className) }, props, { children: _jsxs("tr", { children: [selectable && (_jsx("th", { className: "w-10 px-2 py-1", children: _jsx(Checkbox, { checked: allSelected, onChange: (e) => handleSelectAll(e.target.checked), indeterminate: someSelected }) })), children] }) })));
 });
 export const TableColumn = forwardRef((_a, ref) => {
     var { children, align = "left", width, className } = _a, props = __rest(_a, ["children", "align", "width", "className"]);
@@ -67,7 +67,7 @@ export const TableColumn = forwardRef((_a, ref) => {
         center: "text-center",
         right: "text-right",
     }[align];
-    return (_jsx("th", Object.assign({ ref: ref, className: twMerge("px-4 py-3", alignmentClass, className), style: { width } }, props, { children: _jsx(Text, { as: "span", size: "sm", weight: "semibold", className: "text-foreground", children: children }) })));
+    return (_jsx("th", Object.assign({ ref: ref, className: twMerge("px-2 py-1", alignmentClass, className), style: { width } }, props, { children: _jsx(Text, { as: "span", size: "sm", weight: "semibold", className: "text-foreground", children: children }) })));
 });
 export const TableBody = forwardRef((_a, ref) => {
     var { className, children } = _a, props = __rest(_a, ["className", "children"]);
@@ -78,7 +78,7 @@ export const TableRow = forwardRef((_a, ref) => {
     const { selectable, selectedRows = [], onSelectRow, } = useContext(TableContext);
     const isSelected = rowId ? selectedRows.includes(rowId) : false;
     const rowClasses = twMerge("transition-colors", isSelected && "bg-primary/10", isDisabled && "opacity-50 cursor-not-allowed", hoverable && "hover:bg-foreground/10", className);
-    return (_jsxs("tr", Object.assign({ ref: ref, className: rowClasses }, props, { children: [selectable && (_jsx("td", { className: "px-4 py-3 whitespace-nowrap", children: _jsx(Checkbox, { checked: isSelected, onChange: (e) => rowId && onSelectRow(rowId, e.target.checked) }) })), children] })));
+    return (_jsxs("tr", Object.assign({ ref: ref, className: rowClasses }, props, { children: [selectable && (_jsx("td", { className: "px-2 py-1 whitespace-nowrap", children: _jsx(Checkbox, { checked: isSelected, onChange: (e) => rowId && onSelectRow(rowId, e.target.checked) }) })), children] })));
 });
 export const TableCell = forwardRef((_a, ref) => {
     var { children, align = "left", colSpan, className } = _a, props = __rest(_a, ["children", "align", "colSpan", "className"]);
@@ -87,5 +87,5 @@ export const TableCell = forwardRef((_a, ref) => {
         center: "text-center",
         right: "text-right",
     }[align];
-    return (_jsx("td", Object.assign({ ref: ref, colSpan: colSpan, className: twMerge("px-4 py-3 whitespace-nowrap text-foreground", alignmentClass, className) }, props, { children: _jsx(Text, { as: "span", size: "sm", className: "text-foreground", children: children }) })));
+    return (_jsx("td", Object.assign({ ref: ref, colSpan: colSpan, className: twMerge("px-2 py-1 whitespace-nowrap text-foreground", alignmentClass, className) }, props, { children: _jsx(Text, { as: "span", size: "sm", className: "text-foreground", children: children }) })));
 });
